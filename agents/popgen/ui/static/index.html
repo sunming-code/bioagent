@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PopGen Agent · 已完成任务</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg: #f4efe6;
+      --paper: #fffdf8;
+      --ink: #1c1914;
+      --muted: #5c564c;
+      --line: #d9d0c2;
+      --accent: #0f5c4c;
+      --warn: #9a3412;
+      --afr: #d55e00;
+      --eur: #0072b2;
+      --eas: #009e73;
+      --sas: #cc79a7;
+      --amr: #e69f00;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--bg);
+      font: 16px/1.5 "Iowan Old Style", "Palatino Linotype", Palatino, "Times New Roman", serif;
+    }
+    header {
+      padding: 28px 36px 12px;
+      border-bottom: 1px solid var(--line);
+    }
+    header h1 { margin: 0 0 6px; font-size: 28px; letter-spacing: -0.02em; }
+    header p { margin: 0; color: var(--muted); }
+    main { padding: 24px 36px 64px; max-width: 1280px; }
+    .row { display: grid; gap: 16px; }
+    .row.two { grid-template-columns: 1.1fr 0.9fr; }
+    .row.three { grid-template-columns: repeat(3, 1fr); }
+    @media (max-width: 980px) {
+      .row.two, .row.three { grid-template-columns: 1fr; }
+      header, main { padding-left: 18px; padding-right: 18px; }
+    }
+    .card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 18px 18px 16px;
+    }
+    .card h2 { margin: 0 0 10px; font-size: 18px; }
+    .card h3 { margin: 16px 0 8px; font-size: 15px; color: var(--muted); font-weight: 600; }
+    .pipeline {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin: 18px 0 22px;
+    }
+    .step {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 12px 14px;
+    }
+    .step .n { font-size: 12px; color: var(--accent); font-family: ui-monospace, monospace; }
+    .step b { display: block; margin: 4px 0; }
+    .step small { color: var(--muted); }
+    .ok { color: var(--accent); font-weight: 700; }
+    .warn-banner {
+      background: #fff4e8;
+      border: 1px solid #e8c4a8;
+      color: var(--warn);
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-bottom: 16px;
+    }
+    .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    .kpi { background: #f8f3ea; border-radius: 8px; padding: 10px 12px; }
+    .kpi .v { font-size: 22px; font-weight: 700; }
+    .kpi .l { font-size: 12px; color: var(--muted); }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); }
+    th { color: var(--muted); font-weight: 600; }
+    .btns { display: flex; flex-wrap: wrap; gap: 8px; }
+    button, .btn {
+      appearance: none;
+      border: 1px solid var(--ink);
+      background: var(--ink);
+      color: #fff;
+      border-radius: 8px;
+      padding: 8px 12px;
+      font: 13px/1.2 ui-sans-serif, system-ui, sans-serif;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+    }
+    button.ghost, .btn.ghost {
+      background: transparent;
+      color: var(--ink);
+    }
+    #drop {
+      border: 1.5px dashed #b3a894;
+      border-radius: 12px;
+      padding: 22px;
+      text-align: center;
+      background: #fbf7f0;
+    }
+    #drop.drag { background: #eef6f3; border-color: var(--accent); }
+    #msg { margin-top: 8px; color: var(--muted); font-size: 14px; }
+    canvas { max-height: 320px; }
+    .hidden { display: none; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>PopGen Agent</h1>
+    <p>可视化已完成任务（步骤 1 → 2 → 3 → e-Gene 交付）。上传已跑过的 VCF 只做绑定，不在网页里重跑分析。</p>
+  </header>
+  <main>
+    <section class="card" style="margin-bottom:16px">
+      <h2>加载任务</h2>
+      <div id="drop">
+        <p>把已完成任务的 <b>patient.vcf</b> 或 <b>patient.vcf.gz</b> 拖到这里，或点击选择。</p>
+        <div class="btns" style="justify-content:center">
+          <button type="button" onclick="fileInput.click()">上传 VCF</button>
+          <button type="button" class="ghost" onclick="loadExisting()">不上传，直接打开 HG002 已完成结果</button>
+        </div>
+        <input id="fileInput" type="file" accept=".vcf,.vcf.gz,application/gzip" hidden />
+        <p id="msg"></p>
+      </div>
+    </section>
+
+    <div id="board" class="hidden">
+      <div class="pipeline">
+        <div class="step"><span class="n">步骤 1 · popgen</span><b>FASTQ → VCF</b><small class="ok">已完成</small></div>
+        <div class="step"><span class="n">步骤 2 · popgen_analysis</span><b>祖先 / 频率</b><small class="ok">已完成</small></div>
+        <div class="step"><span class="n">步骤 3 · popgen_gnn</span><b>GNN 决策</b><small class="ok">已完成</small></div>
+        <div class="step"><span class="n">交付 · e-Gene</span><b>evidence_pack</b><small class="ok">schema 1.0</small></div>
+      </div>
+
+      <div id="banner"></div>
+      <div class="kpis" id="kpis"></div>
+
+      <div class="row two" style="margin-top:16px">
+        <section class="card">
+          <h2>祖先概率对照</h2>
+          <p class="mono" id="ancestryNote"></p>
+          <canvas id="ancChart"></canvas>
+        </section>
+        <section class="card">
+          <h2>PCA（PC1–PC2，参考点已抽样）</h2>
+          <canvas id="pcaChart"></canvas>
+        </section>
+      </div>
+
+      <div class="row two" style="margin-top:16px">
+        <section class="card">
+          <h2>ADMIXTURE 无监督 CV</h2>
+          <canvas id="cvChart"></canvas>
+        </section>
+        <section class="card">
+          <h2>GNN vs baseline（1000G 五折）</h2>
+          <div id="gnnTable"></div>
+        </section>
+      </div>
+
+      <div class="row two" style="margin-top:16px">
+        <section class="card">
+          <h2>步骤 1 · GIAB concordance</h2>
+          <div id="conc"></div>
+        </section>
+        <section class="card">
+          <h2>步骤 2 · 1000G 留一</h2>
+          <div id="loo"></div>
+        </section>
+      </div>
+
+      <section class="card" style="margin-top:16px">
+        <h2>匹配人群等位基因频率（预览，不渲染 84 万行）</h2>
+        <canvas id="afChart"></canvas>
+        <div id="afTable" style="margin-top:12px; overflow:auto"></div>
+      </section>
+
+      <section class="card" style="margin-top:16px">
+        <h2>下载</h2>
+        <p>e-Gene 交接用前三个文件即可。全量包含 VCF、PCA、ADMIXTURE、GNN 评测等。</p>
+        <div class="btns" id="downloads"></div>
+      </section>
+    </div>
+  </main>
+  <script>
+    const COLORS = { AFR:"#d55e00", EUR:"#0072b2", EAS:"#009e73", SAS:"#cc79a7", AMR:"#e69f00", PATIENT:"#111" };
+    const POPS = ["AFR","EUR","EAS","SAS","AMR"];
+    const fileInput = document.getElementById("fileInput");
+    const drop = document.getElementById("drop");
+    let charts = {};
+
+    fileInput.addEventListener("change", () => { if (fileInput.files[0]) upload(fileInput.files[0]); });
+    drop.addEventListener("dragover", e => { e.preventDefault(); drop.classList.add("drag"); });
+    drop.addEventListener("dragleave", () => drop.classList.remove("drag"));
+    drop.addEventListener("drop", e => {
+      e.preventDefault(); drop.classList.remove("drag");
+      if (e.dataTransfer.files[0]) upload(e.dataTransfer.files[0]);
+    });
+
+    async function loadExisting() {
+      document.getElementById("msg").textContent = "正在读取服务器上已完成的 HG002 结果…";
+      const res = await fetch("/api/dashboard");
+      render(await res.json(), "已打开服务器上的已完成任务，没有重新计算。");
+    }
+    async function upload(file) {
+      document.getElementById("msg").textContent = "正在上传 " + file.name + " …";
+      const fd = new FormData();
+      fd.append("file", file);
+      const res = await fetch("/api/upload-vcf", { method: "POST", body: fd });
+      if (!res.ok) {
+        document.getElementById("msg").textContent = await res.text();
+        return;
+      }
+      const data = await res.json();
+      render(data, data.message || "上传完成。");
+    }
+
+    function destroyCharts() {
+      Object.values(charts).forEach(c => c && c.destroy());
+      charts = {};
+    }
+    function table(headers, rows) {
+      return "<table><thead><tr>" + headers.map(h => `<th>${h}</th>`).join("") +
+        "</tr></thead><tbody>" + rows.map(r => "<tr>" + r.map(c => `<td>${c}</td>`).join("") + "</tr>").join("") +
+        "</tbody></table>";
+    }
+    function fmt(n) {
+      if (n == null || n === "") return "—";
+      if (typeof n === "number") return n.toLocaleString();
+      return n;
+    }
+
+    function render(d, msg) {
+      document.getElementById("msg").textContent = msg || "";
+      document.getElementById("board").classList.remove("hidden");
+      destroyCharts();
+      const s = d.sample || {};
+      const a = d.steps["2"].analysis_based || {};
+      const g = d.steps["3"].decision || {};
+      const st = d.steps["1"].stats || {};
+      document.getElementById("kpis").innerHTML = [
+        ["样本", s.alias || s.id],
+        ["变异数", fmt(s.variant_count || st["number of records"])],
+        ["查表人群", a.af_population || "—"],
+        ["BA1/BS1", a.use_for_acmg_ba1_bs1 ? "允许" : "禁止"],
+      ].map(([l,v]) => `<div class="kpi"><div class="v">${v}</div><div class="l">${l}</div></div>`).join("");
+
+      const notes = [];
+      if (a.concordant === false) notes.push(`步骤2：PCA=${a.pca_nearest} 与 ADMIXTURE=${a.admixture_dominant} 不一致，assignment=${a.assignment}。`);
+      if (g.gnn_pca_concordant === false) notes.push(`步骤3：GNN=${g.predicted} 与同图 PCA3=${g.pca3_nearest} 不一致。查表仍用 ${a.af_population}。`);
+      document.getElementById("banner").innerHTML = notes.length
+        ? `<div class="warn-banner">${notes.join("<br>")}</div>` : "";
+      document.getElementById("ancestryNote").textContent =
+        `查表=${a.af_source || a.af_population} · GNN ${g.predicted || "—"} (p=${g.confidence ?? "—"}) · 不要用最大 Q 或 GNN 换人群`;
+
+      const q2 = a.q || {};
+      const q3 = g.ancestry || {};
+      charts.anc = new Chart(document.getElementById("ancChart"), {
+        type: "bar",
+        data: {
+          labels: POPS,
+          datasets: [
+            { label: "ADMIXTURE Q", data: POPS.map(p => q2[p] ?? 0), backgroundColor: "#1c1914" },
+            { label: "GNN", data: POPS.map(p => q3[p] ?? 0), backgroundColor: "#0f5c4c" },
+          ]
+        },
+        options: { responsive: true, scales: { y: { min: 0, max: 1 } } }
+      });
+
+      const by = {};
+      (d.pca.points || []).forEach(p => {
+        by[p.superpop] = by[p.superpop] || [];
+        by[p.superpop].push({ x: p.pc1, y: p.pc2 });
+      });
+      charts.pca = new Chart(document.getElementById("pcaChart"), {
+        type: "scatter",
+        data: {
+          datasets: Object.keys(by).map(k => ({
+            label: k,
+            data: by[k],
+            backgroundColor: COLORS[k] || "#888",
+            pointRadius: k === "PATIENT" ? 8 : 3,
+            pointStyle: k === "PATIENT" ? "triangle" : "circle",
+          }))
+        },
+        options: {
+          plugins: { legend: { position: "bottom" } },
+          scales: { x: { title: { display: true, text: "PC1" } }, y: { title: { display: true, text: "PC2" } } }
+        }
+      });
+
+      const cv = d.steps["2"].admixture_cv || [];
+      charts.cv = new Chart(document.getElementById("cvChart"), {
+        type: "line",
+        data: {
+          labels: cv.map(r => "K=" + r.K),
+          datasets: [{ label: "CV error", data: cv.map(r => r.CV_Error), borderColor: "#0f5c4c", tension: 0.2 }]
+        },
+        options: { plugins: { legend: { display: false } } }
+      });
+
+      const slices = (d.steps["3"].cv && d.steps["3"].cv.slices) || {};
+      const gnnRows = Object.keys(slices).map(name => {
+        const sl = slices[name];
+        return [name, sl.gnn?.acc, sl.pca3?.acc, sl.admixture_nnls?.acc, sl.gnn?.ece];
+      });
+      document.getElementById("gnnTable").innerHTML = table(
+        ["切片", "GNN acc", "PCA3 acc", "ADMIX acc", "GNN ECE"],
+        gnnRows
+      );
+
+      const c = d.steps["1"].concordance || {};
+      document.getElementById("conc").innerHTML = table(
+        ["指标", "全部", "SNP", "INDEL"],
+        [
+          ["Precision", c.precision_all, c.precision_snp, c.precision_indel],
+          ["Recall", c.recall_all, "—", "—"],
+          ["TP / FP / FN", `${fmt(c.tp)} / ${fmt(c.fp)} / ${fmt(c.fn)}`, "", ""],
+        ]
+      ) + `<p class="mono">${c.note || ""}</p><p class="mono">SNPs=${fmt(st["number of SNPs"])} · INDEL=${fmt(st["number of indels"])} · Ts/Tv=${st["ts_tv"] || "—"}</p>`;
+
+      const loo = d.steps["2"].loo || [];
+      document.getElementById("loo").innerHTML = table(
+        ["IID", "亚群", "真值", "PCA", "ADMIXTURE", "Qmax"],
+        loo.map(r => [r.IID, r.SUBPOP, r.TRUE, r.PCA, r.ADMIXTURE, r.Qmax])
+      ) + '<p class="mono">标签都对；PASS=0 是因为脚本另卡了 Qmax≥0.8。</p>';
+
+      const hist = d.af.hist || [];
+      charts.af = new Chart(document.getElementById("afChart"), {
+        type: "bar",
+        data: {
+          labels: hist.map(h => h.bin),
+          datasets: [{ label: `matched_pop_AF 分布（抽样 ${d.af.hist_sample || 0}）`, data: hist.map(h => h.n), backgroundColor: "#0072b2" }]
+        },
+        options: { plugins: { legend: { display: false } } }
+      });
+      const rows = d.af.rows || [];
+      document.getElementById("afTable").innerHTML =
+        `<p class="mono">总行数 ${fmt(d.af.n_rows)} · 查表人群 ${a.af_population} · 预览前 ${rows.length} 行</p>` +
+        table(["CHROM","POS","REF","ALT","matched_pop","matched_pop_AF","global_AF"],
+          rows.map(r => [r.CHROM, r.POS, r.REF, r.ALT, r.matched_pop, r.matched_pop_AF, r.global_AF]));
+
+      const labels = {
+        evidence_pack: "evidence_pack.json",
+        interface: "INTERFACE.md",
+        allele_freq: "allele_freq.tsv",
+        gnn_decision: "gnn_decision.json",
+        partial_evidence: "partial_evidence.json",
+        ancestry_pca: "ancestry_pca.tsv",
+        admixture_k5: "ADMIXTURE K5",
+        admixture_cv: "ADMIXTURE CV",
+        patient_vcf: "patient.vcf.gz",
+        concordance: "concordance.md",
+        gnn_cv: "GNN 评测 JSON",
+      };
+      const btns = [
+        `<a class="btn" href="/api/download-zip?kind=delivery">下载 e-Gene 交付包 zip</a>`,
+        `<a class="btn ghost" href="/api/download-zip?kind=all">下载全部结果 zip</a>`,
+      ];
+      Object.keys(labels).forEach(k => {
+        if (d.files[k]) btns.push(`<a class="btn ghost" href="/api/download/${k}">${labels[k]}</a>`);
+      });
+      document.getElementById("downloads").innerHTML = btns.join("");
+    }
+  </script>
+</body>
+</html>

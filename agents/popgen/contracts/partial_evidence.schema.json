@@ -1,0 +1,77 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "PopGen Agent Partial Evidence (step 2)",
+  "description": "步骤2 写给 orchestrator 的部分证据。查表人群必须与 allele_freq.matched_pop 一致。监督 K=5 是 1000G 目录，CV best_k 不得用作频率人群名。",
+  "type": "object",
+  "required": ["schema_version", "metadata", "ancestry", "findings", "output_bundles"],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "metadata": {
+      "type": "object",
+      "required": ["genome_build", "mode"],
+      "properties": {
+        "sample_id": { "type": "string" },
+        "sample_vcf": { "type": "string" },
+        "variant_count": { "type": "integer" },
+        "genome_build": { "type": "string", "enum": ["GRCh38"] },
+        "reference_panel": { "type": "string" },
+        "mode": { "type": "string", "enum": ["Real_Pipeline", "Demo_Projection"] }
+      }
+    },
+    "ancestry": {
+      "type": "object",
+      "required": ["analysis_based"],
+      "properties": {
+        "analysis_based": { "$ref": "#/definitions/analysis_based" },
+        "gnn_based": { "type": ["object", "null"] },
+        "confidence": { "type": ["number", "null"] }
+      }
+    },
+    "structure": {
+      "type": "object",
+      "properties": {
+        "catalog_k": { "type": "integer", "const": 5 },
+        "catalog_k_meaning": { "type": "string" },
+        "unsupervised_best_k": { "type": ["integer", "null"] },
+        "unsupervised_best_k_cv_error": { "type": ["number", "null"] }
+      }
+    },
+    "findings": { "type": "object" },
+    "output_bundles": {
+      "type": "object",
+      "additionalProperties": { "type": ["string", "null"] }
+    }
+  },
+  "definitions": {
+    "analysis_based": {
+      "type": "object",
+      "required": [
+        "superpop",
+        "pca_nearest",
+        "admixture_dominant",
+        "assignment",
+        "af_population",
+        "af_source",
+        "use_for_acmg_ba1_bs1",
+        "reason"
+      ],
+      "properties": {
+        "superpop": { "type": ["string", "null"], "enum": ["AFR", "EUR", "EAS", "SAS", "AMR", null] },
+        "pca_nearest": { "type": ["string", "null"] },
+        "admixture_dominant": { "type": ["string", "null"] },
+        "q": { "type": "object", "additionalProperties": { "type": "number" } },
+        "qmax": { "type": ["number", "null"] },
+        "concordant": { "type": "boolean" },
+        "assignment": { "type": "string", "enum": ["in_reference", "admixed", "out_of_reference"] },
+        "af_population": { "type": ["string", "null"] },
+        "af_source": { "type": "string" },
+        "use_for_acmg_ba1_bs1": { "type": "boolean" },
+        "reason": { "type": "string" },
+        "pca_d_nearest": { "type": ["number", "null"] },
+        "pca_d_second": { "type": ["number", "null"] },
+        "pca_d_second_over_nearest": { "type": ["number", "null"] },
+        "out_of_reference_threshold": { "type": ["number", "null"] }
+      }
+    }
+  }
+}

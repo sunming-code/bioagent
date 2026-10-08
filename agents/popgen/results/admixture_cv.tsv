@@ -1,0 +1,10 @@
+K	CV_Error	is_best	n_samples	n_snps	dataset	stop_rule
+2	0.59431	0	3202	13154	1000G_panel_unsupervised	K2_to_10_patience3
+3	0.57319	0	3202	13154	1000G_panel_unsupervised	K2_to_10_patience3
+4	0.56782	0	3202	13154	1000G_panel_unsupervised	K2_to_10_patience3
+5	0.5631	0	3202	13154	1000G_panel_unsupervised	K2_to_10_patience3
+6	0.56275	0	3202	13154	1000G_panel_unsupervised	K2_to_10_patience3
+7	0.56236	0	3202	13154	1000G_panel_unsupervised	K2_to_10_patience3
+8	0.56198	0	3202	13154	1000G_panel_unsupervised	K2_to_10_patience3
+9	0.56188	1	3202	13154	1000G_panel_unsupervised	K2_to_10_patience3
+10	0.5621	0	3202	13154	1000G_panel_unsupervised	K2_to_10_patience3

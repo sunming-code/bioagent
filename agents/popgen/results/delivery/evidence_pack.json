@@ -1,0 +1,136 @@
+{
+  "schema_version": "1.0",
+  "producer": {
+    "agent": "popgen_agent",
+    "pack_built_at": "2026-10-08T09:10:26Z"
+  },
+  "metadata": {
+    "sample_id": "patient",
+    "sample_alias": "HG002",
+    "sample_vcf": "patient.vcf.gz",
+    "variant_count": 913922,
+    "genome_build": "GRCh38",
+    "reference_panel": "1kGP_high_coverage_GRCh38_n3202",
+    "mode": "Real_Pipeline"
+  },
+  "ancestry": {
+    "analysis_based": {
+      "superpop": "EUR",
+      "pca_nearest": "EUR",
+      "admixture_dominant": "AFR",
+      "q": {
+        "EUR": 0.129,
+        "EAS": 0.1995,
+        "AMR": 0.1082,
+        "SAS": 0.1663,
+        "AFR": 0.3971
+      },
+      "qmax": 0.3971,
+      "concordant": false,
+      "assignment": "admixed",
+      "af_population": "EUR",
+      "af_source": "AF_EUR",
+      "use_for_acmg_ba1_bs1": false,
+      "reason": "pca_EUR_admixture_AFR_discordant",
+      "pca_d_nearest": 0.046,
+      "pca_d_second": 0.063,
+      "pca_d_second_over_nearest": 1.3696,
+      "out_of_reference_threshold": null
+    },
+    "gnn_based": {
+      "predicted": "AMR",
+      "q": {
+        "AFR": 0.293097,
+        "EUR": 0.123972,
+        "EAS": 0.122454,
+        "SAS": 0.078658,
+        "AMR": 0.381819
+      },
+      "qmax": 0.381819,
+      "subpop_predicted": "ASW",
+      "pca3_nearest": "EUR",
+      "concordant_with_pca3": false,
+      "note": "pca3_EUR_gnn_AMR_discordant",
+      "n_snps": 30000,
+      "method": "frozen GAT checkpoint + patient-to-reference kNN",
+      "inference": "inductive_frozen_checkpoint",
+      "usable_for_lookup": false,
+      "discordance_reason": "sparse_overlap_with_genomewide_aims;exome_capture_can_shift_the_patient_node;report confidence but do not lock lookup;analysis_based.af_population stays authoritative"
+    },
+    "confidence": 0.381819
+  },
+  "structure": {
+    "catalog_k": 5,
+    "catalog_k_meaning": "1000G_superpopulation_directory",
+    "catalog_pops": [
+      "AFR",
+      "EUR",
+      "EAS",
+      "SAS",
+      "AMR"
+    ],
+    "unsupervised_best_k": 9,
+    "unsupervised_best_k_cv_error": 0.56188,
+    "unsupervised_note": "unsupervised_best_k describes panel substructure only; it is not a frequency-population name and has no AF_* column."
+  },
+  "allele_frequency": {
+    "path": "allele_freq.tsv",
+    "format": "tsv",
+    "n_rows": 844704,
+    "genome_build": "GRCh38",
+    "join_key": [
+      "CHROM",
+      "POS",
+      "REF",
+      "ALT"
+    ],
+    "columns": [
+      "CHROM",
+      "POS",
+      "REF",
+      "ALT",
+      "matched_pop",
+      "matched_pop_AF",
+      "global_AF"
+    ],
+    "matched_pop": "EUR",
+    "matched_pop_must_equal": "ancestry.analysis_based.af_population",
+    "note": "Rows are variants present in the patient VCF; homozygous-reference fills are not included."
+  },
+  "usage": {
+    "must": [
+      "Look up matched-population AF only in allele_freq.tsv using join_key CHROM+POS+REF+ALT (GRCh38, contig like chr1).",
+      "The lookup population is ancestry.analysis_based.af_population. Do not use admixture_dominant, max Q, or ancestry.gnn_based.predicted to choose AF_*.",
+      "Apply BA1/BS1 from matched_pop_AF only if ancestry.analysis_based.use_for_acmg_ba1_bs1 is true.",
+      "If use_for_acmg_ba1_bs1 is false, matched_pop_AF and global_AF are informational only; they must not be used as stand-alone or strong benign evidence.",
+      "assignment=admixed means the matched population is not locked; it does not mean interpret as AFR (or any Q-max population).",
+      "If ancestry.gnn_based is non-null, treat it as supplementary ancestry evidence only. BA1/BS1 still follows analysis_based.use_for_acmg_ba1_bs1."
+    ],
+    "must_not": [
+      "Do not treat q.AFR (or any max-Q bin) as the ancestry call when concordant is false.",
+      "Do not use structure.unsupervised_best_k or unsupervised C1–Ck labels as af_population; there is no AF_K9 table.",
+      "Do not ingest allele_freq.tsv as a pathogenic-variant list; it is an AF annotation table for variants present in the patient VCF.",
+      "Do not embed or require the 800k+ AF rows inside evidence_pack.json.",
+      "Do not use ancestry.gnn_based.predicted to override af_population or to retarget AF_AMR/AF_AFR/AF_*.",
+      "If gnn_based.concordant_with_pca3 is false, do not treat GNN predicted as a locked ancestry call.",
+      "If gnn_based.usable_for_lookup is false, do not use GNN predicted or confidence to choose AF_*."
+    ]
+  },
+  "qc": {
+    "n_aim_intersect": 13154,
+    "snpEff": "off",
+    "vqsr": "off",
+    "capture_bed": "not_provided"
+  },
+  "files": {
+    "allele_frequency": "allele_freq.tsv",
+    "interface": "INTERFACE.md",
+    "admixture_supervised": "../admixture_results_K5.tsv",
+    "admixture_cv": "../admixture_cv.tsv",
+    "admixture_unsupervised": "../admixture_unsupervised_K9.tsv",
+    "pca": "../ancestry_pca.tsv",
+    "patient_vcf": "../patient.vcf.gz",
+    "partial_evidence": "../partial_evidence.json",
+    "gnn_decision": "../gnn_decision.json"
+  }
+}

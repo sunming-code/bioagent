@@ -1,0 +1,29 @@
+name: popgen
+channels:
+  - defaults
+  - bioconda
+  - conda-forge
+dependencies:
+  - samtools
+  - watchdog
+  - plink2
+  - plink
+  - streamlit
+  - bcftools
+  - pandas
+  - nextflow
+  - python=3.10
+  - numpy=1.26
+  - magma
+  - bwa
+  - snpeff
+  - gatk4
+  - demes
+  - tskit
+  - scikit-allel
+  - scikit-learn
+  - xgboost
+  - stdpopsim
+  - msprime
+  - scipy
+  - fastqc

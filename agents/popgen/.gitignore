@@ -1,0 +1,47 @@
+# ====== 大数据文件（不进 git，只保留目录结构 .gitkeep）======
+# 参考基因组 + 索引
+data/reference/*
+!data/reference/.gitkeep
+# 测序数据
+data/fastq/*
+!data/fastq/.gitkeep
+# 验证真值集
+data/truth/*
+!data/truth/.gitkeep
+
+# 常见大文件后缀（兜底，防止误提交）
+*.fa
+*.fasta
+*.fa.gz
+*.fasta.gz
+*.fai
+*.dict
+*.amb
+*.ann
+*.bwt
+*.pac
+*.sa
+*.fastq
+*.fastq.gz
+*.fq.gz
+*.bam
+*.bai
+*.cram
+*.vcf
+*.vcf.gz
+*.vcf.gz.tbi
+*.bed
+*.frq
+*.bed.idx
+
+# 运行产物
+results/*
+!results/.gitkeep
+work/          # nextflow 工作目录
+.nextflow*
+temp/
+*.log
+
+# Python
+__pycache__/
+*.pyc

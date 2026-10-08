@@ -1,0 +1,169 @@
+{
+  "schema_version": "0.2",
+  "metadata": {
+    "sample_vcf": "patient.vcf.gz",
+    "variant_count": 913922,
+    "reference_panel": "/home/wangy/RBM_popgen/popgen_agent/data/reference/panel_1000g/ref_1000g_pruned",
+    "genome_build": "GRCh38",
+    "mode": "Real_Pipeline"
+  },
+  "findings": {
+    "inferred_ancestry_cluster": "EUR",
+    "admixture_dominant": {
+      "EUR": 0.129,
+      "EAS": 0.1995,
+      "AMR": 0.1082,
+      "SAS": 0.1663,
+      "AFR": 0.3971
+    },
+    "pca": {
+      "nearest_superpop": "EUR",
+      "pc_distance": {
+        "AFR": 0.0749,
+        "AMR": 0.072,
+        "EAS": 0.0979,
+        "EUR": 0.046,
+        "SAS": 0.063
+      },
+      "patient_pcs": {
+        "PC1": -0.00283376,
+        "PC2": -0.0650054,
+        "PC3": -0.0132636
+      },
+      "method": "plink2 --pca (smartpca unavailable: libgfortran.so.3)"
+    },
+    "admixture": {
+      "K_supervised": 5,
+      "K_supervised_meaning": "catalog_1000G_superpops",
+      "best_k": 9,
+      "best_k_cv_error": 0.56188,
+      "cv_table": [
+        {
+          "K": 2,
+          "CV_Error": 0.59431
+        },
+        {
+          "K": 3,
+          "CV_Error": 0.57319
+        },
+        {
+          "K": 4,
+          "CV_Error": 0.56782
+        },
+        {
+          "K": 5,
+          "CV_Error": 0.5631
+        },
+        {
+          "K": 6,
+          "CV_Error": 0.56275
+        },
+        {
+          "K": 7,
+          "CV_Error": 0.56236
+        },
+        {
+          "K": 8,
+          "CV_Error": 0.56198
+        },
+        {
+          "K": 9,
+          "CV_Error": 0.56188
+        },
+        {
+          "K": 10,
+          "CV_Error": 0.5621
+        }
+      ],
+      "cv_stop_rule": "K2_to_10_patience3",
+      "unsupervised_patient": {
+        "path": "results/admixture_unsupervised_K9.tsv",
+        "K": 9,
+        "components": {
+          "C1": 1e-05,
+          "C2": 0.145237,
+          "C3": 1e-05,
+          "C4": 0.134583,
+          "C5": 0.615723,
+          "C6": 1e-05,
+          "C7": 0.104407,
+          "C8": 1e-05,
+          "C9": 1e-05
+        },
+        "max_component": 0.615723,
+        "n_snps": 13154,
+        "n_samples": 3203
+      },
+      "mode": "supervised_K5 + unsupervised_CV",
+      "dominant": "AFR",
+      "fallback": "pca_nearest_superpop"
+    },
+    "high_drift_bias_detected": false,
+    "treemix": "skipped_round1",
+    "af_policy": {
+      "use_for_acmg_ba1_bs1": false,
+      "reason": "pca_EUR_admixture_AFR_discordant",
+      "assignment": "admixed"
+    }
+  },
+  "output_bundles": {
+    "pca": "results/ancestry_pca.tsv",
+    "admixture": "results/admixture_results_K5.tsv",
+    "admixture_cv": "results/admixture_cv.tsv",
+    "admixture_unsupervised": "results/admixture_unsupervised_K9.tsv",
+    "allele_frequency": "results/allele_freq.tsv",
+    "leave_one_out": "results/loo/summary.tsv"
+  },
+  "ancestry": {
+    "analysis_based": {
+      "superpop": "EUR",
+      "pca_nearest": "EUR",
+      "admixture_dominant": "AFR",
+      "q": {
+        "EUR": 0.129,
+        "EAS": 0.1995,
+        "AMR": 0.1082,
+        "SAS": 0.1663,
+        "AFR": 0.3971
+      },
+      "qmax": 0.3971,
+      "concordant": false,
+      "assignment": "admixed",
+      "af_population": "EUR",
+      "af_source": "AF_EUR",
+      "use_for_acmg_ba1_bs1": false,
+      "reason": "pca_EUR_admixture_AFR_discordant",
+      "pca_d_nearest": 0.046,
+      "pca_d_second": 0.063,
+      "pca_d_second_over_nearest": 1.3696,
+      "out_of_reference_threshold": null
+    },
+    "gnn_based": {
+      "predicted": "AMR",
+      "q": {
+        "AFR": 0.293097,
+        "EUR": 0.123972,
+        "EAS": 0.122454,
+        "SAS": 0.078658,
+        "AMR": 0.381819
+      },
+      "qmax": 0.381819,
+      "subpop_predicted": "ASW",
+      "pca3_nearest": "EUR",
+      "concordant_with_pca3": false,
+      "note": "pca3_EUR_gnn_AMR_discordant",
+      "n_snps": 30000,
+      "method": "frozen GAT checkpoint + patient-to-reference kNN",
+      "inference": "inductive_frozen_checkpoint",
+      "usable_for_lookup": false,
+      "discordance_reason": "sparse_overlap_with_genomewide_aims;exome_capture_can_shift_the_patient_node;report confidence but do not lock lookup;analysis_based.af_population stays authoritative"
+    },
+    "confidence": 0.381819
+  },
+  "structure": {
+    "catalog_k": 5,
+    "catalog_k_meaning": "1000G_superpopulation_directory",
+    "unsupervised_best_k": 9,
+    "unsupervised_best_k_cv_error": 0.56188
+  }
+}

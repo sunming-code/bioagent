@@ -1,0 +1,25 @@
+{
+  "status": "OK",
+  "note": "pca3_EUR_gnn_AMR_discordant",
+  "discordance_reason": "sparse_overlap_with_genomewide_aims;exome_capture_can_shift_the_patient_node;report confidence but do not lock lookup;analysis_based.af_population stays authoritative",
+  "ancestry": {
+    "AFR": 0.293097,
+    "EUR": 0.123972,
+    "EAS": 0.122454,
+    "SAS": 0.078658,
+    "AMR": 0.381819
+  },
+  "predicted": "AMR",
+  "confidence": 0.381819,
+  "temperature": 1.3122,
+  "subpop_predicted": "ASW",
+  "pca3_nearest": "EUR",
+  "gnn_pca_concordant": false,
+  "usable_for_lookup": false,
+  "n_ref": 3202,
+  "n_snps": 30000,
+  "n_snps_observed": 2766,
+  "k": 20,
+  "inference": "inductive_frozen_checkpoint",
+  "method": "frozen GAT checkpoint + patient-to-reference kNN"
+}
