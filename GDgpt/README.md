@@ -93,6 +93,9 @@ Final MTB report with cited_edges + [KG-supported] / [LLM-inferred] tags
 
 ## Quick Start
 
+> Full step-by-step setup, including loading the knowledge graph, is in
+> [`SETUP.md`](./SETUP.md).
+
 ### Requirements
 
 - Python 3.9+
@@ -102,6 +105,7 @@ Final MTB report with cited_edges + [KG-supported] / [LLM-inferred] tags
 ### Install
 
 ```bash
+cd GDgpt   # config.json is read relative to the working directory
 pip install -r requirements.txt
 cp config.example.json config.json
 # Edit config.json: api_key, base_url, text_model, neo4j_uri/user/password
@@ -117,7 +121,17 @@ docker run -d --name primekg-neo4j \
   neo4j:ubi9
 ```
 
-Then load the PrimeKG subgraph dump into the container (see `kg_build/`).
+Then load the PrimeKG subgraph into the container. The graph is pre-built and
+committed at `kg_build/task_kg_output/` (10,133 nodes / 87,838 edges), so you can
+import it directly:
+
+```bash
+pip install 'py2neo>=2021.2.3'
+python kg_build/import_magis_to_neo4j.py --input-dir kg_build/task_kg_output
+```
+
+See [`SETUP.md`](./SETUP.md) for Aura setup and for regenerating the graph from
+the PrimeKG raw export.
 
 ### Run
 

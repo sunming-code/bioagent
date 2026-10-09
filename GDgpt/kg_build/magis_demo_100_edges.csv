@@ -1,0 +1,181 @@
+x_id,x_type,x_name,relation,display_relation,y_id,y_type,y_name
+4609,gene/protein,MYC,disease_protein,associated with,21068,disease,ovarian neoplasm
+18923,disease,22q11.2 deletion syndrome,disease_protein,associated with,1312,gene/protein,COMT
+4524,gene/protein,MTHFR,disease_protein,associated with,2083,disease,Richter syndrome
+89884,gene/protein,LHX4,disease_protein,associated with,10615_13006_8250_32569_9876_32567,disease,isolated growth hormone deficiency
+17597,disease,T-cell/histiocyte rich large B cell lymphoma,disease_protein,associated with,973,gene/protein,CD79A
+2944,gene/protein,GSTM1,disease_protein,associated with,9830,disease,parkinsonian-pyramidal syndrome
+1213,gene/protein,CLTC,disease_protein,associated with,20323,disease,primary mediastinal large B-cell lymphoma
+4971,disease,adenoid cystic carcinoma,disease_protein,associated with,7153,gene/protein,TOP2A
+19202,disease,myxofibrosarcoma,disease_protein,associated with,2521,gene/protein,FUS
+9140,disease,Silverman-Handmaker type dyssegmental dysplasia,disease_protein,associated with,3339,gene/protein,HSPG2
+3091,gene/protein,HIF1A,disease_protein,associated with,5617,disease,undifferentiated carcinoma
+29108,gene/protein,PYCARD,disease_protein,associated with,24331,disease,colorectal carcinoma
+5002,gene/protein,SLC22A18,disease_protein,associated with,4989,disease,breast carcinoma
+5320,gene/protein,PLA2G2A,disease_protein,associated with,2009_12050_12100,disease,major depressive disorder
+9923,disease,"46,XY disorder of sex development due to 5-alpha-reductase 2 deficiency",disease_protein,associated with,6716,gene/protein,SRD5A2
+DB14540,drug,Hydrocortisone butyrate,drug_protein,carrier,6462,gene/protein,SHBG
+213,gene/protein,ALB,drug_protein,carrier,DB01294,drug,Bismuth subsalicylate
+DB00503,drug,Ritonavir,drug_protein,carrier,5004,gene/protein,ORM1
+5004,gene/protein,ORM1,drug_protein,carrier,DB00661,drug,Verapamil
+213,gene/protein,ALB,drug_protein,carrier,DB06716,drug,Fospropofol
+7276,gene/protein,TTR,drug_protein,carrier,DB03239,drug,"3',5'-Dinitro-N-Acetyl-L-Thyronine"
+DB01222,drug,Budesonide,drug_protein,carrier,866,gene/protein,SERPINA6
+DB09130,drug,Copper,drug_protein,carrier,4496,gene/protein,MT1H
+6948,gene/protein,TCN2,drug_protein,carrier,DB00200,drug,Hydroxocobalamin
+DB00608,drug,Chloroquine,drug_protein,carrier,5004,gene/protein,ORM1
+5004,gene/protein,ORM1,drug_protein,carrier,DB00317,drug,Gefitinib
+213,gene/protein,ALB,drug_protein,carrier,DB01115,drug,Nifedipine
+DB01330,drug,Cefotetan,drug_protein,carrier,213,gene/protein,ALB
+DB08860,drug,Pitavastatin,drug_protein,carrier,213,gene/protein,ALB
+DB13946,drug,Testosterone undecanoate,drug_protein,carrier,213,gene/protein,ALB
+5468,disease,hypotensive disorder,contraindication,contraindication,DB01035,drug,Procainamide
+2409,disease,auditory system disease,contraindication,contraindication,DB00512,drug,Vancomycin
+DB00237,drug,Butabarbital,contraindication,contraindication,1609,disease,agranulocytosis
+DB09407,drug,Magnesium chloride,contraindication,contraindication,8171,disease,nephrolithiasis
+18324,disease,adult-onset myasthenia gravis,contraindication,contraindication,DB00436,drug,Bendroflumethiazide
+DB00273,drug,Topiramate,contraindication,contraindication,8171,disease,nephrolithiasis
+DB01395,drug,Drospirenone,contraindication,contraindication,4784,disease,allergic asthma
+DB00285,drug,Venlafaxine,contraindication,contraindication,19171,disease,familial long QT syndrome
+10811,disease,benign prostatic hyperplasia (disease),contraindication,contraindication,DB01176,drug,Cyclizine
+DB00576,drug,Sulfamethizole,contraindication,contraindication,5393,disease,gout
+DB00900,drug,Didanosine,contraindication,contraindication,313,disease,hypophosphatemia (disease)
+DB00269,drug,Chlorotrianisene,contraindication,contraindication,5010,disease,coronary artery disease
+DB00975,drug,Dipyridamole,contraindication,contraindication,8243,disease,Pick disease
+DB00527,drug,Cinchocaine,contraindication,contraindication,1922,disease,pyoureter
+1567,disease,nephrocalcinosis,contraindication,contraindication,DB00117,drug,Histidine
+1576,gene/protein,CYP3A4,drug_protein,enzyme,DB08911,drug,Trametinib
+DB00030,drug,Insulin human,drug_protein,enzyme,3416,gene/protein,IDE
+DB14633,drug,Prednisolone hemisuccinate,drug_protein,enzyme,1577,gene/protein,CYP3A5
+DB06209,drug,Prasugrel,drug_protein,enzyme,1555,gene/protein,CYP2B6
+1576,gene/protein,CYP3A4,drug_protein,enzyme,DB01050,drug,Ibuprofen
+DB09332,drug,Kappadione,drug_protein,enzyme,5447,gene/protein,POR
+1576,gene/protein,CYP3A4,drug_protein,enzyme,DB12267,drug,Brigatinib
+1576,gene/protein,CYP3A4,drug_protein,enzyme,DB11817,drug,Baricitinib
+4128,gene/protein,MAOA,drug_protein,enzyme,DB00624,drug,Testosterone
+1544,gene/protein,CYP1A2,drug_protein,enzyme,DB00334,drug,Olanzapine
+1559,gene/protein,CYP2C9,drug_protein,enzyme,DB00850,drug,Perphenazine
+1576,gene/protein,CYP3A4,drug_protein,enzyme,DB05773,drug,Trastuzumab emtansine
+1555,gene/protein,CYP2B6,drug_protein,enzyme,DB00661,drug,Verapamil
+1565,gene/protein,CYP2D6,drug_protein,enzyme,DB00220,drug,Nelfinavir
+DB01232,drug,Saquinavir,drug_protein,enzyme,1551,gene/protein,CYP3A7
+5480,disease,contact dermatitis,indication,indication,DB01013,drug,Clobetasol propionate
+8420,disease,seborrheic keratosis,indication,indication,DB06786,drug,Halcinonide
+DB14539,drug,Hydrocortisone acetate,indication,indication,9691_15821_45071,disease,mycosis fungoides and variants
+DB00049,drug,Rasburicase,indication,indication,2144,disease,obsolete hyperuricemia (disease)
+7039_7245_18975_21061_8075,disease,neurofibromatosis,indication,indication,DB11689,drug,Selumetinib
+100135,disease,Dravet syndrome,indication,indication,DB09118,drug,Stiripentol
+DB00738,drug,Pentamidine,indication,indication,940,disease,trypanosomiasis
+4095,disease,B-cell neoplasm,indication,indication,DB00073,drug,Rituximab
+18168_19033_18167,disease,cutis verticis gyrata,indication,indication,DB00349,drug,Clobazam
+DB00290,drug,Bleomycin,indication,indication,20324,disease,intravascular large B-cell lymphoma
+DB00578,drug,Carbenicillin,indication,indication,5280,disease,prostatitis (disease)
+9891,disease,acquired polycythemia vera,indication,indication,DB00888,drug,Mechlorethamine
+9693,disease,plasma cell myeloma,indication,indication,DB00188,drug,Bortezomib
+DB06791,drug,Lanreotide,indication,indication,19933,disease,acromegaly
+1226,disease,acute contagious conjunctivitis,indication,indication,DB00440,drug,Trimethoprim
+116519,gene/protein,APOA5,pathway_protein,interacts with,R-HSA-8963901,pathway,Chylomicron remodeling
+115557,gene/protein,ARHGEF25,pathway_protein,interacts with,R-HSA-416476,pathway,G alpha (q) signalling events
+2158,gene/protein,F9,pathway_protein,interacts with,R-HSA-140834,pathway,Extrinsic Pathway of Fibrin Clot Formation
+R-HSA-9664873,pathway,Pexophagy,pathway_protein,interacts with,472,gene/protein,ATM
+3347,gene/protein,HTN3,pathway_protein,interacts with,R-HSA-6803157,pathway,Antimicrobial peptides
+5601,gene/protein,MAPK9,pathway_protein,interacts with,R-HSA-2559580,pathway,Oxidative Stress Induced Senescence
+23586,gene/protein,DDX58,pathway_protein,interacts with,R-HSA-933541,pathway,TRAF6 mediated IRF7 activation
+1284,gene/protein,COL4A2,pathway_protein,interacts with,R-HSA-8948216,pathway,Collagen chain trimerization
+R-HSA-2214320,pathway,Anchoring fibril formation,pathway_protein,interacts with,7093,gene/protein,TLL2
+R-HSA-159227,pathway,Transport of the SLBP independent Mature mRNA,pathway_protein,interacts with,1977,gene/protein,EIF4E
+R-HSA-400511,pathway,"Synthesis, secretion, and inactivation of Glucose-dependent Insulinotropic Polypeptide (GIP)",pathway_protein,interacts with,1803,gene/protein,DPP4
+2065,gene/protein,ERBB3,pathway_protein,interacts with,R-HSA-8847993,pathway,ERBB2 Activates PTK6 Signaling
+5685,gene/protein,PSMA4,pathway_protein,interacts with,R-HSA-68949,pathway,Orc1 removal from chromatin
+80736,gene/protein,SLC44A4,pathway_protein,interacts with,R-HSA-1483191,pathway,Synthesis of PC
+5590,gene/protein,PRKCZ,pathway_protein,interacts with,R-HSA-5218921,pathway,VEGFR2 mediated cell proliferation
+9691_15821_45071,disease,mycosis fungoides and variants,off-label use,off-label use,DB01168,drug,Procarbazine
+5492,disease,urticaria (disease),off-label use,off-label use,DB00950,drug,Fexofenadine
+6652_3678_1090_3672_3673_3676_3677_3679_6803,disease,myocardial infarction,off-label use,off-label use,DB00407,drug,Ardeparin
+DB09104,drug,Magnesium hydroxide,off-label use,off-label use,12552_8234_8082_7540_19003_17169,disease,multiple endocrine neoplasia
+20541,disease,maligant granulosa cell tumor of ovary,off-label use,off-label use,DB00773,drug,Etoposide
+DB00958,drug,Carboplatin,off-label use,off-label use,5233,disease,non-small cell lung carcinoma (disease)
+DB01234,drug,Dexamethasone,off-label use,off-label use,18324,disease,adult-onset myasthenia gravis
+DB11090,drug,Potassium nitrate,off-label use,off-label use,2508,disease,gingivitis
+18077,disease,tularemia,off-label use,off-label use,DB00618,drug,Demeclocycline
+5706,disease,coccidioidomycosis,off-label use,off-label use,DB00196,drug,Fluconazole
+4496,disease,myocarditis,off-label use,off-label use,DB00635,drug,Prednisone
+6042,disease,meningeal tuberculosis,off-label use,off-label use,DB00330,drug,Ethambutol
+6898,disease,periarthritis,off-label use,off-label use,DB00586,drug,Diclofenac
+DB00773,drug,Etoposide,off-label use,off-label use,18256,disease,acute myeloid leukemia with t(8;16)(p11;p13) translocation
+1797,disease,chancroid,off-label use,off-label use,DB00254,drug,Doxycycline
+20052,disease,partial autosomal trisomy/tetrasomy,disease_disease,parent-child,16972,disease,partial duplication of the long arm of chromosome 22
+15159,disease,multiple congenital anomalies/dysmorphic syndrome-intellectual disability,disease_disease,parent-child,17792,disease,7p22.1 microduplication syndrome
+17909,disease,inherited glutathione synthetase deficiency,disease_disease,parent-child,3689,disease,familial hemolytic anemia
+6561,disease,eyelid hypopigmentation,disease_disease,parent-child,3382,disease,eyelid disease
+19232,disease,inborn disorder of peptide metabolism,disease_disease,parent-child,19189,disease,inborn disorder of amino acid and other organic acid metabolism
+6577,disease,maxillary sinus cholesteatoma,disease_disease,parent-child,23369,disease,disease of facial skeleton
+21203,disease,serous otitis media,disease_disease,parent-child,1213,disease,serous glue ear
+14866_12012_33850_11890_11687_12014_13758_11569_13753_10550_12640_11903_8961_14154_10877_10699_32728_7790_11527_14665_11633_12231_13644_11066_11091_11916_14735_14467_11085_11889_12096_11570_11894_10949_36484_14733_14117_14012_10549_10551_14736_11113_7311_11534_11901_10995_13338_14208_14726_13212_7307_14074_12250_11902_14566_14511_10479_7309_10689_11475_14836_54833_11674_13959_11909_7308_11675_19011_18993_15626_18995_18994_18778_44640,disease,Charcot-Marie-Tooth disease,disease_disease,parent-child,7310,disease,"Charcot-Marie-Tooth disease, Guadalajara neuronal type"
+43007,disease,genetic multiple congenital anomalies/dysmorphic syndrome-variable intellectual disability syndrome,disease_disease,parent-child,10448,disease,moyamoya angiopathy-short stature-facial dysmorphism-hypergonadotropic hypogonadism syndrome
+14411_11300_14982_14183_12021_12045_8053_12995_13604_13508_32941_12154_9713_14177_1384_12227_12228_12229_12230_12388_12389_12469_12932_13603,disease,myopia,disease_disease,parent-child,5090_13498_8414_10897_33312_10943_11552_14092_12054_11960_11280_11294_11295_11298_11307_11498_12879_13089_13506,disease,schizophrenia
+R-HSA-351202,pathway,Metabolism of polyamines,pathway_pathway,parent-child,R-HSA-351200,pathway,Interconversion of polyamines
+17892,disease,autosomal recessive myogenic arthrogryposis multiplex congenita,disease_disease,parent-child,32778_8823_100218_60486_15168,disease,arthrogryposis multiplex congenita
+3218,disease,adenocarcinoma in situ,disease_disease,parent-child,5023,disease,ductal breast carcinoma in situ
+R-HSA-9651496,pathway,Defects of contact activation system (CAS) and kallikrein/kinin system (KKS),pathway_pathway,parent-child,R-HSA-9672383,pathway,Defective factor IX causes thrombophilia
+37829,disease,purine metabolism disease,disease_disease,parent-child,5066,disease,metabolic disease
+80032,gene/protein,ZNF556,protein_protein,ppi,55039,gene/protein,TRMT12
+8355,gene/protein,H3C8,protein_protein,ppi,54984,gene/protein,PINX1
+339,gene/protein,APOBEC1,protein_protein,ppi,10930,gene/protein,APOBEC2
+90060,gene/protein,CCDC120,protein_protein,ppi,287015,gene/protein,TRIM42
+8788,gene/protein,DLK1,protein_protein,ppi,127602,gene/protein,DNAH14
+6612,gene/protein,SUMO3,protein_protein,ppi,51592,gene/protein,TRIM33
+7284,gene/protein,TUFM,protein_protein,ppi,154,gene/protein,ADRB2
+3841,gene/protein,KPNA5,protein_protein,ppi,7039,gene/protein,TGFA
+4436,gene/protein,MSH2,protein_protein,ppi,6117,gene/protein,RPA1
+4233,gene/protein,MET,protein_protein,ppi,10097,gene/protein,ACTR2
+3024,gene/protein,H1-1,protein_protein,ppi,255189,gene/protein,PLA2G4F
+23328,gene/protein,SASH1,protein_protein,ppi,7189,gene/protein,TRAF6
+10468,gene/protein,FST,protein_protein,ppi,8038,gene/protein,ADAM12
+60676,gene/protein,PAPPA2,protein_protein,ppi,55729,gene/protein,ATF7IP
+123722,gene/protein,FSD2,protein_protein,ppi,253461,gene/protein,ZBTB38
+DB00655,drug,Estrone,drug_drug,synergistic interaction,DB12364,drug,Betrixaban
+DB12163,drug,Sarpogrelate,drug_drug,synergistic interaction,DB13327,drug,Picotamide
+DB00927,drug,Famotidine,drug_drug,synergistic interaction,DB01004,drug,Ganciclovir
+DB01593,drug,Zinc,drug_drug,synergistic interaction,DB00721,drug,Procaine
+DB12089,drug,Lorvotuzumab mertansine,drug_drug,synergistic interaction,DB11363,drug,Alectinib
+DB00285,drug,Venlafaxine,drug_drug,synergistic interaction,DB13803,drug,Xipamide
+DB00043,drug,Omalizumab,drug_drug,synergistic interaction,DB09045,drug,Dulaglutide
+DB00414,drug,Acetohexamide,drug_drug,synergistic interaction,DB00252,drug,Phenytoin
+DB05941,drug,Leronlimab,drug_drug,synergistic interaction,DB12609,drug,Tovetumab
+DB04258,drug,Seocalcitol,drug_drug,synergistic interaction,DB00562,drug,Benzthiazide
+DB12465,drug,Ketanserin,drug_drug,synergistic interaction,DB12427,drug,Orvepitant
+DB05039,drug,Indacaterol,drug_drug,synergistic interaction,DB12026,drug,Voxilaprevir
+DB00432,drug,Trifluridine,drug_drug,synergistic interaction,DB00446,drug,Chloramphenicol
+DB00047,drug,Insulin glargine,drug_drug,synergistic interaction,DB13989,drug,Epitizide
+DB00969,drug,Alosetron,drug_drug,synergistic interaction,DB03575,drug,Phencyclidine
+DB07127,drug,"{4-[2,2-BIS(5-METHYL-1,2,4-OXADIAZOL-3-YL)-3-PHENYLPROPYL]PHENYL}SULFAMIC ACID",drug_protein,target,5787,gene/protein,PTPRB
+DB00543,drug,Amoxapine,drug_protein,target,146,gene/protein,ADRA1D
+3554,gene/protein,IL1R1,drug_protein,target,DB10770,drug,Foreskin fibroblast (neonatal)
+3351,gene/protein,HTR1B,drug_protein,target,DB00320,drug,Dihydroergotamine
+51284,gene/protein,TLR7,drug_protein,target,DB06530,drug,Resiquimod
+DB00193,drug,Tramadol,drug_protein,target,2905,gene/protein,GRIN2C
+2342,gene/protein,FNTB,drug_protein,target,DB07780,drug,Farnesyl diphosphate
+DB00142,drug,Glutamic acid,drug_protein,target,2893,gene/protein,GRIA4
+1727,gene/protein,CYB5R3,drug_protein,target,DB00157,drug,NADH
+1432,gene/protein,MAPK14,drug_protein,target,DB05470,drug,VX-702
+2908,gene/protein,NR3C1,drug_protein,target,DB04630,drug,Aldosterone
+DB06875,drug,ERB-196,drug_protein,target,8648,gene/protein,NCOA1
+DB00842,drug,Oxazepam,drug_protein,target,2566,gene/protein,GABRG2
+DB00186,drug,Lorazepam,drug_protein,target,2555,gene/protein,GABRA2
+DB01204,drug,Mitoxantrone,drug_protein,target,7153,gene/protein,TOP2A
+1317,gene/protein,SLC31A1,drug_protein,transporter,DB00515,drug,Cisplatin
+5243,gene/protein,ABCB1,drug_protein,transporter,DB05773,drug,Trastuzumab emtansine
+9376,gene/protein,SLC22A8,drug_protein,transporter,DB00887,drug,Bumetanide
+85320,gene/protein,ABCC11,drug_protein,transporter,DB00563,drug,Methotrexate
+1244,gene/protein,ABCC2,drug_protein,transporter,DB00143,drug,Glutathione
+8647,gene/protein,ABCB11,drug_protein,transporter,DB00335,drug,Atenolol
+5243,gene/protein,ABCB1,drug_protein,transporter,DB01396,drug,Digitoxin
+9356,gene/protein,SLC22A6,drug_protein,transporter,DB00168,drug,Aspartame
+54658,gene/protein,UGT1A1,drug_protein,transporter,DB04868,drug,Nilotinib
+9356,gene/protein,SLC22A6,drug_protein,transporter,DB01685,drug,Topiroxostat
+DB00175,drug,Pravastatin,drug_protein,transporter,5243,gene/protein,ABCB1
+55867,gene/protein,SLC22A11,drug_protein,transporter,DB00887,drug,Bumetanide
+6565,gene/protein,SLC15A2,drug_protein,transporter,DB00485,drug,Dicloxacillin
+DB00203,drug,Sildenafil,drug_protein,transporter,10057,gene/protein,ABCC5
+DB12377,drug,Relebactam,drug_protein,transporter,55867,gene/protein,SLC22A11

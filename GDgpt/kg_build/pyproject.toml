@@ -1,0 +1,9 @@
+[project]
+name = "magis-kg-builder"
+version = "0.1.0"
+description = "MAGIS Knowledge Graph Builder - Import data to Neo4j"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "py2neo>=2021.2.3",
+]

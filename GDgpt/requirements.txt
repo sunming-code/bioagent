@@ -4,8 +4,11 @@ langchain-openai
 langchain-community
 langgraph
 faiss-cpu
-duckduckgo-search
+ddgs
 xmltodict
 neo4j
 pyyaml
 matplotlib
+numpy
+openai
+requests

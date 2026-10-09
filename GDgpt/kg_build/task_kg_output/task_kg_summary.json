@@ -1,0 +1,25 @@
+{
+  "input_csv": "kg.csv",
+  "seed_disease_count": 20,
+  "node_count": 10133,
+  "edge_count": 87838,
+  "nodes_by_type": {
+    "Drug": 4730,
+    "Gene": 3582,
+    "Disease": 20,
+    "Phenotype": 76,
+    "Pathway": 1725
+  },
+  "edges_by_relation_group": {
+    "CARRIED_BY": 1148,
+    "METABOLIZED_BY": 8150,
+    "TARGETS": 18392,
+    "TRANSPORTED_BY": 3818,
+    "CONTRAINDICATED_FOR": 248,
+    "TREATS": 282,
+    "OFF_LABEL_FOR": 44,
+    "HAS_PHENOTYPE": 178,
+    "ASSOCIATED_WITH": 30854,
+    "INVOLVED_IN": 24724
+  }
+}
