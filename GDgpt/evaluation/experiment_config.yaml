@@ -1,0 +1,35 @@
+# 实验自动化配置
+# 修改此文件即可调整实验参数，无需改代码
+
+# 全局参数
+gold: "evaluation/evaluation_gold_final.jsonl"
+output_dir: "evaluation/results"
+metrics_k: 5
+
+# 实验列表：每项在 30 题 gold 集上跑一轮
+# 新增实验只需在此追加一项
+experiments:
+  - id: exp0_full
+    experiment: full
+    max_rounds: 6
+    description: "Full Task KG (Neo4j + Bridge + Prefetch + 多角色)"
+
+  - id: exp1_llm_only
+    experiment: llm_only
+    max_rounds: 6
+    description: "LLM only (无 Neo4j/工具)"
+
+  - id: exp4_no_bridge
+    experiment: rag_only
+    max_rounds: 6
+    description: "RAG only / no Bridge intents (Neo4j 单跳 + 多角色)"
+
+  - id: exp5_single_agent
+    experiment: single_agent
+    max_rounds: 6
+    description: "Single Agent + KG (仅 HypothesisIntegrator)"
+
+  - id: exp7_gpt4o_direct
+    experiment: gpt4o_direct
+    max_rounds: 1
+    description: "Direct LLM baseline (不走 workflow / KG / 多 Agent)"

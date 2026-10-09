@@ -1,0 +1,232 @@
+# 🤖 Agent Handoff —— 给下一任 AI 助手的交接文档
+
+> **这是项目的单一事实源（SSOT）**。所有 agent 入口文件（CLAUDE.md / AGENTS.md / .cursorrules / .windsurfrules / .clinerules / .github/copilot-instructions.md）内容均复制自本文件。改动请只编辑本文件后同步。
+>
+> **版本**：v1.1  ·  **更新日期**：2026-04-26（晚间增量）  ·  **学生**：叶文倩
+>
+> **v1.1 变更**（2026-04-26 晚间）：① 纳入 MTBBench + PrimeKGQA 外部 benchmark 调研成果；② 测试集策略升级为"3 轨混搭 70 题"；③ 新增"外部 Benchmark 数据"小节；④ 新增参考文档 `docs/导师汇报文档_v2_20260426.md`（含 6 个技术概念详例）。
+
+---
+
+## 📌 项目一句话简介
+
+**GDgpt** 是一个**精准肿瘤学分子肿瘤委员会（MTB, Molecular Tumor Board）辅助系统**：基于 PrimeKG 的 Neo4j Task KG + 7 角色 LLM 专家协同，为肿瘤科医生在 MTB 会前准备阶段自动生成**可追溯、结构化**的"基因-疾病-通路-药物"机制报告。对比 GPT-4o 直答，核心差异化价值是**可追溯到 KG 边 + 低幻觉率 + 明确区分"图谱事实" vs "LLM 推测"**。
+
+---
+
+## 📖 必读文档清单（严格按顺序，5-10 分钟读完）
+
+| # | 文档 | 用途 | 耗时 |
+| :--: | --- | --- | :--: |
+| 1 | [`README.md`](./README.md) | 项目总览 + 快速启动 + 当前状态 | 2 min |
+| 2 | [`docs/SCENARIO_AND_RESEARCH_PROPOSAL.md`](./docs/SCENARIO_AND_RESEARCH_PROPOSAL.md) ⭐ | **MTB 场景定位权威源**（2026-04-20） | 3 min |
+| 3 | [`docs/导师汇报文档.md`](./docs/导师汇报文档.md) | 最新项目快照（2026-04-21） | 2 min |
+| 4 | [`PRD.md`](./PRD.md) | **v2.0 需求规格**（第 0 章 MTB 定位是核心） | 2 min |
+| 5 | [`docs/DECISION_LOG.md`](./docs/DECISION_LOG.md) | 重大决策 + 踩过的坑 + 未完成事项 | 2 min |
+| 6 | [`EXPERIMENT_PROPOSAL.md`](./EXPERIMENT_PROPOSAL.md) Part I | v2.0 评测方案（4 档 Baseline + 双轨测试集 + 新指标） | 3 min |
+
+其他参考：`docs/ADVISOR_FEEDBACK_ANALYSIS.md`（导师反馈分析）、`PROGRESS_REPORT.md` 末尾（2026-04 重定位章节）、`docs/INDEX.md`（文档地图）。
+
+---
+
+## 🎯 当前阶段（2026-04-26 快照）
+
+### 已完成 ✅
+
+- 完整多智能体系统（Triage → KG Prefetch → Consultation → Safety Review 四阶段）
+- 11 种 KG 查询意图（8 单跳 + 3 Bridge 多跳）
+- 7 个专家角色（同轮互盲 + 跨轮可见）
+- Neo4j Task KG（10,133 节点 / 87,838 边 / 20 种疾病，主要是癌症）
+- FAISS 双知识库（CorrectKB + ChainKB）
+- 轨道 A：38 题 KG 优化集 + Exp-0 / Exp-1 全量实验
+- **场景重定位到 MTB**（2026-04-17 导师反馈后）
+- PRD / EXPERIMENT_PROPOSAL / README 升级到 v2.0（2026-04-26）
+
+### 进行中 🔄（Week 1-2, 2026-04-27 ~ 05-10）
+
+- 构建 20 题 MTB 场景测试集（OncoKB 2024-2025 + CIViC + 真实 MTB 案例）→ `evaluation/mtb_testset_v1.jsonl`
+- 实现 Traceability / Hallucination 计算脚本 → `evaluation/compute_system_metrics.py`
+- 实现 3 档 Baseline：GPT-4o 直答 / 单 Agent+KG / RAG only
+
+### 下一步 ⏳（Week 2）
+
+- 在 MTB 测试集上跑完 Exp-0 / 5 / 7 / 8 全部实验
+- 完成 2-3 个案例分析
+- 写论文草稿 v0.1
+
+### 卡点 🚧
+
+等待导师确认 5 个方向性问题（详见 `docs/导师汇报文档.md` 第八章）：
+1. MTB 作为主场景是否认可？
+2. 测试集策略（38 消融 + 20 MTB + 15 泛化）是否可行？
+3. 新增系统级指标（Traceability / Hallucination / Utility）是否符合预期？
+4. Gene Recall = 5.5% 是否需要重点解决？
+5. 论文投稿目标？
+
+---
+
+## 🗂️ 关键目录与文件
+
+### 核心代码
+
+| 文件 | 职责 |
+| --- | --- |
+| `app.py` | Streamlit Web 界面 |
+| `workflow.py` | LangGraph 工作流编排（triage → kg_prefetch → consultation → safety） |
+| `agents.py` | 多角色智能体定义 + KG 查询规划 |
+| `tools.py` | Neo4j KG 工具（单跳 + Bridge）+ 可选 Web/PubMed |
+| `knowledge_base.py` | FAISS 双知识库（CorrectKB / ChainKB） |
+| `utils.py` | 工具函数 |
+
+### 评测
+
+| 路径 | 用途 |
+| --- | --- |
+| `evaluation/independent_testset/output/testset_kg_optimized_enriched.jsonl` | 轨道 A 消融：**38 题** KG 优化集（真实消融集） |
+| `evaluation/evaluation_gold_final.jsonl` | ⚠️ **30 题** legacy 遗留集（非 38 题；勿作 Track A 主消融） |
+| `evaluation/external_benchmarks/b1_primekgqa_cancer40.jsonl` ✨ | 轨道 B1：PrimeKGQA 癌症子集 40 题（**Week 1 待构建**） |
+| `evaluation/external_benchmarks/b2_mtbbench_text20.jsonl` ✨ | 轨道 B2：MTBBench 纵向文本子集 20 题（**Week 1 待构建**） |
+| `evaluation/mtb_supp_v1.jsonl` ✨ | 轨道 B3：自制 MTB 补充集 10 题（**Week 1 待构建**） |
+| `evaluation/timesplit_testset.jsonl` ✨ | 轨道 C 泛化：15 题时间分割集（可选） |
+| `evaluation/run_batch_eval_template.py` | 批量评测（已有 10 分钟超时） |
+| `evaluation/compute_metrics.py` | 原指标 |
+| `evaluation/compute_system_metrics.py` ✨ | v2.0 新指标：Traceability / Hallucination（**待实现**） |
+| `evaluation/results/` | 所有实验产物统一放这里 |
+
+### 配置
+
+| 文件 | 说明 |
+| --- | --- |
+| `config.json` | **含 API Key，永不提交**（`.gitignore` 已排除） |
+| `config.example.json` | 配置模板 |
+| Neo4j 默认登录 | `http://localhost:7474` / `neo4j` / `password` |
+
+### 外部 Benchmark 数据（v1.1 新增）
+
+| Benchmark | 来源 | 规模 | 我们的用法 |
+| --- | --- | --- | --- |
+| **PrimeKGQA** | Zenodo 13829395（2024-10, Hamburg）| 84k QA + SPARQL | 筛癌症子集 40 题做 B1 |
+| **MTBBench** | arXiv 2511.20490 / GitHub bunnelab/MTBBench（2025-11, ETH+EPFL+HUG）| 573 题（多模态+纵向）| 取纵向文本子集 20 题做 B2 |
+
+详见 `docs/导师汇报文档_v2_20260426.md` §5-6。
+
+---
+
+## ⚠️ 重要约定 / 踩过的坑
+
+### 工程约定
+
+1. `config.json` **永不提交**（含 API Key）
+2. 评测产物**统一放 `evaluation/results/`**，不要散落
+3. 批量实验**前**先看 `evaluation/run_batch_eval_template.py`，它有 10 分钟超时机制（基于 threading）
+4. **不要**同时运行两个批量进程 → 会导致结果重复（已有历史教训）
+5. 所有实验**固定 `max_rounds=6`**，`temperature(gen)=0.7`，`temperature(critic)=0.0`，记录 text_model 版本
+6. Neo4j 数据在 Docker Volume `neo4j-data`，别删
+7. **外部 benchmark 数据**放 `evaluation/external_benchmarks/`，**不提交原始文件**（体积大 + 许可问题），只提交筛选脚本和筛后的 jsonl
+
+### 研究方向约定
+
+1. **场景锚定 MTB**，不要回到"通用生物医学 QA"
+2. **7 角色 → MTB 席位**的映射是论文卖点，不要改角色名或职责
+3. **测试集三轨**（v1.1 更新）：消融用 38 题（A）/ 主实验用 B1+B2+B3 共 70 题混搭 / 泛化可选 C
+4. **Baseline 必须对比真实替代方案**：GPT-4o / OncoKB 手动查 > LLM only 全零
+5. **评测区分三档可信度**：KG 事实 / 文献支持 / LLM 推测
+6. Gene Recall = 0.05 是历史已知弱点，v2.0 可选通过"证据加权排序"改进，**但不是主要卖点**
+7. **优先用外部 benchmark，再自造**（研究效率第一铁律）
+
+### 文档约定
+
+1. **所有重大改动**必须更新"Changelog + 版本号 + 更新日期"三件套
+2. 顶层文档升级采用"新版 v2.0 + 附录 A / Part II 存档 v1.x"，**不删除历史**
+3. 重大决策以 `D-YYYY-MM-DD-NN` 编号追加到 `docs/DECISION_LOG.md` §1
+4. `.codebuddy/memory/` 是 CodeBuddy 专属，其他 agent 不会读，**精华已提炼到 `docs/DECISION_LOG.md`**
+
+---
+
+## 🧠 学生偏好（面向 Agent）
+
+- **语言**：中文为主（文档、汇报），专业术语保留英文
+- **格式**：偏好**表格**（对比清晰），偏好分级标题，偏好 TL;DR
+- **代码改动**：**小步提交**，commit message 写清楚；大改动前先给方案
+- **工作模式**：倾向 **ask-first**；有明确用户选项时用 multiple choice 快速对齐
+- **汇报文档**：面向导师，**诚实不美化结果**（F1=0.05 照实写，用叙事而非数字美化）
+- **优先级**：P0 > P1 > P2，先满足毕设答辩，再冲论文投稿
+- **颗粒度**：不要过度工程化；"用户看得见的功能"优先于"内部重构"
+
+---
+
+## 🪄 新 Agent 第一次对话的"开场咒语"
+
+换到新 agent 后，**第一句话**推荐这样说，能让它瞬间进入状态：
+
+```
+这是研究生毕设项目 GDgpt（精准肿瘤学 MTB 辅助系统）。
+请严格按顺序阅读以下文件（无需打开整个仓库）：
+
+1. AGENT_HANDOFF.md
+2. docs/SCENARIO_AND_RESEARCH_PROPOSAL.md
+3. docs/导师汇报文档.md
+4. PRD.md（只看第 0-5 章）
+5. docs/DECISION_LOG.md
+
+读完后用 4 句话告诉我：
+(a) 项目当前定位是什么？
+(b) 最近一次导师反馈的核心要求是什么？
+(c) 当前进行中 / 下一步 / 卡点各是什么？
+(d) 有哪些工程或研究约定是不能违反的？
+
+确认你完全理解后，我们再开始新任务。
+```
+
+---
+
+## 📊 最近的关键实验数据（供 agent 参考）
+
+### 轨道 A 结果（38 题 KG 优化集）
+
+| 指标 | Full Task KG | LLM only |
+| --- | :---: | :---: |
+| Gene Recall@5 | **0.055** | 0.000 |
+| Pathway Recall@5 | **0.394** | 0.000 |
+| Bridge Hit Rate | **1.000** | 0.000 |
+| Coverage | **0.858** | 0.000 |
+| Gene F1 | **0.060** | 0.000 |
+| Pathway F1 | **0.316** | 0.000 |
+| Phenotype F1 | 0.438 | **0.633** |
+
+**解读**：KG 系统在结构化检索层面全面领先；Phenotype F1 LLM 反超是因 KG 表型节点稀疏（仅 76 个）。
+
+### 轨道 B 预期结果（20 题 MTB 场景集，待跑）
+
+> 🔴 **2026-07-06 诚信提示**：下表为**预期/目标值，非实测结果**（主实验尚未在 MTB 场景集上跑）。加粗数字是希望达到的目标，不能作为已得结论汇报。真实数字见主实验产出。
+
+| 指标 | GPT-4o 直答 | GDgpt Full | 预期差距 |
+| --- | :---: | :---: | --- |
+| Traceability | 0% | **> 80%** | 压倒性优势 |
+| Hallucination Rate | 15-25% | **< 5%** | 大幅降低 |
+| Utility Score (1-5) | 3.0-3.5 | **> 4.0** | 医生认可度高 |
+
+---
+
+## 🔗 外部权威源（对标论文）
+
+| 论文 | 来源 | 借鉴点 |
+| --- | --- | --- |
+| **DeepRare** | Nature 2026 | "traceable reasoning" + 专家一致性 + 时间分割测试集 |
+| **RareAgents** | AAAI-26 Oral | 多 Agent 映射 MDT 专家席位（与 GDgpt 架构一致） |
+| **Knowledge Connector** ⭐ | Nature Commun 2026 | MTB 主场景最佳对标；21 位用户调研 + 268 真实病例 |
+| KG4Diagnosis | AAAI-25 | GP→专科分诊架构 |
+| ESMO NGS Recommendations (Mosele et al.) | Ann Oncol **2020**, 31:1491–1505 | Intro 权威背景（⚠️ 原"Ann Oncol 2025"DOI 伪造，2026-07-06 更正） |
+| Drug Repurposing with GoT on PrimeKG | OpenReview 2025 | 证明 PrimeKG + LLM 推理有发表价值 |
+
+---
+
+## 🔄 迁移 / 更新记录
+
+| 日期 | 事件 |
+| --- | --- |
+| 2026-04-26 | 初建（v1.0），为迁移到下一任 AI agent 准备 |
+
+---
+
+*本文件是 SSOT；任何 agent 入口文件（CLAUDE.md / AGENTS.md / .cursorrules 等）的修改请先改这里再同步。*

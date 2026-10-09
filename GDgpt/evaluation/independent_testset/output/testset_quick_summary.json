@@ -1,0 +1,19 @@
+{
+  "version": "Quick (快速验证版)",
+  "total_questions": 30,
+  "by_task_type": {
+    "pathway-centered": 8,
+    "disease-centered": 10,
+    "gene-centered": 12
+  },
+  "by_source": {
+    "Open Targets": 22,
+    "Reactome": 8
+  },
+  "generated_at": "2026-03-31T19:34:08.585917",
+  "note": "This is the Quick (快速验证版) version of the independent test set.",
+  "data_sources": {
+    "Open Targets": "https://platform.opentargets.org/",
+    "Reactome": "https://reactome.org/"
+  }
+}

@@ -1,0 +1,152 @@
+{
+  "summary": {
+    "total_questions": 53,
+    "validation_time": "2026-03-31T10:34:02.056979",
+    "method": "improved_fuzzy_matching_v2",
+    "overall_coverage": {
+      "genes": "56.6%",
+      "diseases": "44.4%",
+      "pathways": "100.0%"
+    }
+  },
+  "kg_stats": {
+    "node_counts": {
+      "Drug": 4730,
+      "Gene": 3582,
+      "Pathway": 1725,
+      "Phenotype": 76,
+      "Disease": 20
+    },
+    "relationship_counts": {
+      "ASSOCIATED_WITH": 30854,
+      "INVOLVED_IN": 24724,
+      "TARGETS": 18392,
+      "METABOLIZED_BY": 8150,
+      "TRANSPORTED_BY": 3818,
+      "CARRIED_BY": 1148,
+      "TREATS": 282,
+      "CONTRAINDICATED_FOR": 248,
+      "HAS_PHENOTYPE": 178,
+      "OFF_LABEL_FOR": 44
+    }
+  },
+  "by_task_type": {
+    "disease-centered": {
+      "total": 18,
+      "fully_covered": 9,
+      "partially_covered": 9,
+      "not_covered": 0
+    },
+    "pathway-centered": {
+      "total": 15,
+      "fully_covered": 0,
+      "partially_covered": 12,
+      "not_covered": 3
+    },
+    "gene-centered": {
+      "total": 20,
+      "fully_covered": 19,
+      "partially_covered": 0,
+      "not_covered": 1
+    }
+  },
+  "entity_coverage": {
+    "genes": {
+      "total_checked": 350,
+      "found_in_kg": 198,
+      "coverage_rate": "56.6%",
+      "sample_missing": [
+        "PCSK9",
+        "GUCY1B1",
+        "LRP6",
+        "PDE3A",
+        "PDE5A",
+        "AKAP5",
+        "DNAJC5",
+        "p-S262,S356,S396-MAPT-8",
+        "CASK",
+        "CALM1",
+        "SLC5A7",
+        "SMUG1",
+        "MBD4",
+        "ADPRHL2",
+        "PNKP"
+      ],
+      "sample_matched": {
+        "APOE": "APOE",
+        "LDLR": "VLDLR",
+        "GUCY1A1": "GUCY1A1",
+        "HMGCR": "HMGCR",
+        "GUCY1A2": "GUCY1A2",
+        "ACHE": "ACHE",
+        "CPLX1": "CPLX1",
+        "SLC18A2": "SLC18A2",
+        "DLG4": "DLG4",
+        "NTHL1": "NTHL1"
+      }
+    },
+    "diseases": {
+      "total_checked": 18,
+      "found_in_kg": 8,
+      "coverage_rate": "44.4%",
+      "missing": [
+        "coronary artery disease",
+        "hypertension",
+        "melanoma",
+        "leukemia",
+        "glioblastoma multiforme",
+        "atrial fibrillation",
+        "chronic kidney disease",
+        "obesity",
+        "heart failure",
+        "epilepsy"
+      ],
+      "matched": {
+        "lung carcinoma": "lung cancer",
+        "breast carcinoma": "breast carcinoma",
+        "rheumatoid arthritis": "adenocarcinoma of liver and intrahepatic biliary tract",
+        "hepatocellular carcinoma": "hepatocellular carcinoma",
+        "ovarian carcinoma": "hereditary breast ovarian cancer syndrome",
+        "prostate carcinoma": "prostate carcinoma",
+        "Alzheimer disease": "adenocarcinoma of liver and intrahepatic biliary tract",
+        "pancreatic carcinoma": "prostate carcinoma"
+      }
+    },
+    "pathways": {
+      "total_checked": 15,
+      "found_in_kg": 15,
+      "coverage_rate": "100.0%",
+      "missing": [],
+      "matched": {
+        "Transmission across Chemical Synapses": "Translocation of ZAP-70 to Immunological synapse",
+        "Base Excision Repair": "PCNA-Dependent Long Patch Base Excision Repair",
+        "Cholesterol biosynthesis": "Cholesterol biosynthesis",
+        "Signaling by NOTCH": "Constitutive Signaling by NOTCH1 PEST Domain Mutants",
+        "Autophagy": "Chaperone Mediated Autophagy",
+        "Mitotic G1-G1/S phases": "PTK6 Regulates Cell Cycle",
+        "Extrinsic Pathway for Apoptosis": "Defective Intrinsic Pathway for Apoptosis Due to p14ARF Loss of Function",
+        "Cytokine Signaling in Immune system": "Mitotic Telophase/Cytokinesis",
+        "Fatty acid metabolism": "Mitochondrial Fatty Acid Beta-Oxidation",
+        "Gene expression (Transcription)": "NOTCH1 Intracellular Domain Regulates Transcription",
+        "Adaptive Immune System": "InlA-mediated entry of Listeria monocytogenes into host cells",
+        "VEGF signaling": "VEGFR2 mediated vascular permeability",
+        "MAPK family signaling cascades": "FCERI mediated MAPK activation",
+        "Intrinsic Pathway for Apoptosis": "Defective Intrinsic Pathway for Apoptosis Due to p14ARF Loss of Function",
+        "Metabolism": "Regulation of lipid metabolism by PPARalpha"
+      }
+    }
+  },
+  "recommendations": [
+    "⚠️ Gene coverage (56.6%) could be improved. Consider using gene aliases or NCBI IDs.",
+    "⚠️ Disease coverage is low (44.4%). PrimeKG has limited disease coverage (20 diseases).",
+    "✅ Pathway coverage is acceptable (100.0%).",
+    "🎯 Overall: Test set is HIGHLY SUITABLE for KG evaluation."
+  ],
+  "usability_assessment": {
+    "fully_covered_questions": 28,
+    "partially_covered_questions": 21,
+    "total_questions": 53,
+    "usability_score": "72.6%",
+    "recommendation": "USABLE"
+  }
+}

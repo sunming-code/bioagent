@@ -1,0 +1,21 @@
+{
+  "num_gold": 100,
+  "num_predictions": 99,
+  "missing_predictions": [],
+  "retrieval": {
+    "gene_recall@5": 0.20795454545454545,
+    "gene_precision@5": 0.13733333333333334,
+    "pathway_recall@5": 0.0,
+    "pathway_precision@5": 0.0,
+    "bridge_hit_rate": 0.0,
+    "coverage": 0.4075
+  },
+  "end_to_end": {
+    "gene_f1": 0.1641059807925421,
+    "pathway_f1": 0.0,
+    "phenotype_f1": 0.0,
+    "mechanism_completeness": null,
+    "graph_faithfulness": null,
+    "utility_score": null
+  }
+}

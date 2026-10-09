@@ -1,0 +1,413 @@
+% ============================================================================
+% GDgpt 参考文献 BibTeX
+% 创建：2026-07-06  ·  用途：论文/汇报引用的单一事实源
+%
+% 标注约定：
+%   [VERIFIED]      = 已通过 Crossref/doi.org 联网核实 DOI 与元数据（可放心引用）
+%   [CHECK-DOI]     = 内容大概率真实，但 DOI/venue 尚未逐一联网核实，投稿前须复核
+%   [PREPRINT]      = 预印本，非同行评审，引用时须注明
+%   [WAS-WRONG]     = 修正了此前文档中的错误引用（见注释）
+%
+% ⚠️ 投稿前务必把所有 [CHECK-DOI] 项逐条在 doi.org / Crossref 上核实。
+% ============================================================================
+
+% ---------------------------------------------------------------------------
+% 背景文献（Intro 权威依据）
+% ---------------------------------------------------------------------------
+
+% [VERIFIED] [WAS-WRONG] 原文档误引为 "ESMO Precision Oncology Working Group,
+% Annals of Oncology 2025, DOI 10.1016/S0923-7534(25)00080-8" —— 该 DOI 经
+% Crossref 与 doi.org 核实【不存在(404)】，属误引。已替换为下方真实文献。
+% 注意 ESMO 是 "Precision Medicine Working Group"（非 "Precision Oncology"）。
+@article{mosele2020esmo,
+  title   = {Recommendations for the use of next-generation sequencing (NGS) for patients with metastatic cancers: a report from the ESMO Precision Medicine Working Group},
+  author  = {Mosele, F. and Remon, J. and Mateo, J. and others},
+  journal = {Annals of Oncology},
+  volume  = {31},
+  number  = {11},
+  pages   = {1491--1505},
+  year    = {2020},
+  doi     = {10.1016/j.annonc.2020.07.014}
+}
+
+% [CHECK-DOI] Nature Reviews Clinical Oncology, MTB 综述, 2023
+@article{natrevclinoncol2023mtb,
+  title   = {(MTB review — 投稿前核实确切标题与作者)},
+  journal = {Nature Reviews Clinical Oncology},
+  year    = {2023},
+  note    = {https://www.nature.com/articles/s41571-023-00824-4 — CHECK-DOI}
+}
+
+% [CHECK-DOI] Cancer Cell 2025, context-augmented LLM for precision oncology
+@article{cancercell2025contextllm,
+  title   = {(context-augmented LLM for precision oncology — 投稿前补全标题/作者)},
+  journal = {Cancer Cell},
+  year    = {2025},
+  note    = {https://www.cell.com/cancer-cell/fulltext/S1535-6108(25)00551-3 — CHECK-DOI}
+}
+
+% [CHECK-DOI] JCO Precision Oncology 2024
+@article{jcopo2024expertllm,
+  title   = {(Expert-Guided LLM for Clinical Oncology — 投稿前补全)},
+  journal = {JCO Precision Oncology},
+  year    = {2024},
+  doi     = {10.1200/PO-24-00478},
+  note    = {CHECK-DOI}
+}
+
+% ---------------------------------------------------------------------------
+% 最对标的系统（必引）
+% ---------------------------------------------------------------------------
+
+% [VERIFIED] Crossref 核实：标题/venue/DOI 均正确；第一作者 Zhao
+@article{deeprare2026,
+  title   = {An agentic system for rare disease diagnosis with traceable reasoning},
+  author  = {Zhao, and others},
+  journal = {Nature},
+  year    = {2026},
+  doi     = {10.1038/s41586-025-10097-9},
+  note    = {DeepRare. 借鉴点：traceable reasoning + 专家一致性 + 时间分割测试集}
+}
+
+% [CHECK-DOI] RareAgents, AAAI-26 (文档标 Oral，投稿前确认是否 Oral)
+@inproceedings{rareagents2026,
+  title     = {RareAgents: Autonomous Multi-disciplinary Team for Rare Disease Diagnosis and Treatment},
+  booktitle = {Proceedings of AAAI},
+  year      = {2026},
+  note      = {arXiv:2412.12475 — CHECK-DOI，确认是否 Oral}
+}
+
+% [CHECK-DOI] Knowledge Connector, Nature Communications 2026, DKFZ; MTB 主场景最佳对标
+@article{knowledgeconnector2026,
+  title   = {(Knowledge Connector — MTB decision support; 投稿前补全标题/作者)},
+  journal = {Nature Communications},
+  year    = {2026},
+  note    = {https://www.nature.com/articles/s41467-026-68333-3 — CHECK-DOI; 21 用户调研 + 268 真实病例}
+}
+
+% [CHECK-DOI] KG4Diagnosis, AAAI-25 Bridge Program
+@inproceedings{kg4diagnosis2025,
+  title     = {KG4Diagnosis: A Hierarchical Multi-Agent LLM Framework with Knowledge Graph Enhancement for Medical Diagnosis},
+  booktitle = {AAAI 2025 (Bridge Program)},
+  year      = {2025},
+  note      = {arXiv:2412.16833 — CHECK-DOI}
+}
+
+% ---------------------------------------------------------------------------
+% 知识图谱 / 数据源
+% ---------------------------------------------------------------------------
+
+% [VERIFIED] [WAS-WRONG] 原文档部分处误标为 "ICLR 2022" —— 那是 2022 的预印本；
+% 正式发表为 Nature Scientific Data 2023。Crossref 核实 DOI 如下。
+@article{chandak2023primekg,
+  title   = {Building a knowledge graph to enable precision medicine},
+  author  = {Chandak, Payal and Huang, Kexin and Zitnik, Marinka},
+  journal = {Scientific Data},
+  volume  = {10},
+  year    = {2023},
+  doi     = {10.1038/s41597-023-01960-3}
+}
+
+% [VERIFIED] Zenodo 核实
+@misc{primekgqa2024,
+  title        = {PrimeKGQA: A large-scale question answering dataset over PrimeKG},
+  howpublished = {Zenodo},
+  year         = {2024},
+  doi          = {10.5281/zenodo.13829395},
+  note         = {84k QA + SPARQL; CC BY 4.0}
+}
+
+% [CHECK-DOI] MTBBench, arXiv 2025-11, ETH+EPFL+HUG
+@misc{mtbbench2025,
+  title        = {MTBBench: A benchmark for molecular tumor board reasoning},
+  howpublished = {arXiv:2511.20490},
+  year         = {2025},
+  note         = {GitHub bunnelab/MTBBench; 573 题（多模态+纵向）— CHECK-DOI}
+}
+
+% ---------------------------------------------------------------------------
+% 方法论参考（选引）
+% ---------------------------------------------------------------------------
+
+% [CHECK-DOI] Drug Repurposing with Graph-of-Thoughts on PrimeKG, OpenReview 2025
+@misc{got_primekg_2025,
+  title        = {Drug Repurposing with a Graph-of-Thoughts Inspired Reasoning Framework},
+  howpublished = {OpenReview},
+  year         = {2025},
+  note         = {https://openreview.net/forum?id=lbnPkTlwyR — CHECK-DOI}
+}
+
+% [VERIFIED] [PREPRINT] [WAS-WRONG] 原文档误标为 "Bioinformatics 2025" ——
+% Crossref 核实实为 Research Square 预印本（DOI 前缀 10.21203），非同行评审期刊。
+@misc{huang2025drugrex,
+  title        = {DrugReX: an explainable drug repurposing system powered by large language models and literature-based knowledge graph},
+  author       = {Huang, Liang-Chin and others},
+  howpublished = {Research Square (preprint)},
+  year         = {2025},
+  doi          = {10.21203/rs.3.rs-6728958/v1},
+  note         = {PREPRINT — 引用时须注明"未经同行评审"}
+}
+
+% [CHECK-DOI] RUGGED, arXiv 2024
+@misc{rugged2024,
+  title        = {Explainable Biomedical Hypothesis Generation via Retrieval Augmented Generation (RUGGED)},
+  howpublished = {arXiv:2407.12888},
+  year         = {2024},
+  note         = {CHECK-DOI — 确认确切标题}
+}
+
+% [CHECK-DOI] iKraph, Nature Machine Intelligence 2025
+@article{ikraph2025,
+  title   = {iKraph (投稿前补全标题/作者)},
+  journal = {Nature Machine Intelligence},
+  year    = {2025},
+  note    = {https://www.nature.com/articles/s42256-025-01014-w — CHECK-DOI}
+}
+
+% [CHECK-DOI] MAGIC, Information Fusion 2026 (主题：肝病诊断多智能体)
+@article{magic2026,
+  title   = {MAGIC (投稿前补全；主题为肝病诊断多智能体)},
+  journal = {Information Fusion},
+  year    = {2026},
+  note    = {ScienceDirect S1566253525006293 — CHECK-DOI}
+}
+
+% [CHECK-DOI] [WAS-WRONG?] 原文档标为 "Cell Reports Methods 2025"，此前调研疑为
+% iScience 2025 Dec —— 两者均未逐一联网核实，投稿前务必确认真实 venue。
+@article{multiagent_hypgen_2025,
+  title   = {Multi-agent LLM for biomedical hypothesis generation (投稿前确认 venue)},
+  year    = {2025},
+  note    = {https://www.sciencedirect.com/science/article/pii/S258900422502245X — CHECK-DOI，venue 存疑（Cell Reports Methods vs iScience）}
+}
+
+% ---------------------------------------------------------------------------
+% 多智能体 / AI Agents 综述 + 基座框架
+% ---------------------------------------------------------------------------
+
+% [CHECK-DOI] Empowering biomedical discovery with AI agents, Cell 2024
+@article{cell2024aiagents,
+  title   = {Empowering biomedical discovery with AI agents},
+  journal = {Cell},
+  year    = {2024},
+  note    = {https://www.cell.com/cell/fulltext/S0092-8674(24)01070-5 — CHECK-DOI}
+}
+
+% [CHECK-DOI] MDTeamGPT —— GDgpt 的 fork 基座框架，务必致谢引用
+@misc{mdteamgpt,
+  title        = {MDTeamGPT: A Multi-agent Framework for Medical Consultation},
+  howpublished = {GitHub KaiChenNJ/MDTeamGPT},
+  note         = {GDgpt 基于此框架 fork 改造 — CHECK-DOI/arXiv}
+}
+
+% ===========================================================================
+% 2026-07-06 文献调研新增：支撑新"三支柱"定位的方法学锚点
+% 来源为多智能体联网调研（Crossref），投稿前请逐条复核 DOI。
+% ===========================================================================
+
+% --- 支柱2：选择性弃权 / 置信度校准（GDgpt "诚实降级" 的理论锚点）---
+% [CHECK-DOI] 提供 coverage-risk 曲线 + calibrator-based abstention，GDgpt 应采用其指标
+@inproceedings{kamath2020selective,
+  title     = {Selective Question Answering under Domain Shift},
+  author    = {Kamath, Amita and Jia, Robin and Liang, Percy},
+  booktitle = {ACL},
+  year      = {2020},
+  doi       = {10.18653/v1/2020.acl-main.503},
+  note      = {coverage-risk 曲线 + 弃权；GDgpt 选择性预测的指标来源 — CHECK-DOI}
+}
+% [CHECK-DOI] 弃权领域最新综述，用于定位 GDgpt 的 KG-覆盖度驱动弃权
+@article{wen2025abstention,
+  title   = {Know Your Limits: A Survey of Abstention in Large Language Models},
+  author  = {Wen, Bingbing and others},
+  journal = {TACL},
+  year    = {2025},
+  doi     = {10.1162/tacl_a_00754},
+  note    = {弃权分类与评测框架 — CHECK-DOI}
+}
+% [CHECK-DOI] 过度弃权风险（"诚实降级"不能退化成无用沉默）
+@inproceedings{srinivasan2024selective,
+  title     = {Selective "Selective Prediction": Reducing Unnecessary Abstention in Vision-Language Reasoning},
+  booktitle = {Findings of ACL},
+  year      = {2024},
+  doi       = {10.18653/v1/2024.findings-acl.767},
+  note      = {CHECK-DOI}
+}
+
+% --- 支柱3：时间分割 / 知识截止泛化（规避循环评测）---
+% [CHECK-DOI] post-cutoff 评测的最接近方法学先例
+@inproceedings{kasai2023realtimeqa,
+  title     = {RealTime QA: What's the Answer Right Now?},
+  author    = {Kasai, Jungo and others},
+  booktitle = {NeurIPS Datasets and Benchmarks},
+  year      = {2023},
+  doi       = {10.52202/075280-2130},
+  note      = {测试"比模型更新的事实" — CHECK-DOI}
+}
+% [CHECK-DOI] 事实知识随时间变化、须用时间戳事实探测
+@article{dhingra2022templama,
+  title   = {Time-Aware Language Models as Temporal Knowledge Bases},
+  author  = {Dhingra, Bhuwan and others},
+  journal = {TACL},
+  volume  = {10},
+  year    = {2022},
+  doi     = {10.1162/tacl_a_00459},
+  note    = {TempLAMA — CHECK-DOI}
+}
+
+% --- 支柱1：细粒度归因 / 引用忠实度评测（边级可追溯的对标）---
+% [CHECK-DOI] 引用精度/召回/F1 的标准 benchmark，GDgpt 须对标定位
+@inproceedings{gao2023alce,
+  title     = {Enabling Large Language Models to Generate Text with Citations},
+  author    = {Gao, Tianyu and others},
+  booktitle = {EMNLP},
+  year      = {2023},
+  doi       = {10.18653/v1/2023.emnlp-main.398},
+  note      = {ALCE benchmark；GDgpt 边级可追溯要对标它 — CHECK-DOI}
+}
+% [CHECK-DOI] 证明自动 attribution 评测器(NLI/LLM裁判)不可靠 → GDgpt 确定性边匹配的价值
+@inproceedings{li2024attributionbench,
+  title     = {AttributionBench: How Hard is Automatic Attribution Evaluation?},
+  author    = {Li, Yifei and others},
+  booktitle = {Findings of ACL},
+  year      = {2024},
+  doi       = {10.18653/v1/2024.findings-acl.886},
+  note      = {CHECK-DOI}
+}
+
+% --- 支柱4/对标：医疗多智能体交互拓扑 ---
+% [CHECK-DOI] 研究何时用单agent vs 群体（自适应拓扑）做医疗决策——拓扑消融最强先例
+@inproceedings{mdagents2024,
+  title     = {MDAgents: An Adaptive Collaboration of LLMs for Medical Decision-Making},
+  booktitle = {NeurIPS},
+  year      = {2024},
+  doi       = {10.52202/079017-2522},
+  note      = {CHECK-DOI}
+}
+% [CHECK-DOI] 基于角色的专家聚集 + 协作共识（与 GDgpt 单backbone多角色同构）
+@inproceedings{medagents2024,
+  title     = {MedAgents: Large Language Models as Collaborators for Zero-shot Medical Reasoning},
+  booktitle = {Findings of ACL},
+  year      = {2024},
+  doi       = {10.18653/v1/2024.findings-acl.33},
+  note      = {CHECK-DOI}
+}
+% [CHECK-DOI] 圆桌多轮讨论 + 置信度加权共识（通信协议设计参考）
+@inproceedings{reconcile2024,
+  title     = {ReConcile: Round-Table Conference Improves Reasoning via Consensus among Diverse LLMs},
+  booktitle = {ACL},
+  year      = {2024},
+  doi       = {10.18653/v1/2024.acl-long.381},
+  note      = {CHECK-DOI}
+}
+
+% --- 异构多模型（调研判定 skip，仅备查）---
+% [CHECK-DOI] Mixture-of-Agents：已证异构 LLM 有用 → GDgpt 不宜再做此贡献
+@misc{moa2024,
+  title        = {Mixture-of-Agents Enhances Large Language Model Capabilities},
+  author       = {Wang, Junlin and others},
+  howpublished = {arXiv:2406.04692},
+  year         = {2024},
+  note         = {调研判定：GDgpt skip 异构集成 — CHECK-DOI}
+}
+
+% ===========================================================================
+% 2026-07-09 洞察→贡献调研新增（支撑"测量效度/证据留存/弃权"论证）
+% 均为多智能体联网调研(Crossref)，投稿前复核 DOI。
+% ===========================================================================
+
+% --- 洞察1: gold-KG错配 / 检索F1是错指标 ---
+% [CHECK-DOI] 可答性感知KBQA——licenses 弃权作为"不可答"的正确响应而非workaround
+@inproceedings{retinaqa2024,
+  title     = {RetinaQA: A Robust Knowledge Base Question Answering Model for both Answerable and Unanswerable Questions},
+  author    = {Faldu and Bhattacharya and Mausam},
+  booktitle = {ACL (Vol.1 Long Papers)}, year = {2024},
+  doi = {10.18653/v1/2024.acl-long.359}, note = {CHECK-DOI}
+}
+% [CHECK-DOI] 闭世界假设低估排序指标（true-but-absent当假负）
+@article{suchenek1997cwa,
+  title = {Evaluation of Queries under Closed-World Assumption},
+  author = {Suchenek}, journal = {Journal of Automated Reasoning}, year = {1997},
+  doi = {10.1023/a:1005723423016}, note = {CHECK-DOI}
+}
+% [CHECK-DOI] 池化偏差：把假负当负样本
+@inproceedings{cai2022hardneg,
+  title = {Hard Negatives or False Negatives: Correcting Pooling Bias in Training Neural Ranking Models},
+  author = {Cai and Guo and Fan and Ai and Zhang and Cheng},
+  booktitle = {ACM CIKM}, year = {2022}, doi = {10.1145/3511808.3557343}, note = {CHECK-DOI}
+}
+
+% --- 洞察2: 综合环节证据流失 / 忠实度 ---
+% [CHECK-DOI] LLM 欠用中段上下文（证据流失的机制根因）
+@article{liu2024lostmiddle,
+  title = {Lost in the Middle: How Language Models Use Long Contexts},
+  author = {Liu, Nelson F. and others}, journal = {TACL}, year = {2024},
+  doi = {10.1162/tacl_a_00638}, note = {CHECK-DOI}
+}
+% [CHECK-DOI] 正确≠忠实：终答正确但对证据不忠实
+@inproceedings{wallat2025correctness,
+  title = {Correctness is not Faithfulness in Retrieval Augmented Generation Attributions},
+  author = {Wallat and Heuss and de Rijke and Anand},
+  booktitle = {ACM ICTIR}, year = {2025}, doi = {10.1145/3731120.3744592}, note = {CHECK-DOI}
+}
+% [CHECK-DOI] 医学RAG句级引用忠实度指标（可借为边级测量）
+@inproceedings{vericite2026,
+  title = {VERICITE: Evaluating Sentence-Level Citation Faithfulness in Retrieval-Augmented Medical Question Answering},
+  author = {Ma and Chu and Fuhr}, booktitle = {BioNLP}, year = {2026},
+  doi = {10.18653/v1/2026.bionlp-1.62}, note = {CHECK-DOI}
+}
+
+% ===========================================================================
+% 2026-07-10 破局调研（3瓶颈的突破技术）投稿前复核DOI
+% ===========================================================================
+% --- 破局1: 自适应多智能体(降成本,让大实验可行) ---
+@inproceedings{mdagents2024,
+  title={MDAgents: An Adaptive Collaboration of LLMs for Medical Decision-Making},
+  author={Kim and Park and Jeong and others}, booktitle={NeurIPS 37}, year={2024},
+  doi={10.52202/079017-2522}, note={自适应复杂度路由;GDgpt降成本主对标 — CHECK-DOI}}
+@inproceedings{agentdropout2025,
+  title={AgentDropout: Dynamic Agent Elimination for Token-Efficient and High-Performance LLM-Based Multi-Agent Collaboration},
+  author={Wang and Wang and Liu and others}, booktitle={ACL (Vol.1)}, year={2025},
+  doi={10.18653/v1/2025.acl-long.1170}, note={CHECK-DOI}}
+@inproceedings{dagp2025,
+  title={DAGP: Difficulty-Aware Graph Pruning for LLM-Based Multi-Agent System},
+  author={Wang and Tong}, booktitle={ACM CIKM}, year={2025},
+  doi={10.1145/3746252.3760954}, note={CHECK-DOI}}
+% --- 破局3: LLM-judge作为临床评估代理 ---
+@inproceedings{mtbench2023,
+  title={Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena},
+  author={Zheng and others}, booktitle={NeurIPS 36}, year={2023},
+  note={arXiv:2306.05685;LLM-judge validity+bias — CHECK-DOI}}
+
+% ===========================================================================
+% 2026-07-13 P1调研新增（benchmark / LLM-judge / venue）
+% 投稿前逐条复核DOI。
+% ===========================================================================
+% --- P1-1 公开benchmark ---
+% [CHECK-DOI] ⭐首选外部benchmark：PcQA泛癌症KGQA（非PrimeKG，405题，GigaScience 2025）
+@article{pcqa2025,
+  title={Knowledge graph-based thought: a knowledge graph-enhanced LLM framework for pan-cancer question answering},
+  journal={GigaScience}, year={2025}, doi={10.1093/gigascience/giae082},
+  note={PcQA benchmark(405题,单跳+多跳,SOKG-grounded,非PrimeKG) — CHECK-DOI}}
+% [CHECK-DOI] GeneTuring基因-疾病QA（量化GeneRecall局限）
+@article{geneturing2024,
+  title={GeneGPT: augmenting large language models with domain tools for improved access to biomedical information},
+  journal={Bioinformatics}, year={2024}, doi={10.1093/bioinformatics/btae075},
+  note={GeneTuring benchmark; github.com/ncbi/GeneGPT — CHECK-DOI}}
+
+% --- P1-2 LLM-judge ---
+% [CHECK-DOI] 医疗QA中LLM-judge有效性（最相关，HeaLing workshop 2026）
+@inproceedings{llmjudge_medical2026,
+  title={Who Judges the Judge? Evaluating LLM-as-a-Judge for French Medical open-ended QA},
+  author={Belmadani and others}, booktitle={HeaLing Workshop, ACL}, year={2026},
+  doi={10.18653/v1/2026.healing-1.12}, note={CHECK-DOI}}
+% [CHECK-DOI] judge模型泛化性（ACL Findings 2025）
+@inproceedings{judge_generalization2025,
+  title={An Empirical Study of LLM-as-a-Judge for LLM Evaluation: Fine-tuned Judge Model is not a General Substitute for GPT-4},
+  author={Huang and others}, booktitle={Findings of ACL}, year={2025},
+  doi={10.18653/v1/2025.findings-acl.306}, note={CHECK-DOI}}
+
+% --- P1-3 投稿目标 venue相关论文 ---
+% [CHECK-DOI] 真实MTB AI辅助（ESMO Real World Data 2025）—— 投ML4H时Intro必引
+@article{mtb_ai_esmo2025,
+  title={Multi-agent for clinical decision support in molecular tumor board},
+  journal={ESMO Real World Data and Digital Oncology}, year={2025},
+  doi={10.1016/j.esmorw.2025.100398}, note={CHECK-DOI}}

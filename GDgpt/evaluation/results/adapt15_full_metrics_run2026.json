@@ -1,0 +1,45 @@
+{
+  "num_gold": 38,
+  "num_predictions": 15,
+  "missing_predictions": [
+    "ind_gc_e7b4d1bdf991",
+    "ind_gc_e654a95e9590",
+    "ind_gc_f117ddf4c739",
+    "ind_gc_7af2f1792ab8",
+    "ind_gc_038bf1c49882",
+    "ind_gc_42dffb3f1693",
+    "ind_gc_15185c4e8360",
+    "ind_gc_297fbb91e6d9",
+    "ind_gc_3fea5c1511ae",
+    "ind_gc_4f60115b8082",
+    "ind_gc_c49d2565e910",
+    "ind_gc_560d870dc64a",
+    "ind_gc_f662902bd7df",
+    "ind_gc_46b1d2f92b20",
+    "ind_gc_3df2650cb642",
+    "ind_pc_63ce411f3500",
+    "ind_pc_e310e1bb3cfb",
+    "ind_pc_c0213735dd0b",
+    "ind_pc_61ad9d9bb0fb",
+    "ind_pc_cbbbe8fe8031",
+    "ind_pc_7f276164d6d7",
+    "ind_pc_edfcf74b4da1",
+    "ind_pc_13b0072f5e56"
+  ],
+  "retrieval": {
+    "gene_recall@5": 0.01,
+    "gene_precision@5": 0.04,
+    "pathway_recall@5": 0.3,
+    "pathway_precision@5": 0.6,
+    "bridge_hit_rate": 1.0,
+    "coverage": 0.5
+  },
+  "end_to_end": {
+    "gene_f1": 0.042267389340560076,
+    "pathway_f1": 0.596078431372549,
+    "phenotype_f1": 0.0,
+    "mechanism_completeness": null,
+    "graph_faithfulness": null,
+    "utility_score": null
+  }
+}

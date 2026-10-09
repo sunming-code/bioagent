@@ -1,0 +1,15 @@
+{
+  "total_questions": 53,
+  "by_task_type": {
+    "disease-centered": 18,
+    "gene-centered": 20,
+    "pathway-centered": 15
+  },
+  "by_source": {
+    "Open Targets": 38,
+    "Reactome": 15
+  },
+  "generated_at": "2026-03-30T17:35:37.021896",
+  "note": "This test set is constructed from independent data sources (Open Targets, Reactome), separate from PrimeKG used in the system's knowledge graph.",
+  "validation_status": "Pending PrimeKG coverage analysis"
+}

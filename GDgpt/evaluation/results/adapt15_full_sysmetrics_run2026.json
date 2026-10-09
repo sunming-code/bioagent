@@ -1,0 +1,38 @@
+{
+  "overall": {
+    "N": 15,
+    "accuracy_loose": 0,
+    "traceability": 0.0292,
+    "traceability_precision": 0.0169,
+    "traceability_f1": 0.0802,
+    "hallucination_rate": NaN,
+    "faithfulness_precision": NaN,
+    "grounded_claim_count": 0.0,
+    "evidence_retention": 0.1791,
+    "honest_degradation_rate": 0
+  },
+  "by_coverage": {
+    "high": {
+      "N": 15,
+      "accuracy_loose": 0,
+      "traceability": 0.0292,
+      "traceability_precision": 0.0169,
+      "traceability_f1": 0.0802,
+      "hallucination_rate": NaN,
+      "faithfulness_precision": NaN,
+      "grounded_claim_count": 0.0,
+      "evidence_retention": 0.1791,
+      "honest_degradation_rate": 0
+    },
+    "partial": {
+      "N": 0
+    },
+    "low": {
+      "N": 0
+    },
+    "disabled": {
+      "N": 0
+    }
+  },
+  "missing_gold": 0
+}

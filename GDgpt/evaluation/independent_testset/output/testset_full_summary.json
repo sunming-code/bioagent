@@ -1,0 +1,19 @@
+{
+  "version": "Full (完整测试版)",
+  "total_questions": 80,
+  "by_task_type": {
+    "gene-centered": 30,
+    "disease-centered": 18,
+    "pathway-centered": 32
+  },
+  "by_source": {
+    "Open Targets": 48,
+    "Reactome": 32
+  },
+  "generated_at": "2026-03-31T19:34:08.592623",
+  "note": "This is the Full (完整测试版) version of the independent test set.",
+  "data_sources": {
+    "Open Targets": "https://platform.opentargets.org/",
+    "Reactome": "https://reactome.org/"
+  }
+}

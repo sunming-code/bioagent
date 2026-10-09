@@ -1,0 +1,63 @@
+{
+  "config": {
+    "gold": "evaluation/independent_testset/output/testset_quick_enriched.jsonl",
+    "metrics_k": 5,
+    "max_rounds": 3,
+    "model": "gpt-5-mini",
+    "testset": "independent_testset_quick_enriched (30题, Open Targets + Reactome + Neo4j补充)",
+    "date": "2026-04-07",
+    "improvements": [
+      "gene alias normalization via PrimeKG alias map (7192 entries)",
+      "pathway fuzzy matching (substring match)",
+      "skip None when both gold and pred are empty"
+    ]
+  },
+  "experiments": [
+    {
+      "id": "exp0_full",
+      "description": "Full Task KG (Neo4j + Bridge + Prefetch + 多角色)",
+      "num_gold": 30,
+      "num_predictions": 30,
+      "missing_predictions": [],
+      "retrieval": {
+        "gene_recall@5": 0.10433124346917451,
+        "gene_precision@5": 0.04,
+        "pathway_recall@5": 0.27121212121212124,
+        "pathway_precision@5": 0.24000000000000002,
+        "bridge_hit_rate": 0.7666666666666667,
+        "coverage": 0.8
+      },
+      "end_to_end": {
+        "gene_f1": 0.041615353456401175,
+        "pathway_f1": 0.24574180549412747,
+        "phenotype_f1": 0.006211180124223603,
+        "mechanism_completeness": null,
+        "graph_faithfulness": null,
+        "utility_score": null
+      }
+    },
+    {
+      "id": "exp1_llm_only",
+      "description": "LLM only (无 Neo4j/工具)",
+      "num_gold": 30,
+      "num_predictions": 30,
+      "missing_predictions": [],
+      "retrieval": {
+        "gene_recall@5": 0.0,
+        "gene_precision@5": 0.0,
+        "pathway_recall@5": 0.0,
+        "pathway_precision@5": 0.0,
+        "bridge_hit_rate": 0.26666666666666666,
+        "coverage": 0.0
+      },
+      "end_to_end": {
+        "gene_f1": 0.0,
+        "pathway_f1": 0.0,
+        "phenotype_f1": 0.0,
+        "mechanism_completeness": null,
+        "graph_faithfulness": null,
+        "utility_score": null
+      }
+    }
+  ]
+}

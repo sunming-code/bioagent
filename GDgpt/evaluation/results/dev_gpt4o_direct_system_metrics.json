@@ -1,0 +1,28 @@
+{
+  "overall": {
+    "N": 5,
+    "accuracy_loose": 1,
+    "traceability": 0.0,
+    "hallucination_rate": NaN,
+    "honest_degradation_rate": 0
+  },
+  "by_coverage": {
+    "high": {
+      "N": 0
+    },
+    "partial": {
+      "N": 0
+    },
+    "low": {
+      "N": 0
+    },
+    "disabled": {
+      "N": 5,
+      "accuracy_loose": 1,
+      "traceability": 0.0,
+      "hallucination_rate": NaN,
+      "honest_degradation_rate": 0
+    }
+  },
+  "missing_gold": 0
+}

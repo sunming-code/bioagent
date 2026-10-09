@@ -1,0 +1,58 @@
+{
+  "config": {
+    "gold": "evaluation/independent_testset/output/testset_quick.jsonl",
+    "metrics_k": 5,
+    "max_rounds": 3,
+    "model": "gpt-5-mini",
+    "testset": "independent_testset_quick (30题)",
+    "date": "2026-04-05"
+  },
+  "experiments": [
+    {
+      "id": "exp0_full",
+      "description": "Full Task KG (Neo4j + Bridge + Prefetch + 多角色)",
+      "num_gold": 30,
+      "num_predictions": 30,
+      "missing_predictions": [],
+      "retrieval": {
+        "gene_recall@5": 0.10311594202898551,
+        "gene_precision@5": 0.03333333333333333,
+        "pathway_recall@5": 0.7333333333333333,
+        "pathway_precision@5": 0.0,
+        "bridge_hit_rate": 0.03333333333333333,
+        "coverage": 0.8
+      },
+      "end_to_end": {
+        "gene_f1": 0.03652717003488442,
+        "pathway_f1": 0.23333333333333334,
+        "phenotype_f1": 0.3,
+        "mechanism_completeness": null,
+        "graph_faithfulness": null,
+        "utility_score": null
+      }
+    },
+    {
+      "id": "exp1_llm_only",
+      "description": "LLM only (无 Neo4j/工具)",
+      "num_gold": 30,
+      "num_predictions": 30,
+      "missing_predictions": [],
+      "retrieval": {
+        "gene_recall@5": 0.0,
+        "gene_precision@5": 0.0,
+        "pathway_recall@5": 0.7333333333333333,
+        "pathway_precision@5": 0.0,
+        "bridge_hit_rate": 1.0,
+        "coverage": 0.0
+      },
+      "end_to_end": {
+        "gene_f1": 0.0,
+        "pathway_f1": 0.7333333333333333,
+        "phenotype_f1": 1.0,
+        "mechanism_completeness": null,
+        "graph_faithfulness": null,
+        "utility_score": null
+      }
+    }
+  ]
+}

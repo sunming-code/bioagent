@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MDTeamGPT Task KG Gold Record",
+  "type": "object",
+  "required": [
+    "id",
+    "task_type",
+    "question",
+    "gold_genes",
+    "gold_pathways",
+    "gold_phenotypes",
+    "gold_drugs",
+    "gold_bridge",
+    "gold_supporting_relations",
+    "gold_summary",
+    "difficulty",
+    "annotation_status"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "task_type": {
+      "type": "string",
+      "enum": [
+        "disease_centered",
+        "gene_centered",
+        "pathway_centered",
+        "drug_centered",
+        "phenotype_centered"
+      ]
+    },
+    "question": {
+      "type": "string"
+    },
+    "disease": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "gene": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "pathway": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "drug": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "phenotype": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "gold_genes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "gold_pathways": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "gold_phenotypes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "gold_drugs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "gold_bridge": {
+      "type": "boolean"
+    },
+    "gold_supporting_relations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "gold_summary": {
+      "type": "string"
+    },
+    "difficulty": {
+      "type": "string",
+      "enum": [
+        "easy",
+        "medium",
+        "hard"
+      ]
+    },
+    "annotation_status": {
+      "type": "string",
+      "enum": [
+        "seed_from_graph_needs_manual_review",
+        "human_verified",
+        "rejected"
+      ]
+    },
+    "notes": {
+      "type": "string"
+    }
+  }
+}

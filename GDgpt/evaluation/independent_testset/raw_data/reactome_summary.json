@@ -1,0 +1,168 @@
+{
+  "source": "Reactome",
+  "fetch_time": "2026-03-30 17:35:31",
+  "total_pathways": 32,
+  "pathways": [
+    {
+      "name": "Cell Cycle",
+      "id": "R-HSA-1640170",
+      "gene_count": 280
+    },
+    {
+      "name": "Cell Cycle Checkpoints",
+      "id": "R-HSA-69620",
+      "gene_count": 39
+    },
+    {
+      "name": "Mitotic G1-G1/S phases",
+      "id": "R-HSA-453279",
+      "gene_count": 56
+    },
+    {
+      "name": "DNA Repair",
+      "id": "R-HSA-73894",
+      "gene_count": 129
+    },
+    {
+      "name": "DNA Double-Strand Break Repair",
+      "id": "R-HSA-5693532",
+      "gene_count": 64
+    },
+    {
+      "name": "Base Excision Repair",
+      "id": "R-HSA-73884",
+      "gene_count": 18
+    },
+    {
+      "name": "Apoptosis",
+      "id": "R-HSA-109581",
+      "gene_count": 163
+    },
+    {
+      "name": "Intrinsic Pathway for Apoptosis",
+      "id": "R-HSA-109606",
+      "gene_count": 30
+    },
+    {
+      "name": "Extrinsic Pathway for Apoptosis",
+      "id": "R-HSA-5357769",
+      "gene_count": 16
+    },
+    {
+      "name": "Signal Transduction",
+      "id": "R-HSA-162582",
+      "gene_count": 1103
+    },
+    {
+      "name": "Signaling by Receptor Tyrosine Kinases",
+      "id": "R-HSA-9006934",
+      "gene_count": 242
+    },
+    {
+      "name": "PI3K/AKT Signaling in Cancer",
+      "id": "R-HSA-2219528",
+      "gene_count": 20
+    },
+    {
+      "name": "MAPK family signaling cascades",
+      "id": "R-HSA-5683057",
+      "gene_count": 61
+    },
+    {
+      "name": "Signaling by WNT",
+      "id": "R-HSA-195721",
+      "gene_count": 69
+    },
+    {
+      "name": "Signaling by NOTCH",
+      "id": "R-HSA-157118",
+      "gene_count": 107
+    },
+    {
+      "name": "Signaling by Hedgehog",
+      "id": "R-HSA-5358351",
+      "gene_count": 33
+    },
+    {
+      "name": "Immune System",
+      "id": "R-HSA-168256",
+      "gene_count": 790
+    },
+    {
+      "name": "Adaptive Immune System",
+      "id": "R-HSA-1280218",
+      "gene_count": 142
+    },
+    {
+      "name": "Innate Immune System",
+      "id": "R-HSA-168249",
+      "gene_count": 273
+    },
+    {
+      "name": "Cytokine Signaling in Immune system",
+      "id": "R-HSA-1280215",
+      "gene_count": 467
+    },
+    {
+      "name": "Interleukin-6 signaling",
+      "id": "R-HSA-6783783",
+      "gene_count": 5
+    },
+    {
+      "name": "Metabolism",
+      "id": "R-HSA-1430728",
+      "gene_count": 743
+    },
+    {
+      "name": "Glucose metabolism",
+      "id": "R-HSA-70326",
+      "gene_count": 9
+    },
+    {
+      "name": "Fatty acid metabolism",
+      "id": "R-HSA-8978868",
+      "gene_count": 58
+    },
+    {
+      "name": "Cholesterol biosynthesis",
+      "id": "R-HSA-191273",
+      "gene_count": 15
+    },
+    {
+      "name": "Gene expression (Transcription)",
+      "id": "R-HSA-74160",
+      "gene_count": 816
+    },
+    {
+      "name": "Transcriptional regulation by TP53",
+      "id": "R-HSA-3700989",
+      "gene_count": 187
+    },
+    {
+      "name": "Regulation of TP53 Activity",
+      "id": "R-HSA-5633007",
+      "gene_count": 58
+    },
+    {
+      "name": "Autophagy",
+      "id": "R-HSA-9612973",
+      "gene_count": 36
+    },
+    {
+      "name": "Neuronal System",
+      "id": "R-HSA-112316",
+      "gene_count": 74
+    },
+    {
+      "name": "Transmission across Chemical Synapses",
+      "id": "R-HSA-112315",
+      "gene_count": 58
+    },
+    {
+      "name": "VEGF signaling",
+      "id": "R-HSA-4420097",
+      "gene_count": 24
+    }
+  ],
+  "total_unique_genes": 3658
+}

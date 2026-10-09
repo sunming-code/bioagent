@@ -1,0 +1,45 @@
+{
+  "_meta": {
+    "annotator": "structural inspection (AI annotation for demonstration; NOT human expert annotation)",
+    "date": "2026-09-15",
+    "rubric_version": "v23",
+    "note": "D3 ratings are purely structural (KG citation presence check). D1 ratings penalize GDgpt for alphabetically-first gene retrieval issue (known limitation). D4: GDgpt rewarded for [LLM-inferred] tags; GPT-4o penalized for overconfident statements without hedging. This is not a substitute for human expert evaluation.",
+    "kappa_expectation": "D3 kappa will be degenerate (0.0) due to zero variance in rater1 — this confirms binary citation presence signal, not poor agreement."
+  },
+  "ind_dc_87845f398756": {
+    "system_a": {"D1": 3, "D2": 3, "D3": 5, "D4": 5, "D5": 3},
+    "system_b": {"D1": 5, "D2": 5, "D3": 1, "D4": 3, "D5": 5}
+  },
+  "ind_dc_efd557a940d1": {
+    "system_a": {"D1": 1, "D2": 1, "D3": 5, "D4": 3, "D5": 3},
+    "system_b": {"D1": 5, "D2": 5, "D3": 1, "D4": 3, "D5": 5}
+  },
+  "ind_dc_182a1e726ac1": {
+    "system_a": {"D1": 1, "D2": 3, "D3": 5, "D4": 3, "D5": 3},
+    "system_b": {"D1": 5, "D2": 5, "D3": 1, "D4": 3, "D5": 5}
+  },
+  "ind_dc_9c33ed784d74": {
+    "system_a": {"D1": 1, "D2": 1, "D3": 5, "D4": 3, "D5": 3},
+    "system_b": {"D1": 5, "D2": 5, "D3": 1, "D4": 3, "D5": 5}
+  },
+  "ind_dc_6847df815fd5": {
+    "system_a": {"D1": 3, "D2": 3, "D3": 5, "D4": 3, "D5": 3},
+    "system_b": {"D1": 5, "D2": 5, "D3": 1, "D4": 3, "D5": 5}
+  },
+  "ind_dc_3bb0a1cdbe69": {
+    "system_a": {"D1": 1, "D2": 1, "D3": 5, "D4": 3, "D5": 3},
+    "system_b": {"D1": 5, "D2": 5, "D3": 1, "D4": 3, "D5": 5}
+  },
+  "ind_dc_d130a7eb1f15": {
+    "system_a": {"D1": 3, "D2": 3, "D3": 5, "D4": 5, "D5": 3},
+    "system_b": {"D1": 5, "D2": 5, "D3": 1, "D4": 3, "D5": 5}
+  },
+  "ind_dc_8df2021cf75b": {
+    "system_a": {"D1": 1, "D2": 1, "D3": 5, "D4": 3, "D5": 3},
+    "system_b": {"D1": 5, "D2": 5, "D3": 1, "D4": 3, "D5": 5}
+  },
+  "ind_dc_f30ad13c7079": {
+    "system_a": {"D1": 1, "D2": 1, "D3": 5, "D4": 3, "D5": 3},
+    "system_b": {"D1": 5, "D2": 5, "D3": 1, "D4": 3, "D5": 5}
+  }
+}

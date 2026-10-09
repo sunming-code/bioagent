@@ -1,0 +1,27 @@
+{
+  "name": "gdgpt",
+  "version": "1.0.0",
+  "description": "> **MTB Decision-Support Assistant powered by Multi-Agent + Task Knowledge Graph** > > 当前版本：**v2.0**  ·  最后更新：**2026-04-26**",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vinoricaye2003-jpg/GDgpt.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/vinoricaye2003-jpg/GDgpt/issues"
+  },
+  "homepage": "https://github.com/vinoricaye2003-jpg/GDgpt#readme",
+  "dependencies": {
+    "pptxgenjs": "^4.0.1"
+  }
+}

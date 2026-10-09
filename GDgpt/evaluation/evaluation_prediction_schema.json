@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MDTeamGPT Task KG Prediction Record",
+  "type": "object",
+  "required": [
+    "id",
+    "answer_text",
+    "predicted_genes",
+    "predicted_pathways",
+    "predicted_phenotypes",
+    "predicted_drugs",
+    "predicted_relations",
+    "bridge_found"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "answer_text": {
+      "type": "string"
+    },
+    "predicted_genes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "predicted_pathways": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "predicted_phenotypes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "predicted_drugs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "predicted_relations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "bridge_found": {
+      "type": "boolean"
+    },
+    "mechanism_completeness": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0,
+      "maximum": 2
+    },
+    "graph_faithfulness": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0,
+      "maximum": 2
+    },
+    "utility_score": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 1,
+      "maximum": 5
+    },
+    "tool_calls": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "notes": {
+      "type": "string"
+    }
+  }
+}

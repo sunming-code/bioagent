@@ -1,0 +1,893 @@
+{
+  "analysis_time": "2026-03-31T19:44:29.696648",
+  "testsets": {
+    "testset_quick": {
+      "testset_name": "Quick (快速版 - 30题)",
+      "total_questions": 30,
+      "by_task_type": {
+        "pathway-centered": {
+          "total": 8,
+          "fully_covered": 8,
+          "partially_covered": 0,
+          "not_covered": 0,
+          "questions": []
+        },
+        "disease-centered": {
+          "total": 10,
+          "fully_covered": 3,
+          "partially_covered": 2,
+          "not_covered": 5,
+          "questions": []
+        },
+        "gene-centered": {
+          "total": 12,
+          "fully_covered": 12,
+          "partially_covered": 0,
+          "not_covered": 0,
+          "questions": []
+        }
+      },
+      "coverage_summary": {
+        "fully_covered": 23,
+        "partially_covered": 2,
+        "not_covered": 5,
+        "uncertain": 0
+      },
+      "details": [
+        {
+          "id": "ind_pc_63ce411f3500",
+          "task_type": "pathway-centered",
+          "entity": "Adaptive Immune System",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_dc_541bd798990d",
+          "task_type": "disease-centered",
+          "entity": "hepatocellular carcinoma",
+          "coverage": "partially_covered",
+          "matched_in_kg": "liver hepatocellular carcinoma",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_gc_2c83d0cf14e6",
+          "task_type": "gene-centered",
+          "entity": "ALK",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_gc_70c446bfbe65",
+          "task_type": "gene-centered",
+          "entity": "RET",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_gc_9438e1b10adc",
+          "task_type": "gene-centered",
+          "entity": "BCL2",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_pc_e310e1bb3cfb",
+          "task_type": "pathway-centered",
+          "entity": "Gene expression (Transcription)",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_pc_c0213735dd0b",
+          "task_type": "pathway-centered",
+          "entity": "Cytokine Signaling in Immune system",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_gc_5c562794b9aa",
+          "task_type": "gene-centered",
+          "entity": "JAK2",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_pc_61ad9d9bb0fb",
+          "task_type": "pathway-centered",
+          "entity": "Signaling by NOTCH",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_pc_cbbbe8fe8031",
+          "task_type": "pathway-centered",
+          "entity": "Cell Cycle Checkpoints",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_dc_b37601f5336a",
+          "task_type": "disease-centered",
+          "entity": "atrial fibrillation",
+          "coverage": "not_covered",
+          "matched_in_kg": null,
+          "can_use_kg": false
+        },
+        {
+          "id": "ind_gc_e9e16eaea466",
+          "task_type": "gene-centered",
+          "entity": "ERBB2",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_gc_35ddcee0b69f",
+          "task_type": "gene-centered",
+          "entity": "MTOR",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_gc_dc371bb4f748",
+          "task_type": "gene-centered",
+          "entity": "AKT1",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_gc_129bb07bad9a",
+          "task_type": "gene-centered",
+          "entity": "MAPT",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_dc_e1631ccd4ac7",
+          "task_type": "disease-centered",
+          "entity": "prostate carcinoma",
+          "coverage": "fully_covered",
+          "matched_in_kg": "prostate carcinoma",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_gc_ea420e119568",
+          "task_type": "gene-centered",
+          "entity": "PTEN",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_gc_694dbf78f524",
+          "task_type": "gene-centered",
+          "entity": "APOE",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_dc_837cb6300dad",
+          "task_type": "disease-centered",
+          "entity": "obesity",
+          "coverage": "not_covered",
+          "matched_in_kg": null,
+          "can_use_kg": false
+        },
+        {
+          "id": "ind_gc_4863ddafe039",
+          "task_type": "gene-centered",
+          "entity": "STAT3",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_dc_c69f4f96f671",
+          "task_type": "disease-centered",
+          "entity": "chronic kidney disease",
+          "coverage": "not_covered",
+          "matched_in_kg": null,
+          "can_use_kg": false
+        },
+        {
+          "id": "ind_pc_7f276164d6d7",
+          "task_type": "pathway-centered",
+          "entity": "Extrinsic Pathway for Apoptosis",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_pc_edfcf74b4da1",
+          "task_type": "pathway-centered",
+          "entity": "Fatty acid metabolism",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_dc_aaa1c91e296f",
+          "task_type": "disease-centered",
+          "entity": "epilepsy",
+          "coverage": "not_covered",
+          "matched_in_kg": null,
+          "can_use_kg": false
+        },
+        {
+          "id": "ind_dc_0d626cb3dd38",
+          "task_type": "disease-centered",
+          "entity": "lung carcinoma",
+          "coverage": "fully_covered",
+          "matched_in_kg": "lung carcinoma",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_gc_b19a0667df13",
+          "task_type": "gene-centered",
+          "entity": "TP53",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_dc_c84f2f30cb61",
+          "task_type": "disease-centered",
+          "entity": "breast carcinoma",
+          "coverage": "fully_covered",
+          "matched_in_kg": "breast carcinoma",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_dc_3538ef9f037b",
+          "task_type": "disease-centered",
+          "entity": "glioblastoma multiforme",
+          "coverage": "partially_covered",
+          "matched_in_kg": "glioblastoma",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_pc_13b0072f5e56",
+          "task_type": "pathway-centered",
+          "entity": "Glucose metabolism",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_dc_c9fa5e650b76",
+          "task_type": "disease-centered",
+          "entity": "coronary artery disease",
+          "coverage": "not_covered",
+          "matched_in_kg": null,
+          "can_use_kg": false
+        }
+      ],
+      "utility": {
+        "utility_score": "80.0%",
+        "fully_covered_pct": "76.7%",
+        "partially_covered_pct": "6.7%",
+        "not_covered_pct": "16.7%",
+        "can_benefit_from_kg": "83.3%"
+      }
+    },
+    "testset_full": {
+      "testset_name": "Full (完整版 - 80题)",
+      "total_questions": 80,
+      "by_task_type": {
+        "gene-centered": {
+          "total": 30,
+          "fully_covered": 30,
+          "partially_covered": 0,
+          "not_covered": 0,
+          "questions": []
+        },
+        "disease-centered": {
+          "total": 18,
+          "fully_covered": 5,
+          "partially_covered": 2,
+          "not_covered": 11,
+          "questions": []
+        },
+        "pathway-centered": {
+          "total": 32,
+          "fully_covered": 32,
+          "partially_covered": 0,
+          "not_covered": 0,
+          "questions": []
+        }
+      },
+      "coverage_summary": {
+        "fully_covered": 67,
+        "partially_covered": 2,
+        "not_covered": 11,
+        "uncertain": 0
+      },
+      "details": [
+        {
+          "id": "ind_gc_46115d67b56c",
+          "task_type": "gene-centered",
+          "entity": "KRAS",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_gc_dc53ddffe9fb",
+          "task_type": "gene-centered",
+          "entity": "AKT1",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_dc_2567a8f8eab9",
+          "task_type": "disease-centered",
+          "entity": "pancreatic carcinoma",
+          "coverage": "fully_covered",
+          "matched_in_kg": "pancreatic carcinoma",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_gc_818c5d84e1bc",
+          "task_type": "gene-centered",
+          "entity": "BRCA2",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_pc_9394c86881b4",
+          "task_type": "pathway-centered",
+          "entity": "Transcriptional regulation by TP53",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_dc_35370b3f2eb3",
+          "task_type": "disease-centered",
+          "entity": "breast carcinoma",
+          "coverage": "fully_covered",
+          "matched_in_kg": "breast carcinoma",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_gc_7c0e2906d247",
+          "task_type": "gene-centered",
+          "entity": "ERBB2",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_pc_fe150c5556c2",
+          "task_type": "pathway-centered",
+          "entity": "PI3K/AKT Signaling in Cancer",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_pc_3c323edbcf7b",
+          "task_type": "pathway-centered",
+          "entity": "Signaling by Receptor Tyrosine Kinases",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_gc_b7b5f20a2822",
+          "task_type": "gene-centered",
+          "entity": "MYC",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_dc_01b92b32277c",
+          "task_type": "disease-centered",
+          "entity": "Alzheimer disease",
+          "coverage": "not_covered",
+          "matched_in_kg": null,
+          "can_use_kg": false
+        },
+        {
+          "id": "ind_pc_043644dbcc77",
+          "task_type": "pathway-centered",
+          "entity": "Signal Transduction",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_gc_2abbc28b0202",
+          "task_type": "gene-centered",
+          "entity": "SRC",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_gc_3c473261d7f5",
+          "task_type": "gene-centered",
+          "entity": "APP",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_dc_933fb6162e8b",
+          "task_type": "disease-centered",
+          "entity": "glioblastoma multiforme",
+          "coverage": "partially_covered",
+          "matched_in_kg": "glioblastoma",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_gc_14047f639d26",
+          "task_type": "gene-centered",
+          "entity": "MTOR",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_gc_2cd04b5e166c",
+          "task_type": "gene-centered",
+          "entity": "RB1",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_dc_0c1698e8cc5e",
+          "task_type": "disease-centered",
+          "entity": "melanoma",
+          "coverage": "not_covered",
+          "matched_in_kg": null,
+          "can_use_kg": false
+        },
+        {
+          "id": "ind_gc_abd62b3405fa",
+          "task_type": "gene-centered",
+          "entity": "BRCA1",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_gc_235fd7d436bb",
+          "task_type": "gene-centered",
+          "entity": "EGFR",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_gc_bc5dd33fa33c",
+          "task_type": "gene-centered",
+          "entity": "CDKN2A",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_dc_9403cd12cbe0",
+          "task_type": "disease-centered",
+          "entity": "leukemia",
+          "coverage": "not_covered",
+          "matched_in_kg": null,
+          "can_use_kg": false
+        },
+        {
+          "id": "ind_pc_834a9431f0a3",
+          "task_type": "pathway-centered",
+          "entity": "DNA Double-Strand Break Repair",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_gc_ad3566eec473",
+          "task_type": "gene-centered",
+          "entity": "MAPT",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_pc_300777120928",
+          "task_type": "pathway-centered",
+          "entity": "Apoptosis",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_pc_00a4d0faf47f",
+          "task_type": "pathway-centered",
+          "entity": "Neuronal System",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_pc_0f3dbea9ae28",
+          "task_type": "pathway-centered",
+          "entity": "Innate Immune System",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_pc_106f7d6361ec",
+          "task_type": "pathway-centered",
+          "entity": "Immune System",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_gc_c54d19c051f7",
+          "task_type": "gene-centered",
+          "entity": "TNF",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_pc_fad33155649e",
+          "task_type": "pathway-centered",
+          "entity": "Signaling by Hedgehog",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_dc_afd4c648dc5f",
+          "task_type": "disease-centered",
+          "entity": "lung carcinoma",
+          "coverage": "fully_covered",
+          "matched_in_kg": "lung carcinoma",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_gc_a9d8b6c0cd4e",
+          "task_type": "gene-centered",
+          "entity": "APOE",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_gc_f1af9f55ce6f",
+          "task_type": "gene-centered",
+          "entity": "MET",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_pc_c91f3a38784b",
+          "task_type": "pathway-centered",
+          "entity": "Cell Cycle",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_pc_50da3b6f43e8",
+          "task_type": "pathway-centered",
+          "entity": "Metabolism",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_pc_aeb8fd20faa4",
+          "task_type": "pathway-centered",
+          "entity": "MAPK family signaling cascades",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_pc_f5a38f7038f1",
+          "task_type": "pathway-centered",
+          "entity": "Signaling by NOTCH",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_pc_a54a537659a2",
+          "task_type": "pathway-centered",
+          "entity": "Gene expression (Transcription)",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_pc_a8bc8be6756b",
+          "task_type": "pathway-centered",
+          "entity": "Adaptive Immune System",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_pc_cd844d17faf7",
+          "task_type": "pathway-centered",
+          "entity": "DNA Repair",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_gc_9536fc33bb1a",
+          "task_type": "gene-centered",
+          "entity": "FLT3",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_gc_65f245cc1193",
+          "task_type": "gene-centered",
+          "entity": "VEGFA",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_gc_01389ca97414",
+          "task_type": "gene-centered",
+          "entity": "BRAF",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_dc_1108b4c4a1bd",
+          "task_type": "disease-centered",
+          "entity": "obesity",
+          "coverage": "not_covered",
+          "matched_in_kg": null,
+          "can_use_kg": false
+        },
+        {
+          "id": "ind_gc_e13b0427b81e",
+          "task_type": "gene-centered",
+          "entity": "PTEN",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_pc_e21ccb1a4013",
+          "task_type": "pathway-centered",
+          "entity": "Transmission across Chemical Synapses",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_pc_7b442debab65",
+          "task_type": "pathway-centered",
+          "entity": "Interleukin-6 signaling",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_pc_488fdfde6160",
+          "task_type": "pathway-centered",
+          "entity": "Autophagy",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_dc_36c58b053ab2",
+          "task_type": "disease-centered",
+          "entity": "hypertension",
+          "coverage": "not_covered",
+          "matched_in_kg": null,
+          "can_use_kg": false
+        },
+        {
+          "id": "ind_gc_ff9f51c3b5e4",
+          "task_type": "gene-centered",
+          "entity": "MDM2",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_pc_f620c5169c88",
+          "task_type": "pathway-centered",
+          "entity": "Fatty acid metabolism",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_gc_6371b8dabc03",
+          "task_type": "gene-centered",
+          "entity": "JAK2",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_pc_b25f9ec37d74",
+          "task_type": "pathway-centered",
+          "entity": "Intrinsic Pathway for Apoptosis",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_gc_cfcb3e094d90",
+          "task_type": "gene-centered",
+          "entity": "ALK",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_dc_9dc0cb57d042",
+          "task_type": "disease-centered",
+          "entity": "hepatocellular carcinoma",
+          "coverage": "partially_covered",
+          "matched_in_kg": "liver hepatocellular carcinoma",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_dc_30f2d1660d0d",
+          "task_type": "disease-centered",
+          "entity": "chronic kidney disease",
+          "coverage": "not_covered",
+          "matched_in_kg": null,
+          "can_use_kg": false
+        },
+        {
+          "id": "ind_pc_0b922b834296",
+          "task_type": "pathway-centered",
+          "entity": "Cholesterol biosynthesis",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_pc_6a61c5904c09",
+          "task_type": "pathway-centered",
+          "entity": "Extrinsic Pathway for Apoptosis",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_dc_49cc65e0e102",
+          "task_type": "disease-centered",
+          "entity": "heart failure",
+          "coverage": "not_covered",
+          "matched_in_kg": null,
+          "can_use_kg": false
+        },
+        {
+          "id": "ind_dc_9082210bac78",
+          "task_type": "disease-centered",
+          "entity": "epilepsy",
+          "coverage": "not_covered",
+          "matched_in_kg": null,
+          "can_use_kg": false
+        },
+        {
+          "id": "ind_pc_e1eac16c6f56",
+          "task_type": "pathway-centered",
+          "entity": "Base Excision Repair",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_gc_feae2b3fe7bc",
+          "task_type": "gene-centered",
+          "entity": "STAT3",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_gc_350798005885",
+          "task_type": "gene-centered",
+          "entity": "ERBB2",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_dc_7b02365521e7",
+          "task_type": "disease-centered",
+          "entity": "ovarian carcinoma",
+          "coverage": "fully_covered",
+          "matched_in_kg": "ovarian carcinoma",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_dc_2662af963a30",
+          "task_type": "disease-centered",
+          "entity": "coronary artery disease",
+          "coverage": "not_covered",
+          "matched_in_kg": null,
+          "can_use_kg": false
+        },
+        {
+          "id": "ind_pc_9664503e77c1",
+          "task_type": "pathway-centered",
+          "entity": "Cytokine Signaling in Immune system",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_dc_86ba9f2fa9a3",
+          "task_type": "disease-centered",
+          "entity": "rheumatoid arthritis",
+          "coverage": "not_covered",
+          "matched_in_kg": null,
+          "can_use_kg": false
+        },
+        {
+          "id": "ind_pc_fbbdc8932d13",
+          "task_type": "pathway-centered",
+          "entity": "Mitotic G1-G1/S phases",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_pc_0df9ce750ecb",
+          "task_type": "pathway-centered",
+          "entity": "Regulation of TP53 Activity",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_gc_bc3b2ff997f5",
+          "task_type": "gene-centered",
+          "entity": "TP53",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_gc_eac21d12afda",
+          "task_type": "gene-centered",
+          "entity": "BCL2",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_pc_af1e729aa68a",
+          "task_type": "pathway-centered",
+          "entity": "VEGF signaling",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_dc_aaed7c2a29ef",
+          "task_type": "disease-centered",
+          "entity": "atrial fibrillation",
+          "coverage": "not_covered",
+          "matched_in_kg": null,
+          "can_use_kg": false
+        },
+        {
+          "id": "ind_pc_ef620b78e1c4",
+          "task_type": "pathway-centered",
+          "entity": "Signaling by WNT",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_pc_a1f9b21abb9d",
+          "task_type": "pathway-centered",
+          "entity": "Cell Cycle Checkpoints",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_pc_8a60868c9988",
+          "task_type": "pathway-centered",
+          "entity": "Glucose metabolism",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_gc_78e74e6dc483",
+          "task_type": "gene-centered",
+          "entity": "PIK3CA",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_gc_313e397cd8a7",
+          "task_type": "gene-centered",
+          "entity": "RET",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_dc_7bbce2aed79f",
+          "task_type": "disease-centered",
+          "entity": "prostate carcinoma",
+          "coverage": "fully_covered",
+          "matched_in_kg": "prostate carcinoma",
+          "can_use_kg": true
+        },
+        {
+          "id": "ind_gc_9b48fe7d74fc",
+          "task_type": "gene-centered",
+          "entity": "IL6",
+          "coverage": "fully_covered",
+          "can_use_kg": true
+        }
+      ],
+      "utility": {
+        "utility_score": "85.0%",
+        "fully_covered_pct": "83.8%",
+        "partially_covered_pct": "2.5%",
+        "not_covered_pct": "13.8%",
+        "can_benefit_from_kg": "86.2%"
+      }
+    }
+  },
+  "primekg_info": {
+    "total_diseases": 20,
+    "total_genes": 3582,
+    "total_pathways": 1725,
+    "note": "PrimeKG 疾病覆盖极为有限，主要是癌症类型"
+  }
+}

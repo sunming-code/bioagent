@@ -1,0 +1,93 @@
+{
+  "summary": {
+    "total_questions": 53,
+    "validation_time": "2026-03-31T10:27:22.331021",
+    "overall_coverage": {
+      "genes": "51.7%",
+      "diseases": "16.7%",
+      "pathways": "40.0%"
+    }
+  },
+  "by_task_type": {
+    "disease-centered": {
+      "total": 18,
+      "fully_covered": 9,
+      "partially_covered": 9,
+      "not_covered": 0
+    },
+    "pathway-centered": {
+      "total": 15,
+      "fully_covered": 0,
+      "partially_covered": 8,
+      "not_covered": 7
+    },
+    "gene-centered": {
+      "total": 20,
+      "fully_covered": 18,
+      "partially_covered": 0,
+      "not_covered": 2
+    }
+  },
+  "entity_coverage": {
+    "genes": {
+      "total_checked": 350,
+      "found_in_kg": 181,
+      "coverage_rate": "51.7%",
+      "sample_missing": [
+        "LDLR",
+        "PCSK9",
+        "GUCY1B1",
+        "LRP6",
+        "PDE3A",
+        "PDE5A",
+        "AKAP5",
+        "DNAJC5",
+        "p-S262,S356,S396-MAPT-8",
+        "CASK"
+      ]
+    },
+    "diseases": {
+      "total_checked": 18,
+      "found_in_kg": 3,
+      "coverage_rate": "16.7%",
+      "missing": [
+        "coronary artery disease",
+        "lung carcinoma",
+        "hypertension",
+        "rheumatoid arthritis",
+        "melanoma",
+        "leukemia",
+        "glioblastoma multiforme",
+        "ovarian carcinoma",
+        "atrial fibrillation",
+        "chronic kidney disease",
+        "Alzheimer disease",
+        "pancreatic carcinoma",
+        "obesity",
+        "heart failure",
+        "epilepsy"
+      ]
+    },
+    "pathways": {
+      "total_checked": 15,
+      "found_in_kg": 6,
+      "coverage_rate": "40.0%",
+      "missing": [
+        "Transmission across Chemical Synapses",
+        "Mitotic G1-G1/S phases",
+        "Extrinsic Pathway for Apoptosis",
+        "Cytokine Signaling in Immune system",
+        "Fatty acid metabolism",
+        "Gene expression (Transcription)",
+        "Adaptive Immune System",
+        "VEGF signaling",
+        "MAPK family signaling cascades"
+      ]
+    }
+  },
+  "recommendations": [
+    "Gene coverage is low (51.7%). Consider reviewing gene name mappings or using alternative identifiers.",
+    "Disease coverage is low (16.7%). Consider using standard disease ontologies (MONDO, EFO) for better matching.",
+    "Pathway coverage is low (40.0%). Consider mapping Reactome pathways to PrimeKG pathway names."
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "config": {
+    "gold": "evaluation/evaluation_gold_final.jsonl",
+    "metrics_k": 5,
+    "quick": false
+  },
+  "experiments": [
+    {
+      "id": "exp0_full",
+      "description": "Full Task KG（完整系统：Neo4j + FAISS + Bridge + KG Prefetch + 多角色）",
+      "retrieval": {
+        "gene_recall@5": 0.05527777777777778,
+        "gene_precision@5": 0.04,
+        "pathway_recall@5": 0.39444444444444443,
+        "pathway_precision@5": 0.15333333333333335,
+        "bridge_hit_rate": 1.0,
+        "coverage": 0.8583333333333333
+      },
+      "end_to_end": {
+        "gene_f1": 0.06046051504621967,
+        "pathway_f1": 0.3156147556147556,
+        "phenotype_f1": 0.4384126984126984,
+        "mechanism_completeness": null,
+        "graph_faithfulness": null,
+        "utility_score": null
+      },
+      "num_predictions": 30,
+      "missing_predictions": []
+    },
+    {
+      "id": "exp1_llm_only",
+      "description": "LLM only（纯 LLM 回答，无 Neo4j、无工具调用）",
+      "retrieval": {
+        "gene_recall@5": 0.0,
+        "gene_precision@5": 0.0,
+        "pathway_recall@5": 0.0,
+        "pathway_precision@5": 0.0,
+        "bridge_hit_rate": 0.0,
+        "coverage": 0.0
+      },
+      "end_to_end": {
+        "gene_f1": 0.0,
+        "pathway_f1": 0.0,
+        "phenotype_f1": 0.6333333333333333,
+        "mechanism_completeness": null,
+        "graph_faithfulness": null,
+        "utility_score": null
+      },
+      "num_predictions": 30,
+      "missing_predictions": []
+    }
+  ]
+}
