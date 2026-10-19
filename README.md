@@ -24,29 +24,13 @@ git clone https://github.com/sunming-code/bioagent.git
 cd bioagent
 ```
 
-本仓库的文件内容约 **50 MiB**，包括源码、文档、约 6.3 MiB 的 GNN 模型、约 12.5 MiB 的任务图谱 CSV，以及小型研究记录。**原始测序数据、参考数据库、Conda/venv 环境、运行结果和 ANNOVAR 安装包不在 Git 中**，使用前按下面说明准备。
-
-## 数据从哪里下载
-
-[DATASETS.md](DATASETS.md) 提供确切下载地址、命令、目录布局、版本和已知缺口；[provenance.json](data_sources/provenance.json) 保存来源与校验值，原始数据的本地审计清单位于 [data_sources/](data_sources/README.md)。下载所需空间取决于入口和阶段，不能用代码仓库大小估计运行空间。
-
-| 数据/资产 | 官方来源与准备方式 | 何时需要 |
-|---|---|---|
-| 1000G 3,202 人高覆盖 GRCh38 VCF，chr1–22 | [IGSR 下载目录](https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/data_collections/1000G_2504_high_coverage/working/20220422_3202_phased_SNV_INDEL_SV/)；确切下载命令见 DATASETS.md | PopGen 频率查询 |
-| `ref_1000g_pruned.*` 剪枝面板 | 从上述 VCF 构建；见下方“PopGen 参考准备” | PopGen PCA/ADMIXTURE/GNN |
-| Broad GRCh38 FASTA 及索引 | [Broad 公共 FASTA](https://storage.googleapis.com/gcp-public-data--broad-references/hg38/v0/Homo_sapiens_assembly38.fasta)；校验并建立 BWA、FAI、字典 | FASTQ 入口 |
-| UCSC hg38 FASTA | [UCSC 下载](https://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/hg38.fa.gz)；`2_egene/scripts/prepare_reference.py` | e-Gene 输入与 REF 校验 |
-| ANNOVAR hg38 注释库 | [官方数据库说明](https://annovar.openbioinformatics.org/en/latest/user-guide/download/)；固定协议、URL 和版本见 `2_egene/config/dependencies.lock.json` | 注释与判级 |
-| HPO/HGNC | 固定来源在 `2_egene/config/disease_sources.lock.json`；`setup_disease_data.py` 下载并构建疾病库 | 表型/疾病分析 |
-| HG002 诺禾 WES 示例 | [R1](https://hweu-ld.oss-eu-west-1.aliyuncs.com/demo/20190605124639/HG002_novogene_wes_18g_rep1_R1.fq.gz)、[R2](https://hweu-ld.oss-eu-west-1.aliyuncs.com/demo/20190605124722/HG002_novogene_wes_18g_rep1_R2.fq.gz)；精确文件名和 MD5 见 DATASETS.md | 可选的公开 FASTQ 示例 |
-| GSE241346、GCST007435 与 gsMap 资源 | [固定下载清单](4_atheromap_data/GSE241346_gsMap/download_manifest.json)及 [gsMap 输入说明](4_atheromap/docs/GSMAP_INPUTS.md) | 第四阶段的空间参考整合 |
-| GSE159677 原始聚合矩阵 | [NCBI GEO](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE159677)；原矩阵不能直接代替项目加工文件 | scDRS 数据重建 |
-
-当前有三个需要明确处理的数据问题：**GSE159677 的项目 H5AD/分数/权重尚无已确认的公共发布地址；gsMap 官方资源链接在本机核查时返回 403；OMIM `mim2gene.txt` 活动文件与本地锁定快照不同**。详见 [DATASETS.md 第 4 节](DATASETS.md#4-不能仅用公开下载替代的内容)。完整四阶段运行需要补齐对应加工数据和验收结果，不能仅通过 clone 恢复。
+本仓库的文件内容约 **50 MiB**，包括源码、文档、约 6.3 MiB 的 GNN 模型、约 12.5 MiB 的任务图谱 CSV，以及小型研究记录。**原始测序数据、参考数据库、Conda/venv 环境、大型运行结果和 ANNOVAR 安装包不在 Git 中**，使用前按下面说明准备。
 
 ## 安装与配置
 
 以下命令从仓库根目录执行。环境验收以 **Linux x86_64** 为主；主控制程序/GDgpt 使用 Python 3.11，PopGen 和 AtheroMap 的版本由各自环境文件定义。需要 Git、curl、tar、Perl 和 Python venv 支持；完整 FASTQ 预处理需要 Java，第四阶段安装器需要可用的 Conda。GNN 使用 CPU 即可。
+
+各模块所需数据的来源和准备方式随安装步骤说明。完整下载命令、目录布局、版本和已知缺口见 [DATASETS.md](DATASETS.md)，来源与校验值见 [provenance.json](data_sources/provenance.json)。下载和运行所需空间取决于入口及阶段，应另行预留数据、中间文件和软件环境的空间。
 
 ### 1. 安装 PopGen 环境
 
@@ -58,7 +42,7 @@ bash 1_popgen/scripts/setup_runtime.sh
 
 ### 2. 准备 PopGen 参考
 
-先按 DATASETS.md 下载 chr1–22 的 VCF 和 `.tbi` 到 `1_popgen/data/1000GP/20220422_3202_phased_SNV_INDEL_SV/`。下面从仓库保留的标签/个体表生成面板构建所需的 `samples.info`：
+PopGen 的频率查询使用 **1000G 3,202 人高覆盖 GRCh38 VCF**。从 [IGSR 官方发布目录](https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/data_collections/1000G_2504_high_coverage/working/20220422_3202_phased_SNV_INDEL_SV/) 下载 chr1–22 的 VCF 和 `.tbi` 到 `1_popgen/data/1000GP/20220422_3202_phased_SNV_INDEL_SV/`，批量下载命令见 DATASETS.md。PCA、ADMIXTURE 和 GNN 还需要由这些 VCF 构建的 `ref_1000g_pruned.*` 剪枝面板。下面从仓库保留的标签/个体表生成构建所需的 `samples.info`：
 
 ```bash
 python3 - <<'PYDATA'
@@ -79,9 +63,15 @@ bash 1_popgen/scripts/build_1000g_panel.sh 1-22
 
 默认数据路径相对于当前仓库。可设置 `POPGEN_1000G_VCF_DIR`、`POPGEN_SAMPLES_INFO`、`PANEL_TMP` 指向已有数据和足够大的临时目录。剪枝面板的哈希、个体顺序和冻结模型的训练位点需要一致；重建后按来源清单验证，不能把重新训练的结果当成原冻结模型复现。
 
+从 FASTQ 开始时，另需下载 [Broad GRCh38 FASTA](https://storage.googleapis.com/gcp-public-data--broad-references/hg38/v0/Homo_sapiens_assembly38.fasta)，保存为 `1_popgen/data/reference/GRCh38.fa`，校验后准备 BWA 索引、FAI 和序列字典；具体命令见 DATASETS.md。已有 VCF 的入口不需要下载公开示例 FASTQ。
+
+需要公开双端测序示例时，可使用 HG002 诺禾 WES 的 [R1](https://hweu-ld.oss-eu-west-1.aliyuncs.com/demo/20190605124639/HG002_novogene_wes_18g_rep1_R1.fq.gz) 和 [R2](https://hweu-ld.oss-eu-west-1.aliyuncs.com/demo/20190605124722/HG002_novogene_wes_18g_rep1_R2.fq.gz)，下载到 `1_popgen/data/fastq/`；精确文件名、MD5 和断点续传命令见 DATASETS.md。
+
 ### 3. 安装 e-Gene、参考和疾病库
 
-ANNOVAR 主程序由每位使用者从 [官方注册页](https://www.openbioinformatics.org/annovar/annovar_download_form.php) 获取，不能随本仓库再分发。dbNSFP 等数据库仍按各自使用条款获取。将下面的安装包路径替换为自己的授权文件：
+ANNOVAR 主程序由每位使用者从 [官方注册页](https://www.openbioinformatics.org/annovar/annovar_download_form.php) 获取，不能随本仓库再分发。注释与判级所需的 hg38 数据库来自 [ANNOVAR 官方数据库](https://annovar.openbioinformatics.org/en/latest/user-guide/download/)，固定协议、URL 和版本在 `2_egene/config/dependencies.lock.json`；安装器按该清单下载，dbNSFP 等数据库仍按各自使用条款获取。
+
+`prepare_reference.py` 从 [UCSC](https://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/hg38.fa.gz) 下载 hg38 FASTA 并建立 FAI，用于输入与 REF 校验；`setup_disease_data.py` 按 `2_egene/config/disease_sources.lock.json` 下载固定版本的 HPO/HGNC，并构建表型/疾病关联库。将下面的 ANNOVAR 安装包路径替换为自己的授权文件后执行：
 
 ```bash
 python3 2_egene/scripts/setup_dependencies.py \
@@ -92,7 +82,7 @@ python3 2_egene/scripts/setup_input_runtime.py
 2_egene/.runtime/venv/bin/python 2_egene/scripts/check_dependencies.py
 ```
 
-安装会创建 `2_egene/.runtime/venv/`、配置文件和数据库清单。**OMIM 的旧快照获取/版本选择需要先处理**，否则下载器的 ETag/体积检查可能中止；本项目没有为了通过安装而静默改写历史来源锁。e-Gene 的详细安装步骤见 [2_egene/README.md](2_egene/README.md)。
+安装会创建 `2_egene/.runtime/venv/`、配置文件和数据库清单。**OMIM `mim2gene.txt` 在线文件已更新，与本地锁定快照不同，需要先处理旧快照获取或版本选择**，否则下载器的 ETag/体积检查可能中止；本项目没有为了通过安装而静默改写历史来源锁。e-Gene 的详细安装步骤见 [2_egene/README.md](2_egene/README.md)。
 
 ### 4. 安装 GDgpt、配置模型与 Neo4j
 
@@ -139,7 +129,13 @@ bash 4_atheromap/tools/setup_environments.sh
 cp 4_atheromap/config/paths.example.env 4_atheromap/config/paths.local.env
 ```
 
-编辑本地路径，按 [AtheroMap 环境说明](4_atheromap/docs/ENVIRONMENTS.md) 和 [数据获取说明](DATASETS.md) 准备数据。scDRS 参考文件需与 `4_atheromap/config/GSE159677_scdrs.reference.json` 一致；新加工数据需要重新注册。根入口还消费**已经验收的 gsMap 输出目录**，不是仅下载空间原始矩阵就能启用。相关步骤见 [scDRS 接口](4_atheromap/docs/SCDRS_INTEGRATION.md) 和 [gsMap 验收说明](4_atheromap/docs/GSMAP_VALIDATION_20261018.md)。
+编辑本地路径，按 [AtheroMap 环境说明](4_atheromap/docs/ENVIRONMENTS.md) 配置工作目录，并准备两个分支的输入。
+
+scDRS 的原始 GSE159677 聚合矩阵可从 [NCBI GEO](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE159677) 下载。原矩阵不能直接代替项目人工注释后的 H5AD、分数和权重；这些加工文件目前尚无已确认的公共发布地址。参考文件需与 `4_atheromap/config/GSE159677_scdrs.reference.json` 一致，新加工数据需要重新注册；流程与接口见 [scDRS 接口说明](4_atheromap/docs/SCDRS_INTEGRATION.md)。
+
+gsMap 使用 GSE241346 空间数据、GCST007435 GWAS 和 gsMap 官方参考资源，下载地址、文件布局及 SHA-256 见 [固定下载清单](4_atheromap_data/GSE241346_gsMap/download_manifest.json)，转换与准备步骤见 [gsMap 输入说明](4_atheromap/docs/GSMAP_INPUTS.md)。官方资源链接在本机核查时返回 403，需要先确认可访问的获取入口。
+
+根入口还消费**已经验收的 gsMap 输出目录**，应按 [gsMap 验收说明](4_atheromap/docs/GSMAP_VALIDATION_20261018.md) 完成分析与核验后启用。完整四阶段运行需要补齐上述加工数据和验收结果；详细缺口见 [DATASETS.md 第 4 节](DATASETS.md#4-不能仅用公开下载替代的内容)。
 
 ## 使用方式
 
