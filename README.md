@@ -1,4 +1,4 @@
-# bioagent / e-Gene：从基因组数据到可追溯的机制分析报告
+# Bioagent：从基因组数据到可追溯的机制分析报告
 
 **简体中文** | [English](README.en.md)
 
