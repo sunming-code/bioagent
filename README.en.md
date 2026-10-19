@@ -1,4 +1,4 @@
-# bioagent / e-Gene: From genomic data to traceable mechanism reports
+# Bioagent: From genomic data to traceable mechanism reports
 
 [简体中文](README.md) | **English**
 
