@@ -4,8 +4,8 @@
   "mode": "source_selection_for_publication_from_isolated_clone",
   "collection_command": "git -c core.excludesFile=/dev/null --git-dir=<temporary> --work-tree=<repo-root> ls-files --others --exclude-standard -z",
   "file_count": 563,
-  "total_bytes": 52278375,
-  "total_MiB": 49.857,
+  "total_bytes": 52276998,
+  "total_MiB": 49.855,
   "files_larger_than_100MiB": [],
   "largest_files": [
     {
@@ -112,7 +112,7 @@
     },
     "README.md": {
       "files": 1,
-      "bytes": 23904
+      "bytes": 22527
     },
     "contracts": {
       "files": 3,
