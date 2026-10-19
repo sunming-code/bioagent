@@ -3,9 +3,9 @@
   "audited_at": "2026-10-19T21:19:25.767183+08:00",
   "mode": "source_selection_for_publication_from_isolated_clone",
   "collection_command": "git -c core.excludesFile=/dev/null --git-dir=<temporary> --work-tree=<repo-root> ls-files --others --exclude-standard -z",
-  "file_count": 563,
-  "total_bytes": 52277128,
-  "total_MiB": 49.855,
+  "file_count": 564,
+  "total_bytes": 52303921,
+  "total_MiB": 49.881,
   "files_larger_than_100MiB": [],
   "largest_files": [
     {
@@ -110,9 +110,13 @@
       "files": 1,
       "bytes": 1936
     },
+    "README.en.md": {
+      "files": 1,
+      "bytes": 26374
+    },
     "README.md": {
       "files": 1,
-      "bytes": 22657
+      "bytes": 22701
     },
     "contracts": {
       "files": 3,
@@ -120,7 +124,7 @@
     },
     "data_sources": {
       "files": 8,
-      "bytes": 336210
+      "bytes": 336585
     },
     "egene_pipeline": {
       "files": 9,
@@ -299,6 +303,13 @@
     "readme_label_preparation": "3202 unique samples generated from shipped label tables",
     "syntax_and_local_guide_links": "passed",
     "credential_patterns": "No matching GitHub/API token, private key or hardcoded credential candidates in selected source files",
-    "execution_scope": "No paid model call or complete real-data pipeline rerun"
+    "execution_scope": "No paid model call or complete real-data pipeline rerun",
+    "bilingual_readmes": {
+      "language_navigation": "passed",
+      "matching_heading_counts": "passed",
+      "matching_code_blocks": 18,
+      "commands": "Identical after translating comments and path placeholders",
+      "configuration_keys_and_reference_links": "passed"
+    }
   }
 }
