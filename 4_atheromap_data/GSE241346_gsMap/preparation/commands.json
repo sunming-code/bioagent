@@ -1,0 +1,116 @@
+{
+  "scope": [
+    "prepare_spatial_h5ad",
+    "format_gwas",
+    "validate_prepared_inputs"
+  ],
+  "spatial": {
+    "env": {
+      "ATHEROMAP_GSMAP_WORK_DIR": "/hpc2hdd/home/msun663/e-gene/4_atheromap_data/GSE241346_gsMap"
+    },
+    "argv": [
+      "bash",
+      "/hpc2hdd/home/msun663/e-gene/4_atheromap/tools/run_in_env.sh",
+      "gsmap",
+      "python",
+      "/hpc2hdd/home/msun663/e-gene/4_atheromap/gsmap/scripts/02_prepare_GSE241346_h5ad_spagcn.py"
+    ],
+    "log": "logs/prepare_spatial.log"
+  },
+  "gwas": {
+    "argv": [
+      "bash",
+      "/hpc2hdd/home/msun663/e-gene/4_atheromap/tools/run_in_env.sh",
+      "gsmap",
+      "gsmap",
+      "format_sumstats",
+      "--sumstats",
+      "/hpc2hdd/home/msun663/e-gene/4_atheromap_data/GSE241346_gsMap/data/gwas/GCST007435.tsv.gz",
+      "--out",
+      "/hpc2hdd/home/msun663/e-gene/4_atheromap_data/GSE241346_gsMap/data/gwas/GCST007435_gsmap",
+      "--snp",
+      "rs_id",
+      "--a1",
+      "effect_allele",
+      "--a2",
+      "other_allele",
+      "--beta",
+      "beta",
+      "--se",
+      "standard_error",
+      "--p",
+      "p_value",
+      "--frq",
+      "effect_allele_frequency",
+      "--n",
+      "n",
+      "--chr",
+      "chromosome",
+      "--pos",
+      "base_pair_location",
+      "--format",
+      "gsMap",
+      "--keep_chr_pos"
+    ],
+    "log": "logs/format_gwas.log"
+  },
+  "validation": [
+    {
+      "argv": [
+        "bash",
+        "/hpc2hdd/home/msun663/e-gene/4_atheromap/tools/run_in_env.sh",
+        "gsmap",
+        "python",
+        "/hpc2hdd/home/msun663/e-gene/4_atheromap_data/GSE241346_gsMap/preparation/validate_inputs.py",
+        "--stage",
+        "spatial"
+      ],
+      "log": "logs/validate_spatial.log"
+    },
+    {
+      "argv": [
+        "bash",
+        "/hpc2hdd/home/msun663/e-gene/4_atheromap/tools/run_in_env.sh",
+        "gsmap",
+        "python",
+        "/hpc2hdd/home/msun663/e-gene/4_atheromap_data/GSE241346_gsMap/preparation/validate_inputs.py",
+        "--stage",
+        "gwas"
+      ],
+      "log": "logs/validate_gwas.log"
+    }
+  ],
+  "presence_check": {
+    "argv": [
+      "python",
+      "/hpc2hdd/home/msun663/e-gene/4_atheromap/tools/check_inputs.py",
+      "--root",
+      "/hpc2hdd/home/msun663/e-gene/4_atheromap_data/GSE241346_gsMap",
+      "--stage",
+      "gsmap-run"
+    ],
+    "log": "logs/check_inputs_gsmap_run.log"
+  },
+  "note": "Commands recorded for provenance. Spatial preparation and GWAS formatting write their output paths; use a new workspace for recomputation.",
+  "reference_alignment_audit": {
+    "argv": [
+      "bash",
+      "/hpc2hdd/home/msun663/e-gene/4_atheromap/tools/run_in_env.sh",
+      "gsmap",
+      "python",
+      "/hpc2hdd/home/msun663/e-gene/4_atheromap_data/GSE241346_gsMap/preparation/audit_reference_alignment.py"
+    ],
+    "log": "logs/audit_reference_alignment.log"
+  },
+  "post_formatter_reference_filter": {
+    "argv": [
+      "bash",
+      "/hpc2hdd/home/msun663/e-gene/4_atheromap/tools/run_in_env.sh",
+      "gsmap",
+      "python",
+      "/hpc2hdd/home/msun663/e-gene/4_atheromap_data/GSE241346_gsMap/preparation/filter_reference_mismatches.py"
+    ],
+    "log": "logs/filter_reference_mismatches.log",
+    "order": "After the reference audit; preserve official formatter output, then exclude listed incompatible rsIDs and rerun GWAS validation."
+  }
+}

@@ -1,0 +1,304 @@
+{
+  "schema_version": "1.0",
+  "audited_at": "2026-10-19T21:19:25.767183+08:00",
+  "mode": "source_selection_for_publication_from_isolated_clone",
+  "collection_command": "git -c core.excludesFile=/dev/null --git-dir=<temporary> --work-tree=<repo-root> ls-files --others --exclude-standard -z",
+  "file_count": 563,
+  "total_bytes": 52278375,
+  "total_MiB": 49.857,
+  "files_larger_than_100MiB": [],
+  "largest_files": [
+    {
+      "path": "3_GDgpt/kg_build/task_kg_output/task_kg_edges.csv",
+      "bytes": 12282688
+    },
+    {
+      "path": "1_popgen/steps/03_gnn/model.pt",
+      "bytes": 6624786
+    },
+    {
+      "path": "3_GDgpt/evaluation/results/kg_opt_exp0_extracted.jsonl",
+      "bytes": 2106846
+    },
+    {
+      "path": "3_GDgpt/evaluation/results/kg_opt_exp0_full_merged.jsonl",
+      "bytes": 2081008
+    },
+    {
+      "path": "3_GDgpt/evaluation/results/exp0_full.jsonl",
+      "bytes": 1979858
+    },
+    {
+      "path": "3_GDgpt/evaluation/results/exp0_full_raw.jsonl",
+      "bytes": 1959830
+    },
+    {
+      "path": "3_GDgpt/evaluation/results/pcqa99_base_extracted_run2026.jsonl",
+      "bytes": 1644932
+    },
+    {
+      "path": "3_GDgpt/evaluation/results/kg_opt_exp0_full.jsonl",
+      "bytes": 1571164
+    },
+    {
+      "path": "3_GDgpt/evaluation/results/pcqa100_gdgpt_raw.jsonl",
+      "bytes": 1456629
+    },
+    {
+      "path": "3_GDgpt/evaluation/results/quick_exp0_full_extracted.jsonl",
+      "bytes": 1179063
+    },
+    {
+      "path": "3_GDgpt/evaluation/results/quick_exp0_full_merged.jsonl",
+      "bytes": 1163647
+    },
+    {
+      "path": "3_GDgpt/evaluation/independent_testset/raw_data/opentargets_disease_associations.json",
+      "bytes": 990033
+    },
+    {
+      "path": "3_GDgpt/evaluation/results/quick_exp0_retry.jsonl",
+      "bytes": 888960
+    },
+    {
+      "path": "3_GDgpt/kg_build/task_kg_output/task_kg_nodes.csv",
+      "bytes": 856555
+    },
+    {
+      "path": "3_GDgpt/evaluation/independent_testset/raw_data/opentargets_gene_associations.json",
+      "bytes": 672822
+    }
+  ],
+  "by_top_level_path": {
+    ".gitattributes": {
+      "files": 1,
+      "bytes": 205
+    },
+    ".gitignore": {
+      "files": 1,
+      "bytes": 1655
+    },
+    "1_popgen": {
+      "files": 42,
+      "bytes": 7090064
+    },
+    "2_egene": {
+      "files": 61,
+      "bytes": 426672
+    },
+    "3_GDgpt": {
+      "files": 291,
+      "bytes": 43313272
+    },
+    "4_atheromap": {
+      "files": 75,
+      "bytes": 553520
+    },
+    "4_atheromap_data": {
+      "files": 60,
+      "bytes": 303924
+    },
+    "DATASETS.md": {
+      "files": 1,
+      "bytes": 18545
+    },
+    "PIPELINE_VALIDATION_20261016.md": {
+      "files": 1,
+      "bytes": 5115
+    },
+    "PIPELINE_VALIDATION_20261018.md": {
+      "files": 1,
+      "bytes": 1936
+    },
+    "README.md": {
+      "files": 1,
+      "bytes": 23904
+    },
+    "contracts": {
+      "files": 3,
+      "bytes": 8163
+    },
+    "data_sources": {
+      "files": 8,
+      "bytes": 336210
+    },
+    "egene_pipeline": {
+      "files": 9,
+      "bytes": 116547
+    },
+    "pipeline_ui": {
+      "files": 4,
+      "bytes": 52578
+    },
+    "run_atheromap_scdrs.py": {
+      "files": 1,
+      "bytes": 187
+    },
+    "run_pipeline.py": {
+      "files": 1,
+      "bytes": 196
+    },
+    "tests": {
+      "files": 2,
+      "bytes": 25682
+    }
+  },
+  "ignore_checks": [
+    {
+      "path": "1_popgen/data/1000GP/20220422_3202_phased_SNV_INDEL_SV/1kGP_high_coverage_Illumina.chr1.filtered.SNV_INDEL_SV_phased_panel.vcf.gz",
+      "expected_ignored": true,
+      "actual_ignored": true,
+      "passed": true
+    },
+    {
+      "path": "1_popgen/data/fastq/HG002_novogene_wes_18g_rep1_R1.fastq.gz",
+      "expected_ignored": true,
+      "actual_ignored": true,
+      "passed": true
+    },
+    {
+      "path": "1_popgen/data/reference/panel_1000g/ref_1000g_pruned.bed",
+      "expected_ignored": true,
+      "actual_ignored": true,
+      "passed": true
+    },
+    {
+      "path": "1_popgen/work/8d/66132f5c2f30cf5402ce8cc1d25a3b/.command.sh",
+      "expected_ignored": true,
+      "actual_ignored": true,
+      "passed": true
+    },
+    {
+      "path": "2_egene/data/humandb/hg38_dbnsfp42a.txt",
+      "expected_ignored": true,
+      "actual_ignored": true,
+      "passed": true
+    },
+    {
+      "path": "2_egene/vendor/annovar/table_annovar.pl",
+      "expected_ignored": true,
+      "actual_ignored": true,
+      "passed": true
+    },
+    {
+      "path": "3_GDgpt/.runtime/neo4j_data/databases/neo4j/neostore",
+      "expected_ignored": true,
+      "actual_ignored": true,
+      "passed": true
+    },
+    {
+      "path": "3_GDgpt/config.json",
+      "expected_ignored": true,
+      "actual_ignored": true,
+      "passed": true
+    },
+    {
+      "path": "3_GDgpt/config.local.json",
+      "expected_ignored": true,
+      "actual_ignored": true,
+      "passed": true
+    },
+    {
+      "path": "4_atheromap_data/GSE159677_scDRS/merged/overall_analysis/12_harmony_highlevel_annotated_final.h5ad",
+      "expected_ignored": true,
+      "actual_ignored": true,
+      "passed": true
+    },
+    {
+      "path": "4_atheromap_data/GSE159677_scDRS/scdrs_input/trait_gene_sets.gs",
+      "expected_ignored": true,
+      "actual_ignored": true,
+      "passed": true
+    },
+    {
+      "path": "4_atheromap_data/GSE241346_gsMap/resources/gsMap_resource.tar.gz",
+      "expected_ignored": true,
+      "actual_ignored": true,
+      "passed": true
+    },
+    {
+      "path": "4_atheromap_data/GSE241346_gsMap/data/gwas/GCST007435.tsv.gz",
+      "expected_ignored": true,
+      "actual_ignored": true,
+      "passed": true
+    },
+    {
+      "path": "1_popgen/steps/03_gnn/model.pt",
+      "expected_ignored": false,
+      "actual_ignored": false,
+      "passed": true
+    },
+    {
+      "path": "3_GDgpt/kg_build/task_kg_output/task_kg_edges.csv",
+      "expected_ignored": false,
+      "actual_ignored": false,
+      "passed": true
+    },
+    {
+      "path": "4_atheromap_data/GSE159677_scDRS/merged/overall_analysis/10_annotation_review_table.csv",
+      "expected_ignored": false,
+      "actual_ignored": false,
+      "passed": true
+    },
+    {
+      "path": "4_atheromap_data/GSE159677_scDRS/metadata/final_report_marker_manual.tsv",
+      "expected_ignored": false,
+      "actual_ignored": false,
+      "passed": true
+    },
+    {
+      "path": "4_atheromap_data/GSE241346_gsMap/preparation/filter_reference_mismatches.py",
+      "expected_ignored": false,
+      "actual_ignored": false,
+      "passed": true
+    },
+    {
+      "path": "2_egene/config/dependencies.lock.json",
+      "expected_ignored": false,
+      "actual_ignored": false,
+      "passed": true
+    },
+    {
+      "path": "DATASETS.md",
+      "expected_ignored": false,
+      "actual_ignored": false,
+      "passed": true
+    },
+    {
+      "path": "data_sources/provenance.json",
+      "expected_ignored": false,
+      "actual_ignored": false,
+      "passed": true
+    }
+  ],
+  "limitations": [
+    "This is a file-selection and size audit, not an execution test or a complete license/credential review.",
+    "Sizes describe file contents before Git compression; generated outputs may continue changing outside the upload set."
+  ],
+  "repository": "https://github.com/sunming-code/bioagent",
+  "previous_main_commit": "b54f16616fda14cd2d55c691dbde7fbff4121f01",
+  "validation": {
+    "unified_pipeline": {
+      "tests": 22,
+      "passed": 21,
+      "skipped": 1,
+      "reason_for_skip": "Real HDF5 compatibility requires the atheromap_scdrs environment"
+    },
+    "popgen_analysis": {
+      "tests": 3,
+      "passed": 3
+    },
+    "popgen_gnn": {
+      "tests": 2,
+      "passed": 1,
+      "skipped": 1,
+      "reason_for_skip": "Real reference validation fixture is intentionally excluded"
+    },
+    "popgen_environments": "Three existing isolated software environments checked from the publication copy using explicit prefixes",
+    "web": "Unified UI homepage returned HTTP 200",
+    "readme_label_preparation": "3202 unique samples generated from shipped label tables",
+    "syntax_and_local_guide_links": "passed",
+    "credential_patterns": "No matching GitHub/API token, private key or hardcoded credential candidates in selected source files",
+    "execution_scope": "No paid model call or complete real-data pipeline rerun"
+  }
+}

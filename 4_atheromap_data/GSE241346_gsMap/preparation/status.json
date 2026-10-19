@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0",
+  "stage": "prepare_gsmap_inputs",
+  "status": "complete",
+  "started_at": "2026-10-18T09:21:49.137904+00:00",
+  "workspace": "/hpc2hdd/home/msun663/e-gene/4_atheromap_data/GSE241346_gsMap",
+  "spatial_script": "4_atheromap/gsmap/scripts/02_prepare_GSE241346_h5ad_spagcn.py",
+  "spatial_script_sha256": "7488f149b3d734bc3d12a7ac2ececce741bf3f8292c4ceb210a19c0f767f3b0e",
+  "gwas_source": "data/gwas/GCST007435.tsv.gz",
+  "scope": [
+    "prepare_spatial_h5ad",
+    "format_gwas"
+  ],
+  "gwas_genome_build": "GRCh37",
+  "note": "External reference data; original source archives are preserved.",
+  "completed_at": "2026-10-18T09:54:26.878689+00:00",
+  "validation_status": "passed",
+  "manifest": "preparation/inputs_manifest.json",
+  "notes": [
+    "官方 YAML 的 author_notes 错配了无关研究；已通过官方研究 API 和目录导出确认性状为 Carotid plaque，Franceschini 等，2018，PMID 30510157。原 YAML 保留。",
+    "SpaGCN 注释为区域编号。原脚本邻域修正后 sample1 为 6 个区域，sample2 为 7 个区域。",
+    "官方整项研究样本数为 48,434，原始逐位点 N 最高为 48435；保留原始逐位点值，不按整项研究样本数改写。",
+    "已剔除 303 个无法与 LD panel 坐标和等位基因同时匹配的 rsID，其中 4 个位于回归交集。最终输入与 LD panel 的共有 rsID 没有坐标或等位基因不一致；官方转换备份和剔除明细均保留。"
+  ]
+}

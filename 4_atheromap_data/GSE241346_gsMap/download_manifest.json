@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.0",
+  "stage": "download_gsmap_public_inputs",
+  "status": "complete",
+  "completed_at": "2026-10-18T09:08:10.432149+00:00",
+  "download_bytes": 848599915,
+  "files": [
+    {
+      "name": "GSE241346_RAW.tar",
+      "relative_path": "data/spatial/GSE241346_RAW.tar",
+      "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE241nnn/GSE241346/suppl/GSE241346_RAW.tar",
+      "expected_bytes": 14090240,
+      "bytes": 14090240,
+      "sha256": "af2402b40e10d2b9e3217c07afaf062e8ca576fc59f5da7372f78a69c0950768",
+      "integrity": {
+        "status": "passed",
+        "archive_members": 18,
+        "files": {
+          "GSM7727539_sample1_aligned_fiducials.jpg.gz": 772351,
+          "GSM7727539_sample1_barcodes.tsv.gz": 25699,
+          "GSM7727539_sample1_detected_tissue_image.jpg.gz": 657899,
+          "GSM7727539_sample1_features.tsv.gz": 297037,
+          "GSM7727539_sample1_matrix.mtx.gz": 3695167,
+          "GSM7727539_sample1_scalefactors_json.json.gz": 156,
+          "GSM7727539_sample1_tissue_hires_image.png.gz": 1021572,
+          "GSM7727539_sample1_tissue_lowres_image.png.gz": 111135,
+          "GSM7727539_sample1_tissue_positions_list.csv.gz": 59270,
+          "GSM7727540_sample2_aligned_fiducials.jpg.gz": 975481,
+          "GSM7727540_sample2_barcodes.tsv.gz": 6430,
+          "GSM7727540_sample2_detected_tissue_image.jpg.gz": 1580583,
+          "GSM7727540_sample2_features.tsv.gz": 142333,
+          "GSM7727540_sample2_matrix.mtx.gz": 2086856,
+          "GSM7727540_sample2_scalefactors_json.json.gz": 171,
+          "GSM7727540_sample2_tissue_hires_image.png.gz": 2283311,
+          "GSM7727540_sample2_tissue_lowres_image.png.gz": 293132,
+          "GSM7727540_sample2_tissue_positions_list.csv.gz": 59082
+        },
+        "check": "Official file inventory, per-member sizes and all internal gzip CRCs"
+      }
+    },
+    {
+      "name": "GCST007435.tsv.gz",
+      "relative_path": "data/gwas/GCST007435.tsv.gz",
+      "url": "https://ftp.ebi.ac.uk/pub/databases/gwas/summary_statistics/GCST007001-GCST008000/GCST007435/GCST007435.tsv.gz",
+      "expected_bytes": 183632122,
+      "bytes": 183632122,
+      "sha256": "0ff985bf8775e89d741de28efa4ed3a8adaf4b7549278daf193ac45c0f1d303c",
+      "integrity": {
+        "status": "passed",
+        "source_md5": "cc009982e0c2fa5a5f65a35f777ac3d0",
+        "sha256": "0ff985bf8775e89d741de28efa4ed3a8adaf4b7549278daf193ac45c0f1d303c",
+        "metadata_md5_verified": true,
+        "gzip_crc_verified": true
+      }
+    },
+    {
+      "name": "gsMap_resource.tar.gz",
+      "relative_path": "resources/gsMap_resource.tar.gz",
+      "url": "https://yanglab.westlake.edu.cn/data/gsMap/gsMap_resource.tar.gz",
+      "expected_bytes": 650877553,
+      "bytes": 650877553,
+      "sha256": "d93de53a13b072e54c0801cc2ac4bd7fcbf2f53ed5f7a8537eedacfa37214027",
+      "integrity": {
+        "status": "passed",
+        "archive_members": 263,
+        "regular_files": 238,
+        "uncompressed_file_bytes": 3551092386,
+        "required_components_present": {
+          "quick_mode/snp_gene_weight_matrix.h5ad": true,
+          "quick_mode/baseline": true,
+          "quick_mode/SNP_gene_pair": true,
+          "LDSC_resource/weights_hm3_no_hla": true,
+          "LD_Reference_Panel/1000G_EUR_Phase3_plink": true,
+          "genome_annotation/gtf/gencode.v46lift37.basic.annotation.gtf": true
+        },
+        "check": "Complete gzip stream including CRC, tar directory and expected component paths"
+      }
+    }
+  ],
+  "scope": "Original public archives and GWAS data downloaded and verified; source archives preserved."
+}

@@ -1,0 +1,16 @@
+name: popgen_analysis
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - python=3.10
+  - plink=1.90b6.21
+  - plink2
+  - bcftools=1.21
+  - admixture=1.3.0
+  - numpy=1.26
+  - pandas=2.2
+  - scipy=1.14
+  - pysam
+  - jsonschema
+  - pip

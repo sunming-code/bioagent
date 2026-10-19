@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0",
+  "name": "HPO-HGNC disease hypotheses with unchanged InterVar classifications",
+  "phenotype_method": "symmetric best-match average Lin similarity, disease-corpus information content",
+  "negative_phenotype_penalty": 0.25,
+  "ranking": "priority_band, descending phenotype_score (when provided), descending variant_support, disease_id, gene",
+  "include_background_vus": false,
+  "nearby_gene_annotations": "audit_only",
+  "non_mendelian_associations": "audit_only",
+  "special_clinical_contexts": "audit_only",
+  "variant_support": {"Pathogenic": 1.0, "Likely pathogenic": 0.85, "Uncertain significance": 0.2},
+  "score_semantics": "Heuristic review priority and phenotype similarity; never a disease probability or a new ACMG classification."
+}

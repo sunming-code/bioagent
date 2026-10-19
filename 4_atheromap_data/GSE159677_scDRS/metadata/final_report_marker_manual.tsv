@@ -1,0 +1,71 @@
+section	priority	original_source	report_name	core_markers	supporting_markers	negative_markers	notes
+high_level	primary	manual_aggregate:notebook_fine_grained:B1-cell + notebook_fine_grained:B2-cell	B cell	MS4A1, CD79A, CD79B, CD22	BANK1, CD74, CD27, CXCR4, SPN, AFF3, NIBAN3, RALGPS2		高层级 B 细胞主标签。CD79A/CD79B/BANK1 为基于经典 B-cell 生物学的手动补充；CD74 仅放 supporting，不建议放 core。
+high_level	primary	notebook_high_level:Endothelial; notebook_fine_grained:Endothelial	Endothelial	VWF, PECAM1, CD34, PLVAP, VCAM1	ICAM2		高层级内皮注释主标签。
+high_level	primary	notebook_fine_grained:FB; trusha_top5:Fibroblasts	Fibroblast	COL6A3, LUM, DCN, PDGFRA, CXCL14	CD55, LOX, VIM, FAP, TNC, MXRA5	MYH11	高层级成纤维细胞主标签。
+high_level	primary	notebook_high_level:Macrophage	Macrophage	CD68, FCGR3A, CD163, MARCO, CD14	FUT4		高层级巨噬细胞主标签。
+high_level	primary	notebook_high_level:Mast-cell; notebook_fine_grained:Mast-cell; trusha_top5:mast_cells	Mast cell	KIT, CPA3, TPSAB1, CMA1, FCER1A	FCER1B, FCER1G, CD9, FUT4, CD24, CR1, SPN, TRIB2, CST7, CTSG		高层级肥大细胞主标签。
+high_level	primary	trusha_top5:Monocytes	Monocyte	CD14, FCGR3A, FCN1, LST1, S100A8	CSF3R, FCGR3B, CMTM2, CXCR2		高层级单核细胞主标签。
+high_level	primary	notebook_high_level:Neutrophil; notebook_fine_grained:Neutrophil	Neutrophil	CSF3R, CXCR1, S100A8, S100A9, FCGR3B	MME, NECTIN2, TLR2, TLR4, CMTM2, MGAM, CEACAM8, MPO, CD24, CR1		高层级中性粒细胞主标签。
+high_level	primary	trusha_top5:NK_cells	NK cell	NKG7, KLRD1, PRF1, GNLY, KLRF1	KLRC1, TRDC		高层级 NK 细胞主标签。
+high_level	primary	notebook_fine_grained:Plasma-cell	Plasma cell	SDC1, XBP1, PRDM1, JCHAIN, MZB1	CD9, CD24, CD27, CD38, CD40, FAS, CXCR4	MS4A1, CD19	高层级浆细胞主标签。JCHAIN 和 MZB1 为基于浆细胞生物学特征的手动补充，不是 notebook 原始 marker 直接给出。
+high_level	primary	trusha_top5:T_cells	T cell	CD3D, CD3E, TRAC, IL7R, LTB	CD3G		高层级 T 细胞主标签。
+high_level	primary	manual_aggregate:notebook_high_level:VSMC-contr + notebook_high_level:VSMC-myofb-like + trusha_top5:Contractile_VSMCs + trusha_top5:Fibroblast_like_VSMCs + trusha_top5:Modulated_VSMCs	VSMC	MYH11, TAGLN, ACTA2, CNN1, MYLK	MYOCD, TCF21, TNFRSF11B, COL1A1, DCN, FN1, MGP, BGN, DLX6-AS1, SOST		高层级 VSMC 总类。core 以经典收缩型平滑肌 marker 为主，supporting 补充斑块相关 modulated/fibroblast-like VSMC marker，用于兼容文章 high-level panel D 的 10 大类显示。
+high_level	secondary	trusha_top5:Dendritic_cells	Dendritic cell	CD1C, FCER1A, CLEC10A, HLA-DRA, CLEC4C	IL1B, NLRP3, OLR1, PPIF, IL1RN		高层级 DC 条目保留，但不建议单独依赖该 panel 自动打分；更推荐结合 cluster/UMAP/DGE 后，再用 cDC1/cDC2/pDC 等低层级 panel 细分。
+subtype_primary	primary	trusha_top5:Mac_C1Q; monaco_myeloid_filtered:C1Q	C1Q macrophage	C1QA, C1QB, C1QC, SELENOP, FOLR2	AIF1, PLTP, GPR34, SLCO2B1, SLC40A1, ITM2B, HLA-DRB1, FCGR3A, CD14, A2M		作者最终低层级注释直接使用的巨噬细胞亚型之一。
+subtype_primary	primary	notebook_fine_grained:Teff-cell; monaco_lymphoid_filtered:CD8 TEFF	CD8 effector T	CD8A, CD8B, GZMB, PRF1, CCL5	PTPRC, GZMK, GZMA, GZMH, GNLY, NKG7, CD69, KLRG1, TNFRSF8, TNFRSF4	CD4	细胞毒性效应 T 主亚型。
+subtype_primary	primary	notebook_fine_grained:cDC1; monaco_myeloid_filtered:cDC1	cDC1	CLEC9A, XCR1, CADM1, DNASE1L3, BATF3	THBD, TLR3, LY75, IRF8, IRF4, ID2, ZBTB46, CLNK, CCND1, BTLA		经典 cDC1 标记组合。
+subtype_primary	primary	notebook_fine_grained:cDC2; monaco_myeloid_filtered:cDC2	cDC2	CD1C, FCER1A, CLEC10A, HLA-DPA1, HLA-DRA	ZBTB46, SIRPA, ITGAX, ITGAM, RBPJ, IRF4, IRF2, RELB, CD2, LILRA2		经典 cDC2 标记组合。
+subtype_primary	primary	notebook_high_level:VSMC-contr; notebook_fine_grained:VSMC-contr; trusha_top5:Contractile_VSMCs	Contractile VSMC	MYH11, TAGLN, ACTA2, MYLK, MYOCD	CNN1, MYL9, TPM2, RGS5		VSMC 主收缩亚型，适合做第一优先注释。
+subtype_primary	primary	trusha_top5:EC1	EC_1	ITLN1, EDN1, SELP, BMX, BMP6			Trusha 定义的 EC_1。
+subtype_primary	primary	trusha_top5:EC2	EC_2	GNG11, PLVAP, EMCN, ADGRL4, ITGA6			Trusha 定义的 EC_2。
+subtype_primary	primary	notebook_high_level:VSMC-myofb-like; notebook_fine_grained:VSMC-myofb-like; trusha_top5:Fibroblast_like_VSMCs	Fibroblast-like VSMC	TCF21, TNFRSF11B, COL1A1, DCN, FN1	MGP, BGN, LUM, MMP2, ASPN, VCAN, CCN3, THBS2		斑块相关调节 / 纤维样 VSMC，汇报时建议重点展示。
+subtype_primary	primary	trusha_top5:Mac_HMOX1; monaco_myeloid_filtered:HMOX1	HMOX1 macrophage	HMOX1, APOE, APOC1, CCL18, GPNMB	ACP5, SELENOP, C1QB, C1QA, NUPR1, C1QC, ZFP36, NFKBIA, NEAT1, JUNB		作者最终低层级注释直接使用的巨噬细胞亚型之一。HMOX1 为基于生物学定义的手动补充，不是 Trusha/Monaco top marker 原文直接给出。
+subtype_primary	primary	trusha_top5:Mac_IL10; monaco_myeloid_filtered:IL10+/TNFAIP3+	IL10/TNFAIP3 macrophage	IL10, TNFAIP3, CCL3, CCL4, CXCL3	CCL3L3, CCL4L2, PLAU, GPR183, IER3, NFKBIA, ZFP36, CCL3L1, NR4A2, DUSP1		作者最终低层级注释直接使用的巨噬细胞亚型之一。
+subtype_primary	primary	trusha_top5:Modulated_VSMCs	Modulated VSMC	DLX6-AS1, SOST, SUCNR1, PTN, ENPP2			Trusha top5 对应的调节型 VSMC。
+subtype_primary	primary	monaco_lymphoid_filtered:NK XCL1+	NK XCL1+	XCL1, XCL2, KLRD1, KLRC1, TYROBP	FCER1G, CCL3, TRDC, CD160, KLRF1, CMC1, CD7, IL2RB, KRT86, KLRB1		作者最终低层级注释直接使用。
+subtype_primary	primary	notebook_fine_grained:pDC	pDC	IL3RA, CLEC4C, LILRA4, GZMB, TCF4	NRP1, TLR7, TLR9		作者最终低层级注释直接使用。
+subtype_primary	primary	monaco_myeloid_filtered:PLIN2hi/TREM1hi	PLIN2hi/TREM1hi macrophage	PLIN2, TREM1, ANGPTL4, CCL2, TIMP1	MIF, CD74, PHLDA1, HLA-DPB1, HLA-DRB1, S100A10, CCL7, HLA-DRA, HLA-DPA1, GAPDH		作者最终低层级注释直接使用的巨噬细胞亚型之一。
+subtype_primary	primary	monaco_lymphoid_filtered:Proliferating	Proliferating T/NK	MKI67, STMN1, TOP2A, TYMS, UBE2C	PCLAF, CKS1B, TK1, CENPF, RRM2, NUSAP1, BIRC5, CDK1, MCM7, ZWINT		作者最终低层级注释中的 proliferating T-cell 对应参考。
+subtype_primary	primary	monaco_myeloid_filtered:S100A8/IL1B+	S100A8/IL1B macrophage	S100A8, S100A9, IL1B, FCN1, VCAN	S100A12, SOD2, NAMPT, HLA-DPA1, BCL2A1, CD74, HLA-DQA1, HLA-DRA, LYZ, S100A4		作者最终低层级注释直接使用的巨噬细胞亚型之一。
+subtype_primary	primary	notebook_fine_grained:Treg-cell; monaco_lymphoid_filtered:CD4 Tregs	Treg	FOXP3, IL2RA, CTLA4, TIGIT, TNFRSF18	PTPRC, TNFRSF4, LINC02195, RTKN2, ENTPD1, LAYN, FANK1, CCL5, ICA1, LINC01943	IL7R	优先使用经典 Treg 组合。
+subtype_primary	primary	trusha_top5:Mac_TREM2; monaco_myeloid_filtered:TREM2hi	TREM2hi macrophage	TREM2, SPP1, APOE, LPL, GPNMB	MARCO, MMP9, FBP1, ANPEP, APOC1, MATK, FABP5, APOC2, CSTB, TM4SF19		作者最终低层级注释直接使用的巨噬细胞亚型之一。
+subtype_primary	secondary	monaco_myeloid_filtered:AS DC	AS DC	SIGLEC6, LILRA4, CD5, IL3RA, GZMB	AC007381.1, PPP1R14A, CDH1, ACOT7, SPIB, C12orf75, LTB, GPR153, SCN9A, RAMP1		Monaco 参考树突亚型，可辅助判读。
+subtype_primary	secondary	notebook_fine_grained:B1-cell	B1-like B cell	MS4A1, CD27, CXCR4, SPN			notebook B1 cell 参考。
+subtype_primary	secondary	notebook_fine_grained:B2-cell	B2-like B cell	CD22, AFF3, NIBAN3, RALGPS2	ZNF860		notebook B2 cell 参考。
+subtype_primary	secondary	monaco_lymphoid_filtered:CD4 TCM	CD4 central-memory T	CCR7, SELL, IL7R, TCF7, LTB	GAS5, TSHZ2, SNHG29, RPS13, RPS8, RPS6, RPL32, RPL34, RPL22, RPS3A		Monaco 参考 CD4 TCM。IL7R 和 TCF7 为手动补充，用于提升注释可解释性，不是 Monaco 原始 top marker 直接给出。
+subtype_primary	secondary	monaco_lymphoid_filtered:CD4 TEM	CD4 effector-memory T	IL7R, CD40LG, S100A4, LTB, ANXA1	CD52, CCL4, KLRD1, NKG7, KLRK1, CST7, CCL3, CTSW, TYROBP, GZMH		Monaco 参考 CD4 TEM。
+subtype_primary	secondary	monaco_lymphoid_filtered:CD4 Exh.	CD4 exhausted T	CXCL13, IL21, TNFRSF4, CD200, BTLA	IGFL2, PVALB, GNG4, G0S2, TSHZ2, AC004585.1, GEM, DRAIC, METTL8, SMCO4		Monaco 参考 CD4 exhausted 样亚群。
+subtype_primary	secondary	notebook_fine_grained:Teff_memory-cell; monaco_lymphoid_filtered:CD8 TEM	CD8 effector-memory T	CD8A, GZMK, IL7R, EOMES, CCL5	CD8B, PTPRC, GZMB, KLRG1, TBX21, PRF1, IL2, IFNG, CD44, TNF	CD4, SELL, CCR7	效应记忆型 CD8 T。
+subtype_primary	secondary	notebook_fine_grained:Teff_exhausted-cell	CD8 exhausted T	PDCD1, LAG3, TOX, HOPX, EGR1	CD8A, CD8B, PTPRC, KLRG1, B3GAT1, FOXP3	CD4, CD28, IL2	耗竭型 CD8 T。
+subtype_primary	secondary	monaco_lymphoid_filtered:CD8 IFN resp.	CD8 IFN-response T	IFIT1, IFIT3, ISG15, MX1, OAS3	IFI44L, RSAD2, IFI6, OAS1, CMPK2, USP18, XAF1, MX2, IFI44, LY6E		Monaco 参考 IFN-response CD8 T。
+subtype_primary	secondary	notebook_fine_grained:Monocyte-classical	Classical monocyte	CD14, FCGR1A, SELL, CCR2, TNFRSF1A	CX3CR1, CX3CL1	FCGR3A, TNFRSF1B, CXCR1	文献型经典单核细胞。
+subtype_primary	secondary	notebook_fine_grained:Erythrocyte	Erythrocyte	HBB, HBA1, HBA2, HEMGN			红细胞 / RBC 污染识别标签。
+subtype_primary	secondary	monaco_myeloid_filtered:IFN resp.	IFN-response myeloid	RSAD2, CXCL10, IFIT3, ISG15, MX1	IFIT1, IFI44L, CXCL11, USP18, CMPK2, HERC5, SAMD9L, IFI6, LY6E, XAF1		Monaco 参考 IFN-response 髓系亚群。
+subtype_primary	secondary	monaco_lymphoid_filtered:MAIT	MAIT	KLRB1, IL23R, ZBTB16, CCR6, SLC4A10	CCL20, IL4I1, LST1, NCR3, TLE1, JAML, RPLP1, LTB, TNFAIP3, CEBPD		Monaco 参考 MAIT。
+subtype_primary	secondary	monaco_myeloid_filtered:Mature cDC2	Mature cDC2	LAMP3, CCL19, CCR7, FSCN1, CCL17	LAD1, HMSD, HSD11B1-AS1, AJ009632.2, HOPX, CD200, IL32, TBC1D4, UBD, CCL22		成熟 / 迁移型 cDC2，适合作为辅助亚型。
+subtype_primary	secondary	notebook_fine_grained:MyoFB	Myofibroblast	ACTA2, VIM, SPP1, RBP1		DES, MYH11, CALD1, SMTN	成纤维细胞谱系内的肌成纤维样状态。
+subtype_primary	secondary	monaco_lymphoid_filtered:NK FCGR3A+	NK FCGR3A+	FCGR3A, FGFBP2, GNLY, PRF1, SPON2	PTGDS, GZMB, KLRF1, NKG7, TYROBP, PLAC8, KLRD1, AKR1C3, LINC00299, PRSS23		Monaco 参考细胞毒 NK 亚型。
+subtype_primary	secondary	notebook_fine_grained:Monocyte-nonclassical	Nonclassical monocyte	FCGR3A, CX3CR1, IL1RN, TNFRSF1B, FCGR2A	CX3CL1	CD14, TNFRSF1A	文献型非经典单核细胞。
+subtype_primary	secondary	notebook_fine_grained:Pericyte	Pericyte	CSPG4, PDGFRB, MCAM, ANPEP, DES	ACTA2		周细胞参考标签。
+subtype_reference	reference_only	notebook_fine_grained:VSMC-adipocyte-like	Adipocyte-like VSMC	CFD, LEP, PPARG			notebook 参考状态。
+subtype_reference	reference_only	trusha_top5:B_Pl_cells	B/Plasma-like cell	UQCR11			该条目来自 Trusha top5，证据弱，仅保留为扩展参考，不建议用于自动 high-level 注释。
+subtype_reference	reference_only	notebook_fine_grained:CD56_bright_NK-cell	CD56 bright NK	IL7R, IL2RB, CCR7, KLRD1, NCR1	NCAM1, CSF2, CXCR3, IFNG, KIT, KLRC1, SELL, KLRK1	CD3G, CD3D, CD3E, FCGR3A	文献型 NK 亚群参考。
+subtype_reference	reference_only	notebook_fine_grained:CD56_dim_NK-cell	CD56 dim NK	FCGR3A, CX3CR1, PRF1, KLRG1, KLRC2	NCAM1, CXCR1, ITGB2	CD3G, CD3D, CD3E	文献型 NK 亚群参考。
+subtype_reference	reference_only	notebook_fine_grained:VSMC-ec-like	Endothelial-like VSMC	PECAM1, VCAM1			notebook 参考状态。
+subtype_reference	reference_only	notebook_fine_grained:VSMC-foam	Foamy VSMC	CD68, CD36, LGALS3, ACTA2			notebook 参考状态。
+subtype_reference	reference_only	notebook_fine_grained:M1-Macrophage	M1-like macrophage	IL1B, IL6, TNF, CXCL10, MARCO	IL12A, IL12B, IL23A, CXCL9, CXCL11, HLA-DRA, CD86, CD80		notebook 文献型巨噬极化参考，不是作者最终聚类命名。
+subtype_reference	reference_only	notebook_fine_grained:M2a-Macrophage	M2a-like macrophage	MRC1, IL10, TGFB1, CCL18, PPARG	HLA-DRA, IL1RN, ARG1, CCL17, CCL22, CCL24, STAT6, IRF4		notebook 文献型巨噬极化参考。
+subtype_reference	reference_only	notebook_fine_grained:M2b-Macrophage	M2b-like macrophage	MRC1, CD86, IL1B, TNF, IL10	HLA-DRA, IL6, CCL1		notebook 文献型巨噬极化参考。
+subtype_reference	reference_only	notebook_fine_grained:M2c-Macrophage	M2c-like macrophage	MRC1, CD163, IL10, TGFB1, CXCL13	STAT3, TLR1, TLR8, CCL16, CCL18		notebook 文献型巨噬极化参考。
+subtype_reference	reference_only	notebook_fine_grained:M2d-Macrophage	M2d-like macrophage	VEGFA, IL10		TNF, IL12A	notebook 文献型巨噬极化参考。
+subtype_reference	reference_only	notebook_fine_grained:VSMC-macrophage-like	Macrophage-like VSMC	CD68, CCL2, LGALS3, KLF4, ABCA1	ACTA2	MYOCD	notebook 参考状态，需与真巨噬细胞严格区分。
+subtype_reference	reference_only	notebook_fine_grained:moDC	moDC	ITGAM, ITGAX, FCGR1A, CD14, CD209	FCGR3A, MRC1, KLF4, MAFB		单核来源 DC，建议仅作辅助参考。
+subtype_reference	reference_only	notebook_fine_grained:VSMC-msc-like	MSC-like VSMC	ENG, NT5E			notebook 参考状态。原始条目含 SCA1，但该标记是小鼠语境，不纳入人类 scRNA 注释 core。
+subtype_reference	reference_only	notebook_fine_grained:VSMC-osteochondrogenic	Osteochondrogenic VSMC	RUNX2, SOX9, TRPV4, S100B		TAGLN, ACTA2	notebook 参考状态，偏钙化 / 骨软骨化方向。
+subtype_reference	reference_only	monaco_myeloid_filtered:S100A8/IL1B-	S100A8/IL1B-low myeloid	FCN1, LST1, S100A8, S100A9, PLAC8	S100A4, CD52, CTSS, AIF1, CXCL2, IER3, RGS1, GPR183, CSTA, CFP		Monaco 参考亚群，建议仅作辅助对照。
+subtype_reference	reference_only	notebook_fine_grained:VSMC-synth	Synthetic VSMC	MYH10, ICAM1, SPP1, MMP3, TIMP1	MMP7, MMP9	MYH11, TAGLN, ACTA2, CNN1	notebook 参考状态，建议作为辅助解释，不单独做主结论。
+subtype_reference	reference_only	notebook_fine_grained:Th1-cell	Th1-like CD4 T	TBX21, IFNG, CXCR3, CCR5, IL2	PTPRC, CD4, CD3G, CD3D, CD3E, IL3, TNF, LTA, LTB	CD8A, CD8B	文献型 CD4 亚群参考。
+subtype_reference	reference_only	notebook_fine_grained:Th17-cell	Th17-like CD4 T	RORC, IL17A, IL21, IL22, CCR6	PTPRC, CD4, CD3G, CD3D, CD3E, IL17RA, STAT3, IL26	CD8A, CD8B	文献型 CD4 亚群参考。
+subtype_reference	reference_only	notebook_fine_grained:Th2-cell	Th2-like CD4 T	GATA3, IL4, IL5, IL13, CCR4	PTPRC, CD4, CD3G, CD3D, CD3E, AREG, CXCR4, CCR8, PTGDR2, HAVCR1	CD8A, CD8B	文献型 CD4 亚群参考。
+subtype_reference	reference_only	notebook_fine_grained:Th22-cell	Th22-like CD4 T	AHR, IL22, CCR4, CCR6, CCR10	PTPRC, CD4, CD3G, CD3D, CD3E	CD8A, CD8B, IL17A, IL17RA, IFNG, IL4	文献型 CD4 亚群参考。
+subtype_reference	reference_only	notebook_fine_grained:Th9-cell	Th9-like CD4 T	IL9, CCL17, CCL22, IRF4, SPI1	PTPRC, CD4, CD3G, CD3D, CD3E	CD8A, CD8B	文献型 CD4 亚群参考。

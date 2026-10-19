@@ -1,0 +1,47 @@
+{
+  "reviewed_at": "2026-10-18T09:42:31.830219+00:00",
+  "status": "trait_and_publication_verified_with_metadata_annotation_conflict",
+  "accession": "GCST007435",
+  "trait": "Carotid plaque",
+  "pubmed_id": 30510157,
+  "study_title": "GWAS and colocalization analyses implicate carotid intima-media thickness and carotid plaque loci in cardiovascular outcomes.",
+  "author": "Franceschini N et al.",
+  "publication_date": "2018-12-03",
+  "doi": "10.1038/s41467-018-07340-5",
+  "reported_discovery_samples": "Up to 21,540 European ancestry cases, up to 26,894 European ancestry controls",
+  "reported_total_samples": 48434,
+  "genome_assembly": "GRCh37",
+  "coordinate_system": "1-based",
+  "ancestry": "European",
+  "sample_size_for_analysis": "Retain source per-variant n; do not substitute the overall published sample size.",
+  "sources": [
+    {
+      "url": "https://www.ebi.ac.uk/gwas/rest/api/v2/studies/GCST007435",
+      "snapshot": "download_metadata/GCST007435_catalog_study.json"
+    },
+    {
+      "url": "https://www.ebi.ac.uk/gwas/api/search/downloads/studies/v1.0.3.1",
+      "snapshot": "download_metadata/GCST007435_catalog_study.tsv",
+      "note": "Header and matching study row saved; full catalog not retained."
+    },
+    {
+      "url": "https://pubmed.ncbi.nlm.nih.gov/30510157/"
+    },
+    {
+      "url": "https://www.nature.com/articles/s41467-018-07340-5"
+    }
+  ],
+  "metadata_conflict": {
+    "file": "download_metadata/GCST007435.tsv.gz-meta.yaml",
+    "field": "author_notes",
+    "problem": "This field cites a 2024 human milk oligosaccharide study and unrelated CHILD study QC. It conflicts with the accession, trait and sample information in the same file and with the official study API/catalog export.",
+    "handling": "Preserved publisher metadata unchanged. Do not use author_notes as citation or QC provenance; use the verified study record above."
+  },
+  "observed_formatted_sample_size": {
+    "min": 32290.0,
+    "median": 47862.0,
+    "max": 48435.0,
+    "unique_values": 7447,
+    "handling": "Source per-variant n is preserved. Study-level metadata is not used to overwrite it."
+  }
+}

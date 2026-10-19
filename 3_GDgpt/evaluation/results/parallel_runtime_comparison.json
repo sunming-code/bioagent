@@ -1,0 +1,31 @@
+{
+  "kind": "single_observational_deployment_check",
+  "max_rounds": 1,
+  "same_question": true,
+  "same_model": true,
+  "same_roles": true,
+  "model": "kimi-k3",
+  "roles": [
+    "GeneCurator",
+    "PathwayBiologist",
+    "EvidenceReviewer",
+    "HypothesisIntegrator"
+  ],
+  "serial_elapsed_seconds": 381.82,
+  "parallel_elapsed_seconds": 327.69,
+  "seconds_saved": 54.13,
+  "percent_saved": 14.18,
+  "expert_duration_sum_seconds": 142.03,
+  "expert_wall_span_seconds": 45.64,
+  "all_experts_overlap_seconds": 28.05,
+  "llm_request_count": 12,
+  "stages": {
+    "workflow.triage": 29.091374,
+    "workflow.kg_prefetch": 35.717915,
+    "workflow.consultation_layer": 206.567151,
+    "workflow.safety_layer": 56.29449
+  },
+  "source_serial": "evaluation/results/local_runtime_smoke.jsonl",
+  "source_parallel": "evaluation/results/local_runtime_parallel_smoke.jsonl",
+  "notes": "One observation per version. Outputs and API scheduling may vary. The summed expert durations are measured within the parallel run, not a separately measured serial expert stage. Research experiments still use their existing round limits."
+}

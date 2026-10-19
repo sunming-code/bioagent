@@ -1,0 +1,1560 @@
+{
+  "schema_version": "1.0",
+  "audited_at": "2026-10-19T20:53:08.358045+08:00",
+  "purpose": "Dataset provenance for a source-only GitHub repository; original data are retained locally.",
+  "checksum_policy": "Existing manifest hashes are copied, not recomputed for the full datasets. The PLINK panel and retained model/KG were hashed during this audit. Blank hashes mean unverified, not checksum success.",
+  "workspace_disk_bytes": 242697546752,
+  "directory_sizes": {
+    "1_popgen/data": {
+      "disk_bytes": 48281172992,
+      "file_bytes": 48277261969
+    },
+    "2_egene/data": {
+      "disk_bytes": 82932534784,
+      "file_bytes": 82930018912
+    },
+    "4_atheromap_data": {
+      "disk_bytes": 6958073856,
+      "file_bytes": 6924817177
+    },
+    "1_popgen/.runtime": {
+      "disk_bytes": 16828829184
+    },
+    "2_egene/.runtime": {
+      "disk_bytes": 20130605056
+    },
+    "3_GDgpt/.runtime": {
+      "disk_bytes": 1703923712
+    },
+    "3_GDgpt/.venv": {
+      "disk_bytes": 2627927552
+    },
+    "1_popgen/work": {
+      "disk_bytes": 15090157568
+    },
+    "1_popgen/results": {
+      "disk_bytes": 1872080896
+    },
+    "2_egene/results": {
+      "disk_bytes": 147771904
+    },
+    "runs": {
+      "disk_bytes": 44584029696
+    },
+    "2_egene/vendor": {
+      "disk_bytes": 1393865728
+    }
+  },
+  "retained_small_artifacts": {
+    "1_popgen/steps/03_gnn/model.pt": {
+      "bytes": 6624786,
+      "sha256": "3f475392bbe1a045ab0a49a989bfa1cbe56a1c9ef7cef0cd7cbb6b882290cca2"
+    },
+    "3_GDgpt/kg_build/task_kg_output/task_kg_nodes.csv": {
+      "bytes": 856555,
+      "sha256": "195608459cea5a2e2dbcb777ac5db2f91e0683e240d01a933dcd8a77c966496c"
+    },
+    "3_GDgpt/kg_build/task_kg_output/task_kg_edges.csv": {
+      "bytes": 12282688,
+      "sha256": "04ea86be14b752cc9854a1b9e34ba46d9989799ee6236452a857a173dec78194"
+    }
+  },
+  "source_records": {
+    "popgen_fastq": {
+      "original_path": "1_popgen/data/fastq/HG002_novogene_wes_18g_rep1.source.json",
+      "record": {
+        "sample": "HG002",
+        "strategy": "whole_exome_sequencing",
+        "platform": "Illumina NovaSeq PE150",
+        "source": "Novogene Europe public NGS demo datasets",
+        "r1_url": "https://hweu-ld.oss-eu-west-1.aliyuncs.com/demo/20190605124639/HG002_novogene_wes_18g_rep1_R1.fq.gz",
+        "r2_url": "https://hweu-ld.oss-eu-west-1.aliyuncs.com/demo/20190605124722/HG002_novogene_wes_18g_rep1_R2.fq.gz",
+        "r1_bytes": 4499912863,
+        "r2_bytes": 4726602032,
+        "r1_md5": "e5b9d4718532b901b461d3424b0b215f",
+        "r2_md5": "e46f53a0cf62fd8b9634a6a1493ed667",
+        "reference_build": "GRCh38"
+      }
+    },
+    "popgen_reference": {
+      "original_path": "1_popgen/data/reference/GRCh38.source.json",
+      "record": {
+        "assembly": "GRCh38",
+        "source": "Broad Institute GATK resource bundle",
+        "base_url": "https://storage.googleapis.com/gcp-public-data--broad-references/hg38/v0",
+        "fasta_object": "Homo_sapiens_assembly38.fasta",
+        "downloaded_as": "GRCh38.fa",
+        "fasta_size_bytes": 3249912778,
+        "fasta_md5": "7ff134953dcca8c8997453bbb80b6b5e",
+        "fasta_etag": "7ff134953dcca8c8997453bbb80b6b5e",
+        "fai_object": "Homo_sapiens_assembly38.fasta.fai",
+        "fai_size_bytes": 160928,
+        "dict_object": "Homo_sapiens_assembly38.dict",
+        "dict_size_bytes": 581712,
+        "download_date": "2026-10-18",
+        "derived_indexes": {
+          "tool": "bwa 0.7.19-r1273",
+          "command": "bwa index -p GRCh38.fa GRCh38.fa",
+          "files": [
+            "GRCh38.fa.amb",
+            "GRCh38.fa.ann",
+            "GRCh38.fa.bwt",
+            "GRCh38.fa.pac",
+            "GRCh38.fa.sa"
+          ]
+        },
+        "sha256_manifest": "GRCh38.sha256"
+      }
+    },
+    "egene_annotation": {
+      "original_path": "2_egene/data/dependency_manifest.json",
+      "record": {
+        "schema_version": "1.0",
+        "assembly": "GRCh38",
+        "files": {
+          "hg38_refGeneVersion.txt.gz": {
+            "source": "https://www.openbioinformatics.org/annovar/download/hg38_refGeneVersion.txt.gz",
+            "catalog_date": "20220803",
+            "downloaded_at": "2026-10-16T08:21:46.301485+00:00",
+            "archive_bytes": 199671,
+            "archive_sha256": "e05db80cd2a08a63a05b2f5b5de6862dcbb6548ff9b4404f6630420c73fffdc3",
+            "http": {
+              "ETag": "\"30bf7-5e54c52a25fe6\"",
+              "Last-Modified": "Wed, 03 Aug 2022 01:40:50 GMT",
+              "Content-Length": "199671"
+            },
+            "outputs": [
+              {
+                "path": "data/humandb/hg38_refGeneVersion.txt",
+                "bytes": 1034484,
+                "sha256": "25287718b480afd990f4f94ca39daf5544d67e5f3f1cd282283643487b75bc98"
+              }
+            ]
+          },
+          "hg38_refGene.txt.gz": {
+            "source": "https://www.openbioinformatics.org/annovar/download/hg38_refGene.txt.gz",
+            "catalog_date": "20220803",
+            "downloaded_at": "2026-10-16T08:21:55.318672+00:00",
+            "archive_bytes": 8594720,
+            "archive_sha256": "61f4c3e22da566c5f333a0f760f6ca5d03161e55bc63c8f71278eff596392da3",
+            "http": {
+              "ETag": "\"832520-5e54c526d3e24\"",
+              "Last-Modified": "Wed, 03 Aug 2022 01:40:46 GMT",
+              "Content-Length": "8594720"
+            },
+            "outputs": [
+              {
+                "path": "data/humandb/hg38_refGene.txt",
+                "bytes": 25673940,
+                "sha256": "7a475ea2f4410a99ffd234dd3fef534306de5f78f6257692544ad83bd2529e97"
+              }
+            ]
+          },
+          "hg38_refGeneMrna.fa.gz": {
+            "source": "https://www.openbioinformatics.org/annovar/download/hg38_refGeneMrna.fa.gz",
+            "catalog_date": "20220803",
+            "downloaded_at": "2026-10-16T08:22:56.038141+00:00",
+            "archive_bytes": 69639707,
+            "archive_sha256": "43b64e5379393c712f2a25b3f833bd25fe4e5e3c1c6b06fbe0ee0ef02756cbe5",
+            "http": {
+              "ETag": "\"4269e1b-5e54c530000fe\"",
+              "Last-Modified": "Wed, 03 Aug 2022 01:40:56 GMT",
+              "Content-Length": "69639707"
+            },
+            "outputs": [
+              {
+                "path": "data/humandb/hg38_refGeneMrna.fa",
+                "bytes": 302975562,
+                "sha256": "75b1ff6ff376ed9408a17839369cd689d6eb5aa6ddb846a0038c4d10e6d9cec2"
+              }
+            ]
+          },
+          "hg38_knownGene.txt.gz": {
+            "source": "https://www.openbioinformatics.org/annovar/download/hg38_knownGene.txt.gz",
+            "catalog_date": "20220803",
+            "downloaded_at": "2026-10-16T08:22:57.677086+00:00",
+            "archive_bytes": 11046659,
+            "archive_sha256": "cefb9c706d371123deb39c740300b9d6884ac3fe7b149c09b4152a5c36a53bfa",
+            "http": {
+              "ETag": "\"a88f03-5e54c55bf1bc5\"",
+              "Last-Modified": "Wed, 03 Aug 2022 01:41:42 GMT",
+              "Content-Length": "11046659"
+            },
+            "outputs": [
+              {
+                "path": "data/humandb/hg38_knownGene.txt",
+                "bytes": 53896654,
+                "sha256": "c625f779f5483f4d156300d0d85463417b6f78a8ce10edadb43bd6995662bb7b"
+              }
+            ]
+          },
+          "hg38_ensGene.txt.gz": {
+            "source": "https://www.openbioinformatics.org/annovar/download/hg38_ensGene.txt.gz",
+            "catalog_date": "20230316",
+            "downloaded_at": "2026-10-16T08:24:01.759965+00:00",
+            "archive_bytes": 5898539,
+            "archive_sha256": "6ccc16beb8f4c5703566fe30b428a483d409acf72bab5ac96dbd2a10d58f747a",
+            "http": {},
+            "outputs": [
+              {
+                "path": "data/humandb/hg38_ensGene.txt",
+                "bytes": 29117385,
+                "sha256": "29b3c743f81bfc1c665eb78dc5fa7b00b6397609f55f40f0331012203c6102bc"
+              }
+            ]
+          },
+          "hg38_ensGeneMrna.fa.gz": {
+            "source": "https://www.openbioinformatics.org/annovar/download/hg38_ensGeneMrna.fa.gz",
+            "catalog_date": "20230316",
+            "downloaded_at": "2026-10-16T08:24:02.591985+00:00",
+            "archive_bytes": 41341643,
+            "archive_sha256": "f6f5171d74bc1883e6856e9a8dc4fddcfd6d964f882c595786aca919d258fb72",
+            "http": {},
+            "outputs": [
+              {
+                "path": "data/humandb/hg38_ensGeneMrna.fa",
+                "bytes": 283137143,
+                "sha256": "d733986928d2cc806c0ce49c7fec40212cbff7d223db8fccd2dc187de892eb9f"
+              }
+            ]
+          },
+          "hg38_esp6500siv2_all.txt.idx.gz": {
+            "source": "https://www.openbioinformatics.org/annovar/download/hg38_esp6500siv2_all.txt.idx.gz",
+            "catalog_date": "20191205",
+            "downloaded_at": "2026-10-16T08:24:15.321626+00:00",
+            "archive_bytes": 5710064,
+            "archive_sha256": "0607ec5837fd3278d428053b16bfd0bbcd11ba9a4e02dcade6cf0326ec0ad755",
+            "http": {
+              "ETag": "\"5720f0-598f7918f8780\"",
+              "Last-Modified": "Thu, 05 Dec 2019 16:39:10 GMT",
+              "Content-Length": "5710064"
+            },
+            "outputs": [
+              {
+                "path": "data/humandb/hg38_esp6500siv2_all.txt.idx",
+                "bytes": 20132942,
+                "sha256": "4fb9eae92206488c7193df57a643013bd17b563ed08e4bf343a740428329df0c"
+              }
+            ]
+          },
+          "hg38_esp6500siv2_all.txt.gz": {
+            "source": "https://www.openbioinformatics.org/annovar/download/hg38_esp6500siv2_all.txt.gz",
+            "catalog_date": "20191205",
+            "downloaded_at": "2026-10-16T08:24:21.619229+00:00",
+            "archive_bytes": 24841539,
+            "archive_sha256": "286ce3a22eea58c97fa47c449a8609dfc780fd50e5b2c2665c986906fbe00cfa",
+            "http": {
+              "ETag": "\"17b0d43-598f7918f8780\"",
+              "Last-Modified": "Thu, 05 Dec 2019 16:39:10 GMT",
+              "Content-Length": "24841539"
+            },
+            "outputs": [
+              {
+                "path": "data/humandb/hg38_esp6500siv2_all.txt",
+                "bytes": 91931259,
+                "sha256": "fba14f846a1fad8f1f9216a1300d0757277b1d37e5b58873864eaa50f4079a42"
+              }
+            ]
+          },
+          "hg38_knownGeneMrna.fa.gz": {
+            "source": "https://www.openbioinformatics.org/annovar/download/hg38_knownGeneMrna.fa.gz",
+            "catalog_date": "20220803",
+            "downloaded_at": "2026-10-16T08:25:24.280528+00:00",
+            "archive_bytes": 61440556,
+            "archive_sha256": "cd4da956d8f8801577dea96adddf609e0f8675ae1b27843a2839e3964a5ca6c0",
+            "http": {
+              "ETag": "\"3a9822c-5e54c56715954\"",
+              "Last-Modified": "Wed, 03 Aug 2022 01:41:54 GMT",
+              "Content-Length": "61440556"
+            },
+            "outputs": [
+              {
+                "path": "data/humandb/hg38_knownGeneMrna.fa",
+                "bytes": 517755383,
+                "sha256": "f9503f096b230348ccf6099af86d99f2f533a804e92f478d79765d83a383b57a"
+              }
+            ]
+          },
+          "hg38_dbnsfp42a.txt.idx.gz": {
+            "source": "https://www.openbioinformatics.org/annovar/download/hg38_dbnsfp42a.txt.idx.gz",
+            "catalog_date": "20210709",
+            "downloaded_at": "2026-10-16T08:26:09.383560+00:00",
+            "archive_bytes": 5245862,
+            "archive_sha256": "a61b95a7da47edbfbd2c4f34d7e521f3112d6fd3ef56055134f8c8404c6fdcbb",
+            "http": {
+              "ETag": "\"500ba6-5c6b39509baed\"",
+              "Last-Modified": "Fri, 09 Jul 2021 16:51:25 GMT",
+              "Content-Length": "5245862"
+            },
+            "outputs": [
+              {
+                "path": "data/humandb/hg38_dbnsfp42a.txt.idx",
+                "bytes": 19600915,
+                "sha256": "2de6e8c5c812448b973280263cd5e169914e6811ebe7ecf864e48c58ea3f7dbb"
+              }
+            ]
+          },
+          "hg38_clinvar_20210501.txt.gz": {
+            "source": "https://www.openbioinformatics.org/annovar/download/hg38_clinvar_20210501.txt.gz",
+            "catalog_date": "20210507",
+            "downloaded_at": "2026-10-16T08:27:31.248449+00:00",
+            "archive_bytes": 14181106,
+            "archive_sha256": "7f81b17796bdea79600b42e5201f1a919f196893db2df1684ec694384ee50252",
+            "http": {
+              "ETag": "\"d862f2-5c1c5f3dd2f8d\"",
+              "Last-Modified": "Fri, 07 May 2021 23:40:27 GMT",
+              "Content-Length": "14181106"
+            },
+            "outputs": [
+              {
+                "path": "data/humandb/hg38_clinvar_20210501.txt",
+                "bytes": 198891102,
+                "sha256": "7b9705edec23f61648aa7a86d610a91bf831c64eed10885b9bc05367e953828c"
+              }
+            ]
+          },
+          "hg38_clinvar_20210501.txt.idx.gz": {
+            "source": "https://www.openbioinformatics.org/annovar/download/hg38_clinvar_20210501.txt.idx.gz",
+            "catalog_date": "20210507",
+            "downloaded_at": "2026-10-16T08:27:42.376927+00:00",
+            "archive_bytes": 666762,
+            "archive_sha256": "12476e64f69a8369be1cd4dcc32fef55cfe1d9dac263c2c84d366d2cc3996612",
+            "http": {
+              "ETag": "\"a2c8a-5c1c5f46d20d7\"",
+              "Last-Modified": "Fri, 07 May 2021 23:40:37 GMT",
+              "Content-Length": "666762"
+            },
+            "outputs": [
+              {
+                "path": "data/humandb/hg38_clinvar_20210501.txt.idx",
+                "bytes": 2330712,
+                "sha256": "541c4e3dd7438d090fe290fd404e0bd1140213aa8f5fe741184817610ee897fc"
+              }
+            ]
+          },
+          "hg38_avsnp147.txt.idx.gz": {
+            "source": "https://www.openbioinformatics.org/annovar/download/hg38_avsnp147.txt.idx.gz",
+            "catalog_date": "20191205",
+            "downloaded_at": "2026-10-16T08:31:10.596510+00:00",
+            "archive_bytes": 222202148,
+            "archive_sha256": "1f56122460944e7af8221dd7bbcd32bcfac5147176b8edcfaf480f69e03ce6a2",
+            "http": {
+              "ETag": "\"d3e8924-598f791433c40\"",
+              "Last-Modified": "Thu, 05 Dec 2019 16:39:05 GMT",
+              "Content-Length": "222202148"
+            },
+            "outputs": [
+              {
+                "path": "data/humandb/hg38_avsnp147.txt.idx",
+                "bytes": 926687401,
+                "sha256": "87bd4807e2ddb03f7cbd35f5b9c4b75a8059fb077bed3413cb04493b07fe3c95"
+              }
+            ]
+          },
+          "mim2gene.txt": {
+            "source": "https://www.omim.org/static/omim/data/mim2gene.txt",
+            "catalog_date": null,
+            "downloaded_at": "2026-10-16T08:34:43.664080+00:00",
+            "archive_bytes": 990092,
+            "archive_sha256": "56f3bf3901a127ce5e08168414e5e3667b33be69abe25aed1f0af137b33571c6",
+            "http": {
+              "ETag": "\"f1b8c-65de483e14198\"",
+              "Last-Modified": "Thu, 15 Oct 2026 17:38:26 GMT",
+              "Content-Length": "990092"
+            },
+            "outputs": [
+              {
+                "path": "data/omim/mim2gene.txt",
+                "bytes": 990092,
+                "sha256": "56f3bf3901a127ce5e08168414e5e3667b33be69abe25aed1f0af137b33571c6"
+              }
+            ]
+          },
+          "hg38_dbscsnv11.txt.idx.gz": {
+            "source": "https://www.openbioinformatics.org/annovar/download/hg38_dbscsnv11.txt.idx.gz",
+            "catalog_date": "20191205",
+            "downloaded_at": "2026-10-16T08:36:24.257646+00:00",
+            "archive_bytes": 3681641,
+            "archive_sha256": "23217042c29446614bde78a1ca518bf840706cb5386dfb787f5e568bd8c54272",
+            "http": {
+              "ETag": "\"382d69-598f7918f8780\"",
+              "Last-Modified": "Thu, 05 Dec 2019 16:39:10 GMT",
+              "Content-Length": "3681641"
+            },
+            "outputs": [
+              {
+                "path": "data/humandb/hg38_dbscsnv11.txt.idx",
+                "bytes": 13157648,
+                "sha256": "8ad3a4266fa966e0da22184be7d2eea53a0203116ecacde24052cf8190b8fb20"
+              }
+            ]
+          },
+          "hg38_kgXref.txt.gz": {
+            "source": "https://www.openbioinformatics.org/annovar/download/hg38_kgXref.txt.gz",
+            "catalog_date": null,
+            "downloaded_at": "2026-10-16T08:38:57.104409+00:00",
+            "archive_bytes": 5960860,
+            "archive_sha256": "c3acada3f0f6b8f5ce5cc270e3d08b1e81badc6d50dd80b085a668999d73c7ab",
+            "http": {
+              "ETag": "\"5af49c-594c85612dc80\"",
+              "Last-Modified": "Sun, 13 Oct 2019 10:37:22 GMT",
+              "Content-Length": "336954"
+            },
+            "outputs": [
+              {
+                "path": "data/humandb/hg38_kgXref.txt",
+                "bytes": 33273912,
+                "sha256": "799fb611d61c737ad14e95c65dcef1ff3fde58d5ab5cefad9c5202a83a9eef5c"
+              }
+            ]
+          },
+          "hg38_gnomad_genome.txt.idx.gz": {
+            "source": "https://www.openbioinformatics.org/annovar/download/hg38_gnomad_genome.txt.idx.gz",
+            "catalog_date": "20191205",
+            "downloaded_at": "2026-10-16T08:43:59.415584+00:00",
+            "archive_bytes": 233514014,
+            "archive_sha256": "798a199e307fba08a7e79fed2a4646b10eb558717775598567a46b98ca09d2af",
+            "http": {
+              "ETag": "\"deb241e-598f791bd4e40\"",
+              "Last-Modified": "Thu, 05 Dec 2019 16:39:13 GMT",
+              "Content-Length": "233514014"
+            },
+            "outputs": [
+              {
+                "path": "data/humandb/hg38_gnomad_genome.txt.idx",
+                "bytes": 964422983,
+                "sha256": "7a45685fcbe49ffce64c98f1cd26744c4a501cbd677d29fb26e24cc129a8f7e0"
+              }
+            ]
+          },
+          "hg38_dbscsnv11.txt.gz": {
+            "source": "https://www.openbioinformatics.org/annovar/download/hg38_dbscsnv11.txt.gz",
+            "catalog_date": "20191205",
+            "downloaded_at": "2026-10-16T08:47:07.165540+00:00",
+            "archive_bytes": 95748552,
+            "archive_sha256": "ad5da00b574d28b16110f2c1a4e4ef0e87004839c6abb2aeff3f64ebdc43b656",
+            "http": {
+              "ETag": "\"5b501c8-598f7918f8780\"",
+              "Last-Modified": "Thu, 05 Dec 2019 16:39:10 GMT",
+              "Content-Length": "348805"
+            },
+            "outputs": [
+              {
+                "path": "data/humandb/hg38_dbscsnv11.txt",
+                "bytes": 562835991,
+                "sha256": "3a7c9875597b2d325d0f0b7d64d78adaf0c3fe386f96542dadb874d1ba8951d7"
+              }
+            ]
+          },
+          "hg38_rmsk.txt.gz": {
+            "source": "https://hgdownload.soe.ucsc.edu/goldenPath/hg38/database/rmsk.txt.gz",
+            "catalog_date": null,
+            "downloaded_at": "2026-10-16T08:54:08.683412+00:00",
+            "archive_bytes": 155633856,
+            "archive_sha256": "db60e6aa7ac175f8f5465cd01b48b550e67e1fb0fd828608d8343481867bb276",
+            "http": {
+              "ETag": "\"946c8c0-5eb5d78b067f0\"",
+              "Last-Modified": "Wed, 19 Oct 2022 06:39:32 GMT",
+              "Content-Length": "7014271"
+            },
+            "outputs": [
+              {
+                "path": "data/humandb/hg38_rmsk.txt",
+                "bytes": 491811719,
+                "sha256": "c7935a24ce1a1ac2762a91a0f77c2c673193580cc74cbe8d5b0c6ecfa0c4769a"
+              }
+            ]
+          },
+          "hg38_avsnp147.txt.gz": {
+            "source": "https://www.openbioinformatics.org/annovar/download/hg38_avsnp147.txt.gz",
+            "catalog_date": "20191205",
+            "downloaded_at": "2026-10-16T09:01:22.551633+00:00",
+            "archive_bytes": 1775686247,
+            "archive_sha256": "649d5441281adddf3aaf696f07f9b6c681bfd2f672c408baa7d2d9e27cb65a1a",
+            "http": {
+              "ETag": "\"69d6d267-598f791433c40\"",
+              "Last-Modified": "Thu, 05 Dec 2019 16:39:05 GMT",
+              "Content-Length": "1775686247"
+            },
+            "outputs": [
+              {
+                "path": "data/humandb/hg38_avsnp147.txt",
+                "bytes": 6285198687,
+                "sha256": "f535a9526c18e5a31b6aceab2bd6311b0abb77de514a747f6aba6b6414674179"
+              }
+            ]
+          },
+          "hg38_gnomad_genome.txt.gz": {
+            "source": "https://www.openbioinformatics.org/annovar/download/hg38_gnomad_genome.txt.gz",
+            "catalog_date": "20191205",
+            "downloaded_at": "2026-10-16T09:38:46.202626+00:00",
+            "archive_bytes": 3194084904,
+            "archive_sha256": "b4e9ff7c153535bf9b8dc377e72b4f4d904883bae41e536e77e5d84030740fe5",
+            "http": {
+              "ETag": "\"be61de28-598f791bd4e40\"",
+              "Last-Modified": "Thu, 05 Dec 2019 16:39:13 GMT",
+              "Content-Length": "3194084904"
+            },
+            "outputs": [
+              {
+                "path": "data/humandb/hg38_gnomad_genome.txt",
+                "bytes": 17093709446,
+                "sha256": "e771b59e67c255483ab76df746b708592c4ebde92d3de77628ec696c12d00d69"
+              }
+            ]
+          },
+          "hg38_dbnsfp42a.txt.gz": {
+            "source": "https://www.openbioinformatics.org/annovar/download/hg38_dbnsfp42a.txt.gz",
+            "catalog_date": "20210709",
+            "downloaded_at": "2026-10-16T10:07:21.842207+00:00",
+            "archive_bytes": 9997930328,
+            "archive_sha256": "cb30ba3ef2f843b1e8b08cd1b207ca3f37158506fbb9b538a10ab4d73367b3c2",
+            "http": {
+              "ETag": "\"253ec4f58-5c6b3a47c53b2\"",
+              "Last-Modified": "Fri, 09 Jul 2021 16:55:44 GMT",
+              "Content-Length": "9997930328"
+            },
+            "outputs": [
+              {
+                "path": "data/humandb/hg38_dbnsfp42a.txt",
+                "bytes": 48078700563,
+                "sha256": "0952f292bff581aa903bc0fa669b3cc190a283e5728da91fce806baa8f51f19b"
+              }
+            ]
+          },
+          "hg38_1000g2015aug.zip": {
+            "source": "https://www.openbioinformatics.org/annovar/download/hg38_1000g2015aug.zip",
+            "catalog_date": "20191205",
+            "downloaded_at": "2026-10-16T10:33:45.416609+00:00",
+            "archive_bytes": 2732158830,
+            "archive_sha256": "478e95285ffb19e456743da733b2f4cb8629b1c7db537262b2c02eb10e0313fc",
+            "http": {},
+            "outputs": [
+              {
+                "path": "data/humandb/hg38_ALL.sites.2015_08.txt",
+                "bytes": 3433533733,
+                "sha256": "daa396d8f17dbd936c0161d01cc10c326e233f14ae7ee922ca7515267c9f1857"
+              },
+              {
+                "path": "data/humandb/hg38_ALL.sites.2015_08.txt.idx",
+                "bytes": 93067467,
+                "sha256": "02ef2835b34d219a8a8aee046f90130420c8b1151c32fe2fa986b3890b54bf11"
+              }
+            ]
+          }
+        },
+        "updated_at": "2026-10-16T10:33:45.417311+00:00",
+        "failures": {}
+      }
+    },
+    "egene_reference": {
+      "original_path": "2_egene/data/reference/reference_manifest.json",
+      "record": {
+        "assembly": "GRCh38",
+        "source": "https://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/hg38.fa.gz",
+        "checksum_source": "https://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/md5sum.txt",
+        "archive_md5": "1c9dcaddfa41027f17cd8f7a82c7293b",
+        "fasta_sha256": "5be01555d98347fdb3714dc84c6f77c9d8bc774adcf32c6f7a8fa06f5baf5e51",
+        "fasta_bytes": 3273481150,
+        "prepared_at": "2026-10-16T11:18:39.580215+00:00",
+        "contigs": {
+          "chr1": 248956422,
+          "chr10": 133797422,
+          "chr11": 135086622,
+          "chr11_KI270721v1_random": 100316,
+          "chr12": 133275309,
+          "chr13": 114364328,
+          "chr14": 107043718,
+          "chr14_GL000009v2_random": 201709,
+          "chr14_GL000225v1_random": 211173,
+          "chr14_KI270722v1_random": 194050,
+          "chr14_GL000194v1_random": 191469,
+          "chr14_KI270723v1_random": 38115,
+          "chr14_KI270724v1_random": 39555,
+          "chr14_KI270725v1_random": 172810,
+          "chr14_KI270726v1_random": 43739,
+          "chr15": 101991189,
+          "chr15_KI270727v1_random": 448248,
+          "chr16": 90338345,
+          "chr16_KI270728v1_random": 1872759,
+          "chr17": 83257441,
+          "chr17_GL000205v2_random": 185591,
+          "chr17_KI270729v1_random": 280839,
+          "chr17_KI270730v1_random": 112551,
+          "chr18": 80373285,
+          "chr19": 58617616,
+          "chr1_KI270706v1_random": 175055,
+          "chr1_KI270707v1_random": 32032,
+          "chr1_KI270708v1_random": 127682,
+          "chr1_KI270709v1_random": 66860,
+          "chr1_KI270710v1_random": 40176,
+          "chr1_KI270711v1_random": 42210,
+          "chr1_KI270712v1_random": 176043,
+          "chr1_KI270713v1_random": 40745,
+          "chr1_KI270714v1_random": 41717,
+          "chr2": 242193529,
+          "chr20": 64444167,
+          "chr21": 46709983,
+          "chr22": 50818468,
+          "chr22_KI270731v1_random": 150754,
+          "chr22_KI270732v1_random": 41543,
+          "chr22_KI270733v1_random": 179772,
+          "chr22_KI270734v1_random": 165050,
+          "chr22_KI270735v1_random": 42811,
+          "chr22_KI270736v1_random": 181920,
+          "chr22_KI270737v1_random": 103838,
+          "chr22_KI270738v1_random": 99375,
+          "chr22_KI270739v1_random": 73985,
+          "chr2_KI270715v1_random": 161471,
+          "chr2_KI270716v1_random": 153799,
+          "chr3": 198295559,
+          "chr3_GL000221v1_random": 155397,
+          "chr4": 190214555,
+          "chr4_GL000008v2_random": 209709,
+          "chr5": 181538259,
+          "chr5_GL000208v1_random": 92689,
+          "chr6": 170805979,
+          "chr7": 159345973,
+          "chr8": 145138636,
+          "chr9": 138394717,
+          "chr9_KI270717v1_random": 40062,
+          "chr9_KI270718v1_random": 38054,
+          "chr9_KI270719v1_random": 176845,
+          "chr9_KI270720v1_random": 39050,
+          "chr1_KI270762v1_alt": 354444,
+          "chr1_KI270766v1_alt": 256271,
+          "chr1_KI270760v1_alt": 109528,
+          "chr1_KI270765v1_alt": 185285,
+          "chr1_GL383518v1_alt": 182439,
+          "chr1_GL383519v1_alt": 110268,
+          "chr1_GL383520v2_alt": 366580,
+          "chr1_KI270764v1_alt": 50258,
+          "chr1_KI270763v1_alt": 911658,
+          "chr1_KI270759v1_alt": 425601,
+          "chr1_KI270761v1_alt": 165834,
+          "chr2_KI270770v1_alt": 136240,
+          "chr2_KI270773v1_alt": 70887,
+          "chr2_KI270774v1_alt": 223625,
+          "chr2_KI270769v1_alt": 120616,
+          "chr2_GL383521v1_alt": 143390,
+          "chr2_KI270772v1_alt": 133041,
+          "chr2_KI270775v1_alt": 138019,
+          "chr2_KI270771v1_alt": 110395,
+          "chr2_KI270768v1_alt": 110099,
+          "chr2_GL582966v2_alt": 96131,
+          "chr2_GL383522v1_alt": 123821,
+          "chr2_KI270776v1_alt": 174166,
+          "chr2_KI270767v1_alt": 161578,
+          "chr3_JH636055v2_alt": 173151,
+          "chr3_KI270783v1_alt": 109187,
+          "chr3_KI270780v1_alt": 224108,
+          "chr3_GL383526v1_alt": 180671,
+          "chr3_KI270777v1_alt": 173649,
+          "chr3_KI270778v1_alt": 248252,
+          "chr3_KI270781v1_alt": 113034,
+          "chr3_KI270779v1_alt": 205312,
+          "chr3_KI270782v1_alt": 162429,
+          "chr3_KI270784v1_alt": 184404,
+          "chr4_KI270790v1_alt": 220246,
+          "chr4_GL383528v1_alt": 376187,
+          "chr4_KI270787v1_alt": 111943,
+          "chr4_GL000257v2_alt": 586476,
+          "chr4_KI270788v1_alt": 158965,
+          "chr4_GL383527v1_alt": 164536,
+          "chr4_KI270785v1_alt": 119912,
+          "chr4_KI270789v1_alt": 205944,
+          "chr4_KI270786v1_alt": 244096,
+          "chr5_KI270793v1_alt": 126136,
+          "chr5_KI270792v1_alt": 179043,
+          "chr5_KI270791v1_alt": 195710,
+          "chr5_GL383532v1_alt": 82728,
+          "chr5_GL949742v1_alt": 226852,
+          "chr5_KI270794v1_alt": 164558,
+          "chr5_GL339449v2_alt": 1612928,
+          "chr5_GL383530v1_alt": 101241,
+          "chr5_KI270796v1_alt": 172708,
+          "chr5_GL383531v1_alt": 173459,
+          "chr5_KI270795v1_alt": 131892,
+          "chr6_GL000250v2_alt": 4672374,
+          "chr6_KI270800v1_alt": 175808,
+          "chr6_KI270799v1_alt": 152148,
+          "chr6_GL383533v1_alt": 124736,
+          "chr6_KI270801v1_alt": 870480,
+          "chr6_KI270802v1_alt": 75005,
+          "chr6_KB021644v2_alt": 185823,
+          "chr6_KI270797v1_alt": 197536,
+          "chr6_KI270798v1_alt": 271782,
+          "chr7_KI270804v1_alt": 157952,
+          "chr7_KI270809v1_alt": 209586,
+          "chr7_KI270806v1_alt": 158166,
+          "chr7_GL383534v2_alt": 119183,
+          "chr7_KI270803v1_alt": 1111570,
+          "chr7_KI270808v1_alt": 271455,
+          "chr7_KI270807v1_alt": 126434,
+          "chr7_KI270805v1_alt": 209988,
+          "chr8_KI270818v1_alt": 145606,
+          "chr8_KI270812v1_alt": 282736,
+          "chr8_KI270811v1_alt": 292436,
+          "chr8_KI270821v1_alt": 985506,
+          "chr8_KI270813v1_alt": 300230,
+          "chr8_KI270822v1_alt": 624492,
+          "chr8_KI270814v1_alt": 141812,
+          "chr8_KI270810v1_alt": 374415,
+          "chr8_KI270819v1_alt": 133535,
+          "chr8_KI270820v1_alt": 36640,
+          "chr8_KI270817v1_alt": 158983,
+          "chr8_KI270816v1_alt": 305841,
+          "chr8_KI270815v1_alt": 132244,
+          "chr9_GL383539v1_alt": 162988,
+          "chr9_GL383540v1_alt": 71551,
+          "chr9_GL383541v1_alt": 171286,
+          "chr9_GL383542v1_alt": 60032,
+          "chr9_KI270823v1_alt": 439082,
+          "chr10_GL383545v1_alt": 179254,
+          "chr10_KI270824v1_alt": 181496,
+          "chr10_GL383546v1_alt": 309802,
+          "chr10_KI270825v1_alt": 188315,
+          "chr11_KI270832v1_alt": 210133,
+          "chr11_KI270830v1_alt": 177092,
+          "chr11_KI270831v1_alt": 296895,
+          "chr11_KI270829v1_alt": 204059,
+          "chr11_GL383547v1_alt": 154407,
+          "chr11_JH159136v1_alt": 200998,
+          "chr11_JH159137v1_alt": 191409,
+          "chr11_KI270827v1_alt": 67707,
+          "chr11_KI270826v1_alt": 186169,
+          "chr12_GL877875v1_alt": 167313,
+          "chr12_GL877876v1_alt": 408271,
+          "chr12_KI270837v1_alt": 40090,
+          "chr12_GL383549v1_alt": 120804,
+          "chr12_KI270835v1_alt": 238139,
+          "chr12_GL383550v2_alt": 169178,
+          "chr12_GL383552v1_alt": 138655,
+          "chr12_GL383553v2_alt": 152874,
+          "chr12_KI270834v1_alt": 119498,
+          "chr12_GL383551v1_alt": 184319,
+          "chr12_KI270833v1_alt": 76061,
+          "chr12_KI270836v1_alt": 56134,
+          "chr13_KI270840v1_alt": 191684,
+          "chr13_KI270839v1_alt": 180306,
+          "chr13_KI270843v1_alt": 103832,
+          "chr13_KI270841v1_alt": 169134,
+          "chr13_KI270838v1_alt": 306913,
+          "chr13_KI270842v1_alt": 37287,
+          "chr14_KI270844v1_alt": 322166,
+          "chr14_KI270847v1_alt": 1511111,
+          "chr14_KI270845v1_alt": 180703,
+          "chr14_KI270846v1_alt": 1351393,
+          "chr15_KI270852v1_alt": 478999,
+          "chr15_KI270851v1_alt": 263054,
+          "chr15_KI270848v1_alt": 327382,
+          "chr15_GL383554v1_alt": 296527,
+          "chr15_KI270849v1_alt": 244917,
+          "chr15_GL383555v2_alt": 388773,
+          "chr15_KI270850v1_alt": 430880,
+          "chr16_KI270854v1_alt": 134193,
+          "chr16_KI270856v1_alt": 63982,
+          "chr16_KI270855v1_alt": 232857,
+          "chr16_KI270853v1_alt": 2659700,
+          "chr16_GL383556v1_alt": 192462,
+          "chr16_GL383557v1_alt": 89672,
+          "chr17_GL383563v3_alt": 375691,
+          "chr17_KI270862v1_alt": 391357,
+          "chr17_KI270861v1_alt": 196688,
+          "chr17_KI270857v1_alt": 2877074,
+          "chr17_JH159146v1_alt": 278131,
+          "chr17_JH159147v1_alt": 70345,
+          "chr17_GL383564v2_alt": 133151,
+          "chr17_GL000258v2_alt": 1821992,
+          "chr17_GL383565v1_alt": 223995,
+          "chr17_KI270858v1_alt": 235827,
+          "chr17_KI270859v1_alt": 108763,
+          "chr17_GL383566v1_alt": 90219,
+          "chr17_KI270860v1_alt": 178921,
+          "chr18_KI270864v1_alt": 111737,
+          "chr18_GL383567v1_alt": 289831,
+          "chr18_GL383570v1_alt": 164789,
+          "chr18_GL383571v1_alt": 198278,
+          "chr18_GL383568v1_alt": 104552,
+          "chr18_GL383569v1_alt": 167950,
+          "chr18_GL383572v1_alt": 159547,
+          "chr18_KI270863v1_alt": 167999,
+          "chr19_KI270868v1_alt": 61734,
+          "chr19_KI270865v1_alt": 52969,
+          "chr19_GL383573v1_alt": 385657,
+          "chr19_GL383575v2_alt": 170222,
+          "chr19_GL383576v1_alt": 188024,
+          "chr19_GL383574v1_alt": 155864,
+          "chr19_KI270866v1_alt": 43156,
+          "chr19_KI270867v1_alt": 233762,
+          "chr19_GL949746v1_alt": 987716,
+          "chr20_GL383577v2_alt": 128386,
+          "chr20_KI270869v1_alt": 118774,
+          "chr20_KI270871v1_alt": 58661,
+          "chr20_KI270870v1_alt": 183433,
+          "chr21_GL383578v2_alt": 63917,
+          "chr21_KI270874v1_alt": 166743,
+          "chr21_KI270873v1_alt": 143900,
+          "chr21_GL383579v2_alt": 201197,
+          "chr21_GL383580v2_alt": 74653,
+          "chr21_GL383581v2_alt": 116689,
+          "chr21_KI270872v1_alt": 82692,
+          "chr22_KI270875v1_alt": 259914,
+          "chr22_KI270878v1_alt": 186262,
+          "chr22_KI270879v1_alt": 304135,
+          "chr22_KI270876v1_alt": 263666,
+          "chr22_KI270877v1_alt": 101331,
+          "chr22_GL383583v2_alt": 96924,
+          "chr22_GL383582v2_alt": 162811,
+          "chrX_KI270880v1_alt": 284869,
+          "chrX_KI270881v1_alt": 144206,
+          "chr19_KI270882v1_alt": 248807,
+          "chr19_KI270883v1_alt": 170399,
+          "chr19_KI270884v1_alt": 157053,
+          "chr19_KI270885v1_alt": 171027,
+          "chr19_KI270886v1_alt": 204239,
+          "chr19_KI270887v1_alt": 209512,
+          "chr19_KI270888v1_alt": 155532,
+          "chr19_KI270889v1_alt": 170698,
+          "chr19_KI270890v1_alt": 184499,
+          "chr19_KI270891v1_alt": 170680,
+          "chr1_KI270892v1_alt": 162212,
+          "chr2_KI270894v1_alt": 214158,
+          "chr2_KI270893v1_alt": 161218,
+          "chr3_KI270895v1_alt": 162896,
+          "chr4_KI270896v1_alt": 378547,
+          "chr5_KI270897v1_alt": 1144418,
+          "chr5_KI270898v1_alt": 130957,
+          "chr6_GL000251v2_alt": 4795265,
+          "chr7_KI270899v1_alt": 190869,
+          "chr8_KI270901v1_alt": 136959,
+          "chr8_KI270900v1_alt": 318687,
+          "chr11_KI270902v1_alt": 106711,
+          "chr11_KI270903v1_alt": 214625,
+          "chr12_KI270904v1_alt": 572349,
+          "chr15_KI270906v1_alt": 196384,
+          "chr15_KI270905v1_alt": 5161414,
+          "chr17_KI270907v1_alt": 137721,
+          "chr17_KI270910v1_alt": 157099,
+          "chr17_KI270909v1_alt": 325800,
+          "chr17_JH159148v1_alt": 88070,
+          "chr17_KI270908v1_alt": 1423190,
+          "chr18_KI270912v1_alt": 174061,
+          "chr18_KI270911v1_alt": 157710,
+          "chr19_GL949747v2_alt": 729520,
+          "chr22_KB663609v1_alt": 74013,
+          "chrX_KI270913v1_alt": 274009,
+          "chr19_KI270914v1_alt": 205194,
+          "chr19_KI270915v1_alt": 170665,
+          "chr19_KI270916v1_alt": 184516,
+          "chr19_KI270917v1_alt": 190932,
+          "chr19_KI270918v1_alt": 123111,
+          "chr19_KI270919v1_alt": 170701,
+          "chr19_KI270920v1_alt": 198005,
+          "chr19_KI270921v1_alt": 282224,
+          "chr19_KI270922v1_alt": 187935,
+          "chr19_KI270923v1_alt": 189352,
+          "chr3_KI270924v1_alt": 166540,
+          "chr4_KI270925v1_alt": 555799,
+          "chr6_GL000252v2_alt": 4604811,
+          "chr8_KI270926v1_alt": 229282,
+          "chr11_KI270927v1_alt": 218612,
+          "chr19_GL949748v2_alt": 1064304,
+          "chr22_KI270928v1_alt": 176103,
+          "chr19_KI270929v1_alt": 186203,
+          "chr19_KI270930v1_alt": 200773,
+          "chr19_KI270931v1_alt": 170148,
+          "chr19_KI270932v1_alt": 215732,
+          "chr19_KI270933v1_alt": 170537,
+          "chr19_GL000209v2_alt": 177381,
+          "chr3_KI270934v1_alt": 163458,
+          "chr6_GL000253v2_alt": 4677643,
+          "chr19_GL949749v2_alt": 1091841,
+          "chr3_KI270935v1_alt": 197351,
+          "chr6_GL000254v2_alt": 4827813,
+          "chr19_GL949750v2_alt": 1066390,
+          "chr3_KI270936v1_alt": 164170,
+          "chr6_GL000255v2_alt": 4606388,
+          "chr19_GL949751v2_alt": 1002683,
+          "chr3_KI270937v1_alt": 165607,
+          "chr6_GL000256v2_alt": 4929269,
+          "chr19_GL949752v1_alt": 987100,
+          "chr6_KI270758v1_alt": 76752,
+          "chr19_GL949753v2_alt": 796479,
+          "chr19_KI270938v1_alt": 1066800,
+          "chrM": 16569,
+          "chrUn_KI270302v1": 2274,
+          "chrUn_KI270304v1": 2165,
+          "chrUn_KI270303v1": 1942,
+          "chrUn_KI270305v1": 1472,
+          "chrUn_KI270322v1": 21476,
+          "chrUn_KI270320v1": 4416,
+          "chrUn_KI270310v1": 1201,
+          "chrUn_KI270316v1": 1444,
+          "chrUn_KI270315v1": 2276,
+          "chrUn_KI270312v1": 998,
+          "chrUn_KI270311v1": 12399,
+          "chrUn_KI270317v1": 37690,
+          "chrUn_KI270412v1": 1179,
+          "chrUn_KI270411v1": 2646,
+          "chrUn_KI270414v1": 2489,
+          "chrUn_KI270419v1": 1029,
+          "chrUn_KI270418v1": 2145,
+          "chrUn_KI270420v1": 2321,
+          "chrUn_KI270424v1": 2140,
+          "chrUn_KI270417v1": 2043,
+          "chrUn_KI270422v1": 1445,
+          "chrUn_KI270423v1": 981,
+          "chrUn_KI270425v1": 1884,
+          "chrUn_KI270429v1": 1361,
+          "chrUn_KI270442v1": 392061,
+          "chrUn_KI270466v1": 1233,
+          "chrUn_KI270465v1": 1774,
+          "chrUn_KI270467v1": 3920,
+          "chrUn_KI270435v1": 92983,
+          "chrUn_KI270438v1": 112505,
+          "chrUn_KI270468v1": 4055,
+          "chrUn_KI270510v1": 2415,
+          "chrUn_KI270509v1": 2318,
+          "chrUn_KI270518v1": 2186,
+          "chrUn_KI270508v1": 1951,
+          "chrUn_KI270516v1": 1300,
+          "chrUn_KI270512v1": 22689,
+          "chrUn_KI270519v1": 138126,
+          "chrUn_KI270522v1": 5674,
+          "chrUn_KI270511v1": 8127,
+          "chrUn_KI270515v1": 6361,
+          "chrUn_KI270507v1": 5353,
+          "chrUn_KI270517v1": 3253,
+          "chrUn_KI270529v1": 1899,
+          "chrUn_KI270528v1": 2983,
+          "chrUn_KI270530v1": 2168,
+          "chrUn_KI270539v1": 993,
+          "chrUn_KI270538v1": 91309,
+          "chrUn_KI270544v1": 1202,
+          "chrUn_KI270548v1": 1599,
+          "chrUn_KI270583v1": 1400,
+          "chrUn_KI270587v1": 2969,
+          "chrUn_KI270580v1": 1553,
+          "chrUn_KI270581v1": 7046,
+          "chrUn_KI270579v1": 31033,
+          "chrUn_KI270589v1": 44474,
+          "chrUn_KI270590v1": 4685,
+          "chrUn_KI270584v1": 4513,
+          "chrUn_KI270582v1": 6504,
+          "chrUn_KI270588v1": 6158,
+          "chrUn_KI270593v1": 3041,
+          "chrUn_KI270591v1": 5796,
+          "chrUn_KI270330v1": 1652,
+          "chrUn_KI270329v1": 1040,
+          "chrUn_KI270334v1": 1368,
+          "chrUn_KI270333v1": 2699,
+          "chrUn_KI270335v1": 1048,
+          "chrUn_KI270338v1": 1428,
+          "chrUn_KI270340v1": 1428,
+          "chrUn_KI270336v1": 1026,
+          "chrUn_KI270337v1": 1121,
+          "chrUn_KI270363v1": 1803,
+          "chrUn_KI270364v1": 2855,
+          "chrUn_KI270362v1": 3530,
+          "chrUn_KI270366v1": 8320,
+          "chrUn_KI270378v1": 1048,
+          "chrUn_KI270379v1": 1045,
+          "chrUn_KI270389v1": 1298,
+          "chrUn_KI270390v1": 2387,
+          "chrUn_KI270387v1": 1537,
+          "chrUn_KI270395v1": 1143,
+          "chrUn_KI270396v1": 1880,
+          "chrUn_KI270388v1": 1216,
+          "chrUn_KI270394v1": 970,
+          "chrUn_KI270386v1": 1788,
+          "chrUn_KI270391v1": 1484,
+          "chrUn_KI270383v1": 1750,
+          "chrUn_KI270393v1": 1308,
+          "chrUn_KI270384v1": 1658,
+          "chrUn_KI270392v1": 971,
+          "chrUn_KI270381v1": 1930,
+          "chrUn_KI270385v1": 990,
+          "chrUn_KI270382v1": 4215,
+          "chrUn_KI270376v1": 1136,
+          "chrUn_KI270374v1": 2656,
+          "chrUn_KI270372v1": 1650,
+          "chrUn_KI270373v1": 1451,
+          "chrUn_KI270375v1": 2378,
+          "chrUn_KI270371v1": 2805,
+          "chrUn_KI270448v1": 7992,
+          "chrUn_KI270521v1": 7642,
+          "chrUn_GL000195v1": 182896,
+          "chrUn_GL000219v1": 179198,
+          "chrUn_GL000220v1": 161802,
+          "chrUn_GL000224v1": 179693,
+          "chrUn_KI270741v1": 157432,
+          "chrUn_GL000226v1": 15008,
+          "chrUn_GL000213v1": 164239,
+          "chrUn_KI270743v1": 210658,
+          "chrUn_KI270744v1": 168472,
+          "chrUn_KI270745v1": 41891,
+          "chrUn_KI270746v1": 66486,
+          "chrUn_KI270747v1": 198735,
+          "chrUn_KI270748v1": 93321,
+          "chrUn_KI270749v1": 158759,
+          "chrUn_KI270750v1": 148850,
+          "chrUn_KI270751v1": 150742,
+          "chrUn_KI270752v1": 27745,
+          "chrUn_KI270753v1": 62944,
+          "chrUn_KI270754v1": 40191,
+          "chrUn_KI270755v1": 36723,
+          "chrUn_KI270756v1": 79590,
+          "chrUn_KI270757v1": 71251,
+          "chrUn_GL000214v1": 137718,
+          "chrUn_KI270742v1": 186739,
+          "chrUn_GL000216v2": 176608,
+          "chrUn_GL000218v1": 161147,
+          "chrX": 156040895,
+          "chrY": 57227415,
+          "chrY_KI270740v1_random": 37240
+        },
+        "fai_sha256": "3b425de206296a5c8053023fa5ca61da43cfe78c1737c12e58c83367c7e83c21"
+      }
+    },
+    "egene_disease": {
+      "original_path": "2_egene/data/disease/disease_database_manifest.json",
+      "record": {
+        "schema_version": "1.0",
+        "status": "complete",
+        "built_at": "2026-10-16T13:11:06.389807+00:00",
+        "hpo_release": "v2026-09-01",
+        "hgnc_release": "2026-10-06",
+        "source_lock_sha256": "006d6c4122f00b055152ceb208cf62391ecb145ace80eac28b356ed846e4c00c",
+        "sources": {
+          "hp-international.obo": {
+            "name": "hp-international.obo",
+            "url": "https://github.com/obophenotype/human-phenotype-ontology/releases/download/v2026-09-01/hp-international.obo",
+            "bytes": 22476318,
+            "sha256": "ce42512e1339b9ff46617c1de2a408eb0b2d83fbf2cddf8f8c25320c16ebbec4",
+            "license": "https://hpo.jax.org/app/license",
+            "path": "hp-international.obo"
+          },
+          "genes_to_disease.txt": {
+            "name": "genes_to_disease.txt",
+            "url": "https://github.com/obophenotype/human-phenotype-ontology/releases/download/v2026-09-01/genes_to_disease.txt",
+            "bytes": 1492039,
+            "sha256": "7937a1b92779dc8614e39ace623b443c7c71dd15e4de11d5e52b14e331ab5978",
+            "license": "https://hpo.jax.org/app/license",
+            "path": "genes_to_disease.txt"
+          },
+          "phenotype.hpoa": {
+            "name": "phenotype.hpoa",
+            "url": "https://github.com/obophenotype/human-phenotype-ontology/releases/download/v2026-09-01/phenotype.hpoa",
+            "bytes": 35816037,
+            "sha256": "e89aa39c8f97bf5a52c5d160f9250a603681d630ade8ec2679d84ac5aece1f72",
+            "license": "https://hpo.jax.org/app/license",
+            "path": "phenotype.hpoa"
+          },
+          "hgnc_complete_set.tsv": {
+            "name": "hgnc_complete_set.tsv",
+            "url": "https://storage.googleapis.com/public-download-files/hgnc/archive/archive/quarterly/tsv/hgnc_complete_set_2026-10-06.tsv",
+            "bytes": 16973125,
+            "md5": "af43fd56a64ad57c0fcc72d6ef65e516",
+            "license": "https://www.genenames.org/about/license/",
+            "path": "hgnc_complete_set.tsv",
+            "sha256": "8bf6f686e640dbc864a346484626953621b0500d900d26cd085a35c2782d725d"
+          }
+        },
+        "counts": {
+          "hpo_terms": 20482,
+          "hgnc_genes": 45233,
+          "annotations": 286651,
+          "diseases": 14871,
+          "gene_disease_associations": 16099,
+          "gene_aliases": 60738
+        },
+        "database": {
+          "path": "disease.sqlite",
+          "bytes": 55857152,
+          "sha256": "c13c86418c48cde5630412fbb297a150981d753aededdcaad712ff894fac1a1c"
+        },
+        "attribution": "This analysis uses the Human Phenotype Ontology and HGNC; see source versions and licenses.",
+        "association_scope": "HPO gene-disease mappings with source-specific OMIM/ORPHA IDs; not ClinGen clinical-validity or mechanism curation."
+      }
+    },
+    "egene_software": {
+      "original_path": "2_egene/data/software_manifest.json",
+      "record": {
+        "intervar": {
+          "repository": "https://github.com/WGLab/InterVar.git",
+          "commit": "4801682d37982bb3e99b50392790878a568b42cd",
+          "version": "2.2.2 20210727"
+        },
+        "python": "3.11.9",
+        "perl": "v5.30.0",
+        "annovar_scripts": {
+          "table_annovar.pl": {
+            "sha256": "a3c67e1eb9b8c966e1224539432bab96c0b0003c854445f8dd7775156abdcf4b",
+            "source_date": "2022-08-02 22:48:58 -0400 (Tue,  2 Aug 2022)"
+          },
+          "convert2annovar.pl": {
+            "sha256": "a0ef4f89e60e3cbe2c4a8164b70563a382d4de2628777df00b3d89605ba9edd5",
+            "source_date": "2019-10-24 00:05:27 -0400 (Thu, 24 Oct 2019)"
+          },
+          "annotate_variation.pl": {
+            "sha256": "9840d7b4451d79a04c0bd15ce364c4707ddb355b3d796f7b4b47b6e8a850580a",
+            "source_date": "2025-03-02 22:37:01 -0500 (Sun,  2 Mar 2025)"
+          },
+          "coding_change.pl": {
+            "sha256": "0de5e48695d5834ccfe344ad9188b3fcd36c3002033f5011226cab879968760c",
+            "source_date": "2025-03-02 22:36:45 -0500 (Sun,  2 Mar 2025)"
+          },
+          "retrieve_seq_from_fasta.pl": {
+            "sha256": "40e26eb49ea263674d25aeb99103c5771b452b714f7a2eb1e1aff2f9584596cc",
+            "source_date": "2020-06-07 23:56:37 -0400 (Sun,  7 Jun 2020)"
+          }
+        },
+        "annovar_archive": {
+          "archive": "annovar.latest.tar.gz",
+          "sha256": "d32e18747eb3eafdc4889397483fbd9d15ac8aeefda14ef17442ae54dd192f57",
+          "imported_at": "2026-10-16T08:30:27.510627+00:00"
+        },
+        "recorded_at": "2026-10-16T10:33:18.555834+00:00"
+      }
+    },
+    "gsmap_download": {
+      "original_path": "4_atheromap_data/GSE241346_gsMap/download_manifest.json",
+      "record": {
+        "schema_version": "1.0",
+        "stage": "download_gsmap_public_inputs",
+        "status": "complete",
+        "completed_at": "2026-10-18T09:08:10.432149+00:00",
+        "download_bytes": 848599915,
+        "files": [
+          {
+            "name": "GSE241346_RAW.tar",
+            "relative_path": "data/spatial/GSE241346_RAW.tar",
+            "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE241nnn/GSE241346/suppl/GSE241346_RAW.tar",
+            "expected_bytes": 14090240,
+            "bytes": 14090240,
+            "sha256": "af2402b40e10d2b9e3217c07afaf062e8ca576fc59f5da7372f78a69c0950768",
+            "integrity": {
+              "status": "passed",
+              "archive_members": 18,
+              "files": {
+                "GSM7727539_sample1_aligned_fiducials.jpg.gz": 772351,
+                "GSM7727539_sample1_barcodes.tsv.gz": 25699,
+                "GSM7727539_sample1_detected_tissue_image.jpg.gz": 657899,
+                "GSM7727539_sample1_features.tsv.gz": 297037,
+                "GSM7727539_sample1_matrix.mtx.gz": 3695167,
+                "GSM7727539_sample1_scalefactors_json.json.gz": 156,
+                "GSM7727539_sample1_tissue_hires_image.png.gz": 1021572,
+                "GSM7727539_sample1_tissue_lowres_image.png.gz": 111135,
+                "GSM7727539_sample1_tissue_positions_list.csv.gz": 59270,
+                "GSM7727540_sample2_aligned_fiducials.jpg.gz": 975481,
+                "GSM7727540_sample2_barcodes.tsv.gz": 6430,
+                "GSM7727540_sample2_detected_tissue_image.jpg.gz": 1580583,
+                "GSM7727540_sample2_features.tsv.gz": 142333,
+                "GSM7727540_sample2_matrix.mtx.gz": 2086856,
+                "GSM7727540_sample2_scalefactors_json.json.gz": 171,
+                "GSM7727540_sample2_tissue_hires_image.png.gz": 2283311,
+                "GSM7727540_sample2_tissue_lowres_image.png.gz": 293132,
+                "GSM7727540_sample2_tissue_positions_list.csv.gz": 59082
+              },
+              "check": "Official file inventory, per-member sizes and all internal gzip CRCs"
+            }
+          },
+          {
+            "name": "GCST007435.tsv.gz",
+            "relative_path": "data/gwas/GCST007435.tsv.gz",
+            "url": "https://ftp.ebi.ac.uk/pub/databases/gwas/summary_statistics/GCST007001-GCST008000/GCST007435/GCST007435.tsv.gz",
+            "expected_bytes": 183632122,
+            "bytes": 183632122,
+            "sha256": "0ff985bf8775e89d741de28efa4ed3a8adaf4b7549278daf193ac45c0f1d303c",
+            "integrity": {
+              "status": "passed",
+              "source_md5": "cc009982e0c2fa5a5f65a35f777ac3d0",
+              "sha256": "0ff985bf8775e89d741de28efa4ed3a8adaf4b7549278daf193ac45c0f1d303c",
+              "metadata_md5_verified": true,
+              "gzip_crc_verified": true
+            }
+          },
+          {
+            "name": "gsMap_resource.tar.gz",
+            "relative_path": "resources/gsMap_resource.tar.gz",
+            "url": "https://yanglab.westlake.edu.cn/data/gsMap/gsMap_resource.tar.gz",
+            "expected_bytes": 650877553,
+            "bytes": 650877553,
+            "sha256": "d93de53a13b072e54c0801cc2ac4bd7fcbf2f53ed5f7a8537eedacfa37214027",
+            "integrity": {
+              "status": "passed",
+              "archive_members": 263,
+              "regular_files": 238,
+              "uncompressed_file_bytes": 3551092386,
+              "required_components_present": {
+                "quick_mode/snp_gene_weight_matrix.h5ad": true,
+                "quick_mode/baseline": true,
+                "quick_mode/SNP_gene_pair": true,
+                "LDSC_resource/weights_hm3_no_hla": true,
+                "LD_Reference_Panel/1000G_EUR_Phase3_plink": true,
+                "genome_annotation/gtf/gencode.v46lift37.basic.annotation.gtf": true
+              },
+              "check": "Complete gzip stream including CRC, tar directory and expected component paths"
+            }
+          }
+        ],
+        "scope": "Original public archives and GWAS data downloaded and verified; source archives preserved."
+      }
+    }
+  },
+  "original_checksum_manifests": {
+    "1_popgen/data/reference/GRCh38.sha256": "93157a161863464c9435062fd67c173fdaf99cb8b32f1455018361387ffa5564  1_popgen/data/reference/GRCh38.fa\nedefd93c489dc1baefad312f40388089f8db5cf6dcc3ba0955669ead274e8b6b  1_popgen/data/reference/GRCh38.fa.fai\n07523b4a0afd1127ae909f92f8b3911aff096461aed7eff3f1acf5bdfc1dc103  1_popgen/data/reference/GRCh38.dict\n4199db9e913e372b2dae4ac17723def657f696daf71024b66f6b695947918c77  1_popgen/data/reference/GRCh38.fa.amb\n49231cd8462826afe424aeb20b6b2b9ecff32ff1a90f88f5d5f3c1a0cfb9ba99  1_popgen/data/reference/GRCh38.fa.ann\na01ecc6bfae7abcf3542f68314da843d5594f8b8cf3eb7799371ac3e99231754  1_popgen/data/reference/GRCh38.fa.bwt\n5dd6629f95e9765a19821fd1ffc3e883e5af177527a220a6b72a4e5e492114dc  1_popgen/data/reference/GRCh38.fa.pac\nb87d29d937b58dfde9943d8300ab0f9490bae5ba4ddc54726da023aeebd48da4  1_popgen/data/reference/GRCh38.fa.sa\n",
+    "1_popgen/data/fastq/HG002_novogene_wes_18g_rep1.md5": "e5b9d4718532b901b461d3424b0b215f  HG002_novogene_wes_18g_rep1_R1.fastq.gz\ne46f53a0cf62fd8b9634a6a1493ed667  HG002_novogene_wes_18g_rep1_R2.fastq.gz\n"
+  },
+  "panel_checksums": {
+    "1_popgen/data/reference/panel_1000g/sample_superpop.tsv": {
+      "sha256": "a81a528ae53062781ec44f1f921e0261afd5334d1457e0acb34d6932f0dab2d2",
+      "bytes": 51252
+    },
+    "1_popgen/data/reference/panel_1000g/ref_1000g_pruned.bed": {
+      "sha256": "a2e3fd1b3aa93a49405ee1cf07d6e1cd955ce6beef97b4a49360427dcd22f3cd",
+      "bytes": 239849040
+    },
+    "1_popgen/data/reference/panel_1000g/ref_1000g_pruned.pop": {
+      "sha256": "98c896888e4200712f570f6f45bb4357b5d691dac6cf4b8ea1250720300902fb",
+      "bytes": 12808
+    },
+    "1_popgen/data/reference/panel_1000g/ref_1000g_pruned.bim": {
+      "sha256": "3a7c40c4bc645acd14f5076787e9d1189765b3a3bf6e31ea2d8fb430a06e3f45",
+      "bytes": 11758560
+    },
+    "1_popgen/data/reference/panel_1000g/ref_1000g_pruned.fam": {
+      "sha256": "9edbcca5dcd83f6d6c5c364a1bbadadeb92840690a60e394aed3084d5776f35b",
+      "bytes": 60838
+    }
+  },
+  "additional_public_sources": {
+    "1000g_vcf_directory": "https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/data_collections/1000G_2504_high_coverage/working/20220422_3202_phased_SNV_INDEL_SV/",
+    "1000g_sample_labels": "https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/data_collections/1000G_2504_high_coverage/20130606_g1k_3202_samples_ped_population.txt",
+    "gse159677": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE159677",
+    "gse159677_aggregate": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE159nnn/GSE159677/suppl/GSE159677_AGGREGATEMAPPED-tisCAR6samples_featurebcmatrixfiltered.tar.gz",
+    "primekg": "https://zitniklab.hms.harvard.edu/projects/PrimeKG/",
+    "pcqa": "https://github.com/yichun10/bioKGQA-KGT",
+    "opentargets": "https://api.platform.opentargets.org/api/v4/graphql",
+    "reactome": "https://reactome.org/ContentService"
+  },
+  "reproduction_gaps": [
+    "The GSE159677 processed H5AD, scDRS scores and custom trait weights are not GEO source files. A public project artifact URL is not yet available; the trait/GWAS and weight-generation provenance remain unconfirmed.",
+    "The PLINK panel is project-derived, not directly downloadable as ref_1000g_pruned.*. A rebuild must preserve marker identities and sample order for model.pt; checksums and small label tables are included.",
+    "The official gsMap resource URL returned HTTP 403 from this host during this audit; an author-supported accessible download endpoint must be confirmed.",
+    "The live OMIM mim2gene.txt is 990333 bytes; the installed snapshot is 990092 bytes. The existing lock is not silently updated; exact old-snapshot reacquisition is unconfirmed."
+  ],
+  "http_checks": [
+    {
+      "name": "hg38_refGene.txt.gz",
+      "url": "https://www.openbioinformatics.org/annovar/download/hg38_refGene.txt.gz",
+      "method": "HEAD",
+      "status": 200,
+      "content_length": "8594720",
+      "etag": "\"832520-5e54c526d3e24\"",
+      "matches_locked_size": true
+    },
+    {
+      "name": "hg38_refGeneMrna.fa.gz",
+      "url": "https://www.openbioinformatics.org/annovar/download/hg38_refGeneMrna.fa.gz",
+      "method": "HEAD",
+      "status": 200,
+      "content_length": "69639707",
+      "etag": "\"4269e1b-5e54c530000fe\"",
+      "matches_locked_size": true
+    },
+    {
+      "name": "hg38_refGeneVersion.txt.gz",
+      "url": "https://www.openbioinformatics.org/annovar/download/hg38_refGeneVersion.txt.gz",
+      "method": "HEAD",
+      "status": 200,
+      "content_length": "199671",
+      "etag": "\"30bf7-5e54c52a25fe6\"",
+      "matches_locked_size": true
+    },
+    {
+      "name": "hg38_ensGene.txt.gz",
+      "url": "https://www.openbioinformatics.org/annovar/download/hg38_ensGene.txt.gz",
+      "method": "HEAD",
+      "status": 200,
+      "content_length": "5898539",
+      "etag": "\"5a012b-6240218fc8200\"",
+      "matches_locked_size": true
+    },
+    {
+      "name": "hg38_ensGeneMrna.fa.gz",
+      "url": "https://www.openbioinformatics.org/annovar/download/hg38_ensGeneMrna.fa.gz",
+      "method": "HEAD",
+      "status": 200,
+      "content_length": "41341643",
+      "etag": "\"276d2cb-624021b405780\"",
+      "matches_locked_size": true
+    },
+    {
+      "name": "hg38_knownGene.txt.gz",
+      "url": "https://www.openbioinformatics.org/annovar/download/hg38_knownGene.txt.gz",
+      "method": "HEAD",
+      "status": 200,
+      "content_length": "11046659",
+      "etag": "\"a88f03-5e54c55bf1bc5\"",
+      "matches_locked_size": true
+    },
+    {
+      "name": "hg38_knownGeneMrna.fa.gz",
+      "url": "https://www.openbioinformatics.org/annovar/download/hg38_knownGeneMrna.fa.gz",
+      "method": "HEAD",
+      "status": 200,
+      "content_length": "61440556",
+      "etag": "\"3a9822c-5e54c56715954\"",
+      "matches_locked_size": true
+    },
+    {
+      "name": "hg38_esp6500siv2_all.txt.gz",
+      "url": "https://www.openbioinformatics.org/annovar/download/hg38_esp6500siv2_all.txt.gz",
+      "method": "HEAD",
+      "status": 200,
+      "content_length": "24841539",
+      "etag": "\"17b0d43-598f7918f8780\"",
+      "matches_locked_size": true
+    },
+    {
+      "name": "hg38_esp6500siv2_all.txt.idx.gz",
+      "url": "https://www.openbioinformatics.org/annovar/download/hg38_esp6500siv2_all.txt.idx.gz",
+      "method": "HEAD",
+      "status": 200,
+      "content_length": "5710064",
+      "etag": "\"5720f0-598f7918f8780\"",
+      "matches_locked_size": true
+    },
+    {
+      "name": "hg38_avsnp147.txt.gz",
+      "url": "https://www.openbioinformatics.org/annovar/download/hg38_avsnp147.txt.gz",
+      "method": "HEAD",
+      "status": 200,
+      "content_length": "1775686247",
+      "etag": "\"69d6d267-598f791433c40\"",
+      "matches_locked_size": true
+    },
+    {
+      "name": "hg38_avsnp147.txt.idx.gz",
+      "url": "https://www.openbioinformatics.org/annovar/download/hg38_avsnp147.txt.idx.gz",
+      "method": "HEAD",
+      "status": 200,
+      "content_length": "222202148",
+      "etag": "\"d3e8924-598f791433c40\"",
+      "matches_locked_size": true
+    },
+    {
+      "name": "hg38_dbnsfp42a.txt.gz",
+      "url": "https://www.openbioinformatics.org/annovar/download/hg38_dbnsfp42a.txt.gz",
+      "method": "HEAD",
+      "status": 200,
+      "content_length": "9997930328",
+      "etag": "\"253ec4f58-5c6b3a47c53b2\"",
+      "matches_locked_size": true
+    },
+    {
+      "name": "hg38_dbnsfp42a.txt.idx.gz",
+      "url": "https://www.openbioinformatics.org/annovar/download/hg38_dbnsfp42a.txt.idx.gz",
+      "method": "HEAD",
+      "status": 200,
+      "content_length": "5245862",
+      "etag": "\"500ba6-5c6b39509baed\"",
+      "matches_locked_size": true
+    },
+    {
+      "name": "hg38_clinvar_20210501.txt.gz",
+      "url": "https://www.openbioinformatics.org/annovar/download/hg38_clinvar_20210501.txt.gz",
+      "method": "HEAD",
+      "status": 200,
+      "content_length": "14181106",
+      "etag": "\"d862f2-5c1c5f3dd2f8d\"",
+      "matches_locked_size": true
+    },
+    {
+      "name": "hg38_clinvar_20210501.txt.idx.gz",
+      "url": "https://www.openbioinformatics.org/annovar/download/hg38_clinvar_20210501.txt.idx.gz",
+      "method": "HEAD",
+      "status": 200,
+      "content_length": "666762",
+      "etag": "\"a2c8a-5c1c5f46d20d7\"",
+      "matches_locked_size": true
+    },
+    {
+      "name": "hg38_gnomad_genome.txt.gz",
+      "url": "https://www.openbioinformatics.org/annovar/download/hg38_gnomad_genome.txt.gz",
+      "method": "HEAD",
+      "status": 200,
+      "content_length": "3194084904",
+      "etag": "\"be61de28-598f791bd4e40\"",
+      "matches_locked_size": true
+    },
+    {
+      "name": "hg38_gnomad_genome.txt.idx.gz",
+      "url": "https://www.openbioinformatics.org/annovar/download/hg38_gnomad_genome.txt.idx.gz",
+      "method": "HEAD",
+      "status": 200,
+      "content_length": "233514014",
+      "etag": "\"deb241e-598f791bd4e40\"",
+      "matches_locked_size": true
+    },
+    {
+      "name": "hg38_dbscsnv11.txt.gz",
+      "url": "https://www.openbioinformatics.org/annovar/download/hg38_dbscsnv11.txt.gz",
+      "method": "HEAD",
+      "status": 200,
+      "content_length": "95748552",
+      "etag": "\"5b501c8-598f7918f8780\"",
+      "matches_locked_size": true
+    },
+    {
+      "name": "hg38_dbscsnv11.txt.idx.gz",
+      "url": "https://www.openbioinformatics.org/annovar/download/hg38_dbscsnv11.txt.idx.gz",
+      "method": "HEAD",
+      "status": 200,
+      "content_length": "3681641",
+      "etag": "\"382d69-598f7918f8780\"",
+      "matches_locked_size": true
+    },
+    {
+      "name": "hg38_1000g2015aug.zip",
+      "url": "https://www.openbioinformatics.org/annovar/download/hg38_1000g2015aug.zip",
+      "method": "HEAD",
+      "status": 200,
+      "content_length": "2732158830",
+      "etag": "\"a2d96f6e-598f79133fa00\"",
+      "matches_locked_size": true
+    },
+    {
+      "name": "hg38_rmsk.txt.gz",
+      "url": "https://hgdownload.soe.ucsc.edu/goldenPath/hg38/database/rmsk.txt.gz",
+      "method": "HEAD",
+      "status": 200,
+      "content_length": "155633856",
+      "etag": "\"946c8c0-5eb5d78b067f0\"",
+      "matches_locked_size": true
+    },
+    {
+      "name": "mim2gene.txt",
+      "url": "https://www.omim.org/static/omim/data/mim2gene.txt",
+      "method": "HEAD",
+      "status": 200,
+      "content_length": "990333",
+      "etag": "\"f1c7d-65e2f7038123d\"",
+      "matches_locked_size": false
+    },
+    {
+      "name": "hg38_kgXref.txt.gz",
+      "url": "https://www.openbioinformatics.org/annovar/download/hg38_kgXref.txt.gz",
+      "method": "HEAD",
+      "status": 200,
+      "content_length": "5960860",
+      "etag": "\"5af49c-594c85612dc80\"",
+      "matches_locked_size": true
+    },
+    {
+      "name": "hp-international.obo",
+      "url": "https://github.com/obophenotype/human-phenotype-ontology/releases/download/v2026-09-01/hp-international.obo",
+      "method": "HEAD",
+      "status": 200,
+      "content_length": "22476318",
+      "etag": "\"0x8DF0935F5A93F3F\"",
+      "matches_locked_size": true
+    },
+    {
+      "name": "genes_to_disease.txt",
+      "url": "https://github.com/obophenotype/human-phenotype-ontology/releases/download/v2026-09-01/genes_to_disease.txt",
+      "method": "HEAD",
+      "status": 200,
+      "content_length": "1492039",
+      "etag": "\"0x8DF093642FC6BFF\"",
+      "matches_locked_size": true
+    },
+    {
+      "name": "phenotype.hpoa",
+      "url": "https://github.com/obophenotype/human-phenotype-ontology/releases/download/v2026-09-01/phenotype.hpoa",
+      "method": "HEAD",
+      "status": 200,
+      "content_length": "35816037",
+      "etag": "\"0x8DF0936DA47C46B\"",
+      "matches_locked_size": true
+    },
+    {
+      "name": "hgnc_complete_set.tsv",
+      "url": "https://storage.googleapis.com/public-download-files/hgnc/archive/archive/quarterly/tsv/hgnc_complete_set_2026-10-06.tsv",
+      "method": "HEAD",
+      "status": 200,
+      "content_length": "16973125",
+      "etag": "\"af43fd56a64ad57c0fcc72d6ef65e516\"",
+      "matches_locked_size": true
+    },
+    {
+      "name": "1000g_sample_labels",
+      "url": "https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/data_collections/1000G_2504_high_coverage/20130606_g1k_3202_samples_ped_population.txt",
+      "method": "HEAD",
+      "status": 200,
+      "content_length": "97483",
+      "etag": "\"17ccb-5a67997a54e40\""
+    },
+    {
+      "name": "novogene_r1",
+      "url": "https://hweu-ld.oss-eu-west-1.aliyuncs.com/demo/20190605124639/HG002_novogene_wes_18g_rep1_R1.fq.gz",
+      "method": "HEAD",
+      "status": 200,
+      "content_length": 4499912863,
+      "matches_local_size": true
+    },
+    {
+      "name": "novogene_r2",
+      "url": "https://hweu-ld.oss-eu-west-1.aliyuncs.com/demo/20190605124722/HG002_novogene_wes_18g_rep1_R2.fq.gz",
+      "method": "HEAD",
+      "status": 200,
+      "content_length": 4726602032,
+      "matches_local_size": true
+    },
+    {
+      "name": "broad_fasta",
+      "url": "https://storage.googleapis.com/gcp-public-data--broad-references/hg38/v0/Homo_sapiens_assembly38.fasta",
+      "method": "HEAD",
+      "status": 200,
+      "content_length": 3249912778,
+      "matches_local_size": true
+    },
+    {
+      "name": "gwas_gcst007435",
+      "url": "https://ftp.ebi.ac.uk/pub/databases/gwas/summary_statistics/GCST007001-GCST008000/GCST007435/GCST007435.tsv.gz",
+      "method": "HEAD",
+      "status": 200,
+      "content_length": 183632122,
+      "matches_local_size": true
+    },
+    {
+      "name": "geo_gse241346",
+      "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE241nnn/GSE241346/suppl/GSE241346_RAW.tar",
+      "method": "HEAD",
+      "status": 200,
+      "content_length": 14090240,
+      "matches_local_size": true
+    },
+    {
+      "name": "geo_gse159677_aggregate",
+      "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE159nnn/GSE159677/suppl/GSE159677_AGGREGATEMAPPED-tisCAR6samples_featurebcmatrixfiltered.tar.gz",
+      "method": "HEAD",
+      "status": 200,
+      "content_length": 307799477
+    },
+    {
+      "name": "gsmap_resource",
+      "url": "https://yanglab.westlake.edu.cn/data/gsMap/gsMap_resource.tar.gz",
+      "method": "HEAD",
+      "status": 403,
+      "note": "Official documentation lists this public URL; the current host could not access it during the audit."
+    }
+  ],
+  "publication_changes": {
+    "date": "2026-10-19",
+    "portability": "PopGen operational VCF/labels/build/training paths now default to repository-local data and can be overridden with POPGEN_1000G_VCF_DIR, POPGEN_SAMPLES_INFO and PANEL_TMP. Environment setup checks software separately from reference data. Algorithms and existing source locks were not changed.",
+    "readme": "Root README documents repository download, features, installation, public data, conditional fourth-stage inputs, CLI and local web UI."
+  }
+}

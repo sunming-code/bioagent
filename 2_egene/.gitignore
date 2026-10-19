@@ -1,0 +1,9 @@
+.runtime/
+data/
+vendor/
+__pycache__/
+*.pyc
+config/intervar.hg38.ini
+config/runtime.json
+config/input.runtime.json
+results/

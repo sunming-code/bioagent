@@ -1,0 +1,54 @@
+__pycache__/
+*.pyc
+
+# Local environments, caches and workflow intermediates.
+.runtime/
+.venv/
+venv/
+.pytest_cache/
+.nextflow*
+.vscode/
+.DS_Store
+*.log
+*.part
+*.aria2
+/runs/
+/1_popgen/work/
+/1_popgen/results/
+/1_popgen/ui/uploads/
+/2_egene/results/
+
+# Downloaded inputs and licensed third-party installations.
+# Small provenance records are preserved in data_sources/provenance.json.
+/1_popgen/data/
+/2_egene/data/
+/2_egene/vendor/
+
+# Public gsMap inputs and generated results. Keep preparation scripts/manifests.
+/4_atheromap_data/GSE241346_gsMap/data/
+/4_atheromap_data/GSE241346_gsMap/resources/
+/4_atheromap_data/GSE241346_gsMap/results/
+/4_atheromap_data/GSE241346_gsMap/plots/
+/4_atheromap_data/GSE241346_gsMap/logs/
+/4_atheromap_data/GSE241346_gsMap/validation/
+
+# GSE159677 processed artifacts require separate distribution (see DATASETS.md).
+# Keep small manual annotation, marker and summary tables.
+/4_atheromap_data/GSE159677_scDRS/**/*.h5ad
+/4_atheromap_data/GSE159677_scDRS/scdrs_out/
+/4_atheromap_data/GSE159677_scDRS/scdrs_input/
+/4_atheromap_data/GSE159677_scDRS/metadata/GSE159677_scdrs_covariates.tsv
+/4_atheromap_data/GSE159677_scDRS/merged/macrophage_subtype_analysis/03_macrophage_leiden_wilcoxon_dge.csv
+/4_atheromap_data/GSE159677_scDRS/merged/**/*celllevel_scores.csv
+
+# Upstream raw exports; keep the project KG, model and evaluation subsets.
+/3_GDgpt/kg_build/kg.csv
+/3_GDgpt/kg_build/magis_kg_edges.csv
+/3_GDgpt/evaluation/external_benchmarks/PcQA_raw.json
+
+# Machine-local credentials. Example configuration remains versioned.
+.env
+.env.local
+/3_GDgpt/config.json
+/3_GDgpt/config.local.json
+/4_atheromap/config/paths.local.env

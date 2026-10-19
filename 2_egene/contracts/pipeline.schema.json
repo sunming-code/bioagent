@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["schema_version", "stage", "status", "sample_id", "assembly", "producer", "input", "stages", "commands", "report", "files"],
+  "properties": {
+    "schema_version": {"const": "1.0"}, "stage": {"const": "run_pipeline"}, "status": {"const": "complete"}, "assembly": {"const": "GRCh38"},
+    "stages": {"type": "object", "required": ["2", "3", "4", "5", "6"]},
+    "report": {"type": "object", "required": ["html", "json", "archive"]},
+    "files": {"type": "object", "required": ["pipeline_config.json", "delivery.zip", "delivery/report.html", "delivery/report.json", "delivery/report_manifest.json"],
+      "additionalProperties": {"type": "object", "required": ["path", "bytes", "sha256"],
+        "properties": {"path": {"type": "string"}, "bytes": {"type": "integer", "minimum": 0}, "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}}}
+  }
+}

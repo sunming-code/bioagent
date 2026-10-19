@@ -1,0 +1,23 @@
+{
+  "root": "/hpc2hdd/home/msun663/e-gene/4_atheromap_data/GSE241346_gsMap",
+  "items": [
+    {
+      "name": "GSE241346_RAW.tar",
+      "relative_path": "data/spatial/GSE241346_RAW.tar",
+      "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE241nnn/GSE241346/suppl/GSE241346_RAW.tar",
+      "expected_bytes": 14090240
+    },
+    {
+      "name": "GCST007435.tsv.gz",
+      "relative_path": "data/gwas/GCST007435.tsv.gz",
+      "url": "https://ftp.ebi.ac.uk/pub/databases/gwas/summary_statistics/GCST007001-GCST008000/GCST007435/GCST007435.tsv.gz",
+      "expected_bytes": 183632122
+    },
+    {
+      "name": "gsMap_resource.tar.gz",
+      "relative_path": "resources/gsMap_resource.tar.gz",
+      "url": "https://yanglab.westlake.edu.cn/data/gsMap/gsMap_resource.tar.gz",
+      "expected_bytes": 650877553
+    }
+  ]
+}

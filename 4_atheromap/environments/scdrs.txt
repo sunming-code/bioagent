@@ -1,0 +1,4 @@
+-r python-common.txt
+scdrs==1.0.2
+harmonypy==0.0.10
+jsonschema==4.23.0

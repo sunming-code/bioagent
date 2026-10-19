@@ -1,0 +1,20 @@
+#Archive/File	Name	Time	Size	Type
+Archive	GSE241346_RAW.tar	02/01/2024 12:09:28	14090240	TAR
+File	GSM7727539_sample1_aligned_fiducials.jpg.gz	08/21/2023 14:37:32	772351	JPG
+File	GSM7727539_sample1_barcodes.tsv.gz	08/21/2023 14:37:32	25699	TSV
+File	GSM7727539_sample1_detected_tissue_image.jpg.gz	08/21/2023 14:37:32	657899	JPG
+File	GSM7727539_sample1_features.tsv.gz	08/21/2023 14:37:32	297037	TSV
+File	GSM7727539_sample1_matrix.mtx.gz	08/21/2023 14:37:33	3695167	MTX
+File	GSM7727539_sample1_scalefactors_json.json.gz	08/21/2023 14:37:33	156	JSON
+File	GSM7727539_sample1_tissue_hires_image.png.gz	08/21/2023 14:37:33	1021572	PNG
+File	GSM7727539_sample1_tissue_lowres_image.png.gz	08/21/2023 14:37:33	111135	PNG
+File	GSM7727539_sample1_tissue_positions_list.csv.gz	08/21/2023 14:37:33	59270	CSV
+File	GSM7727540_sample2_aligned_fiducials.jpg.gz	08/21/2023 14:37:34	975481	JPG
+File	GSM7727540_sample2_barcodes.tsv.gz	08/21/2023 14:37:34	6430	TSV
+File	GSM7727540_sample2_detected_tissue_image.jpg.gz	08/21/2023 14:37:34	1580583	JPG
+File	GSM7727540_sample2_features.tsv.gz	08/21/2023 14:37:34	142333	TSV
+File	GSM7727540_sample2_matrix.mtx.gz	08/21/2023 14:37:34	2086856	MTX
+File	GSM7727540_sample2_scalefactors_json.json.gz	08/21/2023 14:37:34	171	JSON
+File	GSM7727540_sample2_tissue_hires_image.png.gz	08/21/2023 14:37:35	2283311	PNG
+File	GSM7727540_sample2_tissue_lowres_image.png.gz	08/21/2023 14:37:35	293132	PNG
+File	GSM7727540_sample2_tissue_positions_list.csv.gz	08/21/2023 14:37:35	59082	CSV

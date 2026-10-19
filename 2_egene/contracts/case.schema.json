@@ -1,0 +1,73 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "e-Gene structured case and explicitly reviewed family observations",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "sample_id"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "sample_id": {"type": "string", "minLength": 1},
+    "sex": {"enum": ["male", "female", "unknown"]},
+    "age_years": {"type": ["number", "null"], "minimum": 0},
+    "onset_age_years": {"type": ["number", "null"], "minimum": 0},
+    "clinical_description": {"type": "string"},
+    "phenotypes": {
+      "type": "array",
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["observed"],
+        "anyOf": [{"required": ["id"]}, {"required": ["label"]}],
+        "properties": {
+          "id": {"type": "string", "pattern": "^HP:[0-9]{7}$"},
+          "label": {"type": "string", "minLength": 1},
+          "observed": {"type": "boolean"},
+          "source_text": {"type": "string"},
+          "onset_age_years": {"type": ["number", "null"], "minimum": 0}
+        }
+      }
+    },
+    "family": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "relationships_confirmed": {"type": "boolean"},
+        "genotypes": {
+          "type": "array", "items": {
+            "type": "object", "additionalProperties": false,
+            "required": ["normalized_id"],
+            "properties": {
+              "normalized_id": {"type": "string", "pattern": "^GRCh38:chr[^:]+:[0-9]+:[ACGT]+:[ACGT]+$"},
+              "mother": {"$ref": "#/definitions/parental_call"},
+              "father": {"$ref": "#/definitions/parental_call"}
+            }
+          }
+        },
+        "phase": {
+          "type": "array", "items": {
+            "type": "object", "additionalProperties": false,
+            "required": ["variant_ids", "relation", "basis"],
+            "properties": {
+              "variant_ids": {"type": "array", "minItems": 2, "maxItems": 2, "uniqueItems": true, "items": {"type": "string"}},
+              "relation": {"enum": ["cis", "trans"]},
+              "basis": {"type": "string", "minLength": 1}
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "parental_call": {
+      "type": "object", "additionalProperties": false,
+      "required": ["gt", "callable"],
+      "properties": {
+        "gt": {"type": "string", "pattern": "^[01.](?:[/|][01.])?$"},
+        "callable": {"type": "boolean"},
+        "basis": {"type": "string", "minLength": 1},
+        "dp": {"type": ["integer", "null"], "minimum": 0},
+        "gq": {"type": ["number", "null"], "minimum": 0}
+      },
+      "if": {"properties": {"callable": {"const": true}}},
+      "then": {"required": ["basis"]}
+    }
+  }
+}

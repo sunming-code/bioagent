@@ -1,0 +1,136 @@
+{
+  "validated_at": "2026-10-18T09:44:10.359096+00:00",
+  "stage": "gwas",
+  "status": "passed",
+  "workspace": "/hpc2hdd/home/msun663/e-gene/4_atheromap_data/GSE241346_gsMap",
+  "gwas": {
+    "source_rows": 7928717,
+    "retained_snps": 6137571,
+    "removed_snps": 1791146,
+    "columns": [
+      "SNP",
+      "A1",
+      "A2",
+      "Z",
+      "N",
+      "Chr",
+      "Pos"
+    ],
+    "chromosomes": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22
+    ],
+    "genome_build": "GRCh37",
+    "sample_size_source": "per-variant source n column",
+    "n_min": 32290.0,
+    "n_median": 47862.0,
+    "n_max": 48435.0,
+    "n_unique": 7447,
+    "n_filter_threshold": 32290,
+    "signed_z_method": "sign(beta; beta=0 treated positive) * sqrt(chi2.isf(p_value, df=1)); official formatter, rounded to 3 decimals",
+    "max_signed_z_rounding_error": 0.0004999558557381434,
+    "source_fields_exact": true,
+    "source_membership_exact": true,
+    "gsmap_reader_roundtrip": true,
+    "baseline_snps": 1195563,
+    "weight_snps": 1242190,
+    "regression_snp_intersection": 1045696,
+    "ld_reference_rows": 9997231,
+    "ld_reference_overlap": 5880188,
+    "ld_coordinate_mismatches": 11,
+    "ld_allele_mismatches_including_strand_and_swap": 296,
+    "mismatch_examples": [
+      {
+        "SNP": "rs12407683",
+        "Chr": 1,
+        "Pos": 14404287,
+        "A1": "A",
+        "A2": "G"
+      },
+      {
+        "SNP": "rs12131142",
+        "Chr": 1,
+        "Pos": 15146202,
+        "A1": "A",
+        "A2": "C"
+      },
+      {
+        "SNP": "rs79862129",
+        "Chr": 1,
+        "Pos": 22294244,
+        "A1": "T",
+        "A2": "C"
+      },
+      {
+        "SNP": "rs114091988",
+        "Chr": 1,
+        "Pos": 22326401,
+        "A1": "A",
+        "A2": "C"
+      },
+      {
+        "SNP": "rs57668904",
+        "Chr": 1,
+        "Pos": 38731063,
+        "A1": "A",
+        "A2": "G"
+      },
+      {
+        "SNP": "rs34826659",
+        "Chr": 1,
+        "Pos": 48000156,
+        "A1": "T",
+        "A2": "C"
+      },
+      {
+        "SNP": "rs71651171",
+        "Chr": 1,
+        "Pos": 51629798,
+        "A1": "A",
+        "A2": "G"
+      },
+      {
+        "SNP": "rs11803439",
+        "Chr": 1,
+        "Pos": 63217403,
+        "A1": "T",
+        "A2": "G"
+      },
+      {
+        "SNP": "rs113495899",
+        "Chr": 1,
+        "Pos": 68627269,
+        "A1": "A",
+        "A2": "C"
+      },
+      {
+        "SNP": "rs74909863",
+        "Chr": 1,
+        "Pos": 72900414,
+        "A1": "T",
+        "A2": "C"
+      }
+    ],
+    "reference_chromosomes_checked": 22
+  }
+}

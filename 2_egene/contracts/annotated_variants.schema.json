@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "e-Gene ANNOVAR annotation and preliminary triage",
+  "type": "object",
+  "required": ["schema_version", "status", "stage", "producer", "sample_id", "assembly", "annovar_build", "prepared_manifest", "counts", "classification_performed", "database_snapshot_sha256", "triage_policy_sha256", "files"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "status": {"const": "complete"},
+    "stage": {"const": "annotate_variants"},
+    "assembly": {"const": "GRCh38"},
+    "annovar_build": {"const": "hg38"},
+    "sample_id": {"type": "string", "minLength": 1},
+    "classification_performed": {"const": false},
+    "counts": {
+      "type": "object",
+      "required": ["annotated_variants", "candidate_variants", "priority_variants", "review_variants", "background_variants"],
+      "additionalProperties": {"type": "integer", "minimum": 0}
+    },
+    "files": {
+      "type": "object",
+      "required": ["raw/annovar.hg38_multianno.txt", "all_variants.tsv", "candidate_variants.tsv", "priority_variants.tsv", "review_variants.tsv", "candidate.avinput", "candidate.hg38_multianno.txt", "annotation_summary.json", "database_snapshot.json", "triage_policy.json"],
+      "additionalProperties": {
+        "type": "object",
+        "required": ["path", "bytes", "sha256"],
+        "properties": {
+          "path": {"type": "string"},
+          "bytes": {"type": "integer", "minimum": 0},
+          "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+        }
+      }
+    }
+  }
+}

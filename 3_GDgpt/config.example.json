@@ -1,0 +1,14 @@
+{
+    "api_key": "your-api-key-here",
+    "base_url": "https://api.example.com/v1",
+    "text_model": "gpt-4o-mini",
+    "enable_tools": true,
+    "neo4j_uri": "neo4j://localhost:7687",
+    "neo4j_user": "neo4j",
+    "neo4j_password": "your-neo4j-password",
+    "neo4j_database": "",
+    "embedding_provider": "local",
+    "embedding_model": "BAAI/bge-small-zh-v1.5",
+    "max_parallel_experts": 7,
+    "max_parallel_queries": 3
+}

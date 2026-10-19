@@ -1,0 +1,15 @@
+{
+  "status": "passed",
+  "archive_members": 263,
+  "regular_files": 238,
+  "uncompressed_file_bytes": 3551092386,
+  "required_components_present": {
+    "quick_mode/snp_gene_weight_matrix.h5ad": true,
+    "quick_mode/baseline": true,
+    "quick_mode/SNP_gene_pair": true,
+    "LDSC_resource/weights_hm3_no_hla": true,
+    "LD_Reference_Panel/1000G_EUR_Phase3_plink": true,
+    "genome_annotation/gtf/gencode.v46lift37.basic.annotation.gtf": true
+  },
+  "check": "Complete gzip stream including CRC, tar directory and expected component paths"
+}

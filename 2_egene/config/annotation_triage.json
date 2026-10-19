@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "name": "annotation_triage",
+  "version": "1.0.0",
+  "frequency_screen_cutoff": 0.01,
+  "trusted_benign_min_stars": 2,
+  "gene_protocols": ["refGene", "ensGene", "knownGene"],
+  "protein_altering": [
+    "nonsynonymous SNV",
+    "frameshift insertion", "frameshift deletion", "frameshift substitution",
+    "nonframeshift insertion", "nonframeshift deletion", "nonframeshift substitution",
+    "stopgain", "stoploss", "startloss"
+  ],
+  "high_impact": [
+    "frameshift insertion", "frameshift deletion", "frameshift substitution",
+    "stopgain", "stoploss", "startloss"
+  ],
+  "notes": [
+    "This cutoff only prioritizes annotation results. It is not a BA1/BS1/PM2 threshold or a pathogenicity classification.",
+    "Known pathogenic assertions, conflicting assertions, curated frequency exceptions and high-impact contradictions bypass routine frequency deprioritization.",
+    "Unknown frequencies remain unknown; no source absence or missing prediction generates ACMG evidence.",
+    "Preserve original genotypes, all transcript annotations and all variants. Disease, inheritance and phenotype assessment are separate later steps.",
+    "Historical annotation databases are frozen for InterVar compatibility, not current clinical knowledge."
+  ],
+  "references": [
+    "https://www.ncbi.nlm.nih.gov/clinvar/docs/review_status/",
+    "https://www.clinicalgenome.org/tools/clingen-variant-classification-guidance/"
+  ]
+}

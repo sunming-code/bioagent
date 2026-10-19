@@ -1,0 +1,20 @@
+channels:
+  - conda-forge
+  - bioconda
+  - nodefaults
+dependencies:
+  - r-base=4.4
+  - bioconductor-scdblfinder=1.20.2
+  - bioconductor-singlecellexperiment=1.28.0
+  - bioconductor-biocparallel=1.40.0
+  - bioconductor-zellkonverter=1.16.0
+  - bioconductor-rhdf5=2.50
+  - bioconductor-hdf5array=1.34
+  - bioconductor-scran=1.34.0
+  - bioconductor-matrixgenerics=1.18.0
+  - bioconductor-sparsematrixstats=1.18
+  - bioconductor-delayedmatrixstats=1.28
+  - r-ggplot2=3.5.2
+  - r-dplyr=1.1.4
+  - r-ggsignif=0.6.4
+  - r-patchwork=1.3.0

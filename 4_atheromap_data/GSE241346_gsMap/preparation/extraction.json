@@ -1,0 +1,18 @@
+{
+  "status": "complete",
+  "completed_at": "2026-10-18T09:21:07.947271+00:00",
+  "archives": [
+    {
+      "archive": "data/spatial/GSE241346_RAW.tar",
+      "directory": "data/spatial/GSE241346/raw",
+      "members": 18,
+      "regular_files": 18
+    },
+    {
+      "archive": "resources/gsMap_resource.tar.gz",
+      "directory": "resources/gsMap_resource",
+      "members": 263,
+      "regular_files": 238
+    }
+  ]
+}

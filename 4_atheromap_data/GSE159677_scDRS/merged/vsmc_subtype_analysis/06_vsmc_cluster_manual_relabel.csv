@@ -1,0 +1,11 @@
+vsmc_leiden,vsmc_subtype_raw,vsmc_subtype_final,vsmc_manual_note
+0,Contractile,Contractile,
+1,Modulated,Modulated,
+2,Fibromyocyte,Fibromyocyte,
+3,Fibromyocyte,Fibromyocyte,
+4,Contractile,Contractile,
+5,Intermediate,Fibromyocyte,ECM/secretory program; closer to Fibromyocyte than Contractile
+6,Intermediate,Modulated,APOE/lipid-inflammatory switched state; assigned to Modulated
+7,Intermediate,REMOVE_Endothelial_like,Endothelial-like contamination (PECAM1/VWF/EGFL7); removed from final VSMC object
+8,Fibromyocyte,Fibromyocyte,
+9,Intermediate,Modulated,IFN/MHC/APC-like inflammatory state; assigned to Modulated

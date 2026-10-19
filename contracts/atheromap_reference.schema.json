@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["schema_version", "stage", "producer", "reference_dataset_id", "reference_scope", "species", "tissue", "expression_genome_build", "data_root", "files", "trait", "annotation_validation"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "stage": {"const": "scdrs_reference"},
+    "reference_dataset_id": {"const": "GSE159677"},
+    "reference_scope": {"const": "external_cohort"},
+    "species": {"const": "human"},
+    "tissue": {"type": "string", "minLength": 1},
+    "expression_genome_build": {"type": ["string", "null"]},
+    "data_root": {"type": "string", "minLength": 1},
+    "files": {"type": "object", "minProperties": 1, "additionalProperties": {"$ref": "#/definitions/file"}},
+    "annotation_validation": {"type": "object", "required": ["status", "cells", "clusters", "subtypes"], "properties": {"status": {"const": "passed"}, "cells": {"type": "integer", "minimum": 1}}},
+    "trait": {
+      "type": "object",
+      "required": ["id", "score_label", "provenance_status", "disease_name", "gwas_study_id", "gwas_genome_build", "mapped_disease_ids", "source_records", "note"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "score_label": {"type": "string", "pattern": "^[A-Za-z0-9_.-]+$"},
+        "provenance_status": {"enum": ["unverified", "verified"]},
+        "disease_name": {"type": ["string", "null"]},
+        "gwas_study_id": {"type": ["string", "null"]},
+        "gwas_genome_build": {"type": ["string", "null"]},
+        "mapped_disease_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "source_records": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "note": {"type": "string"}
+      }
+    }
+  },
+  "definitions": {
+    "file": {"type": "object", "required": ["path", "bytes", "sha256"], "properties": {"path": {"type": "string", "minLength": 1}, "bytes": {"type": "integer", "minimum": 1}, "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}}
+  }
+}

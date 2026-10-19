@@ -1,0 +1,71 @@
+{
+  "B-cell": [
+    "MS4A1",
+    "CD79A",
+    "CD79B",
+    "CD22"
+  ],
+  "Dendritic-cell": [
+    "CD1C",
+    "FCER1A",
+    "CLEC10A",
+    "HLA-DRA",
+    "CLEC4C"
+  ],
+  "Endothelial": [
+    "VWF",
+    "PECAM1",
+    "CD34",
+    "PLVAP",
+    "VCAM1"
+  ],
+  "FB": [
+    "COL6A3",
+    "LUM",
+    "DCN",
+    "PDGFRA",
+    "CXCL14"
+  ],
+  "Macrophage": [
+    "CD68",
+    "FCGR3A",
+    "CD163",
+    "MARCO",
+    "CD14"
+  ],
+  "Mast-cell": [
+    "KIT",
+    "CPA3",
+    "TPSAB1",
+    "CMA1",
+    "FCER1A"
+  ],
+  "NK-cell": [
+    "NKG7",
+    "KLRD1",
+    "PRF1",
+    "GNLY",
+    "KLRF1"
+  ],
+  "Plasma-cell": [
+    "SDC1",
+    "XBP1",
+    "PRDM1",
+    "JCHAIN",
+    "MZB1"
+  ],
+  "T-cell": [
+    "CD3D",
+    "CD3E",
+    "TRAC",
+    "IL7R",
+    "LTB"
+  ],
+  "VSMC": [
+    "MYH11",
+    "TAGLN",
+    "ACTA2",
+    "CNN1",
+    "MYLK"
+  ]
+}

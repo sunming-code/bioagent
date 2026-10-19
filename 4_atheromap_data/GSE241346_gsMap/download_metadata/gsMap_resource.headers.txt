@@ -1,0 +1,12 @@
+HTTP/1.1 200 Connection established
+
+HTTP/1.1 206 Partial Content
+Date: Sun, 18 Oct 2026 09:03:53 GMT
+Content-Type: application/octet-stream
+Content-Length: 650877553
+Connection: keep-alive
+Last-Modified: Wed, 21 Jan 2026 07:33:20 GMT
+ETag: "69708140-26cb9a71"
+X-Frame-Options: ALLOW-FROM http://43.139.128.216/, http://10.61.24.130:3000/
+Content-Range: bytes 0-650877552/650877553
+

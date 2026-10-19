@@ -1,0 +1,17 @@
+{
+  "python": "3.10.22 | packaged by conda-forge | (main, Oct  6 2026, 23:02:24) [GCC 14.4.0]",
+  "executable": "/hpc2hdd/home/msun663/.conda/envs/atheromap_gsmap/bin/python",
+  "platform": "Linux-5.4.0-155-generic-x86_64-with-glibc2.31",
+  "packages": {
+    "gsMap": "1.73.8",
+    "SpaGCN": "1.2.7",
+    "anndata": "0.10.8",
+    "scanpy": "1.9.8",
+    "numpy": "1.26.4",
+    "pandas": "1.5.3",
+    "scipy": "1.11.4",
+    "torch": "2.2.2+cpu",
+    "h5py": "3.11.0",
+    "pyarrow": "18.1.0"
+  }
+}

@@ -1,0 +1,181 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "PopGen Agent Evidence Pack",
+  "description": "PopGen Agent 交给 e-Gene 的交付包（schema 1.0）。频率表不嵌进 JSON，见 allele_frequency.path。查表人群与 BA1 权限以 ancestry.analysis_based 为准。",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "metadata",
+    "ancestry",
+    "structure",
+    "allele_frequency",
+    "usage",
+    "files"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "producer": {
+      "type": "object",
+      "properties": {
+        "agent": { "type": "string" },
+        "pack_built_at": { "type": "string" }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "required": ["sample_id", "genome_build", "mode"],
+      "properties": {
+        "sample_id": { "type": "string", "description": "VCF SAMPLE 列名" },
+        "sample_alias": { "type": ["string", "null"], "description": "人类可读名，如 HG002" },
+        "sample_vcf": { "type": "string" },
+        "variant_count": { "type": "integer" },
+        "genome_build": { "type": "string", "enum": ["GRCh38"] },
+        "reference_panel": { "type": "string" },
+        "mode": { "type": "string", "enum": ["Real_Pipeline"] }
+      }
+    },
+    "ancestry": {
+      "type": "object",
+      "required": ["analysis_based"],
+      "properties": {
+        "analysis_based": { "$ref": "#/definitions/analysis_based" },
+        "gnn_based": {
+          "description": "步骤3 GNN 祖先结果。未跑必须为 null，不得用空对象 {}。不得用 predicted 覆盖 af_population。",
+          "oneOf": [
+            { "type": "null" },
+            { "$ref": "#/definitions/gnn_based" }
+          ]
+        },
+        "confidence": {
+          "type": ["number", "null"],
+          "description": "GNN 校准置信度；步骤3 之前为 null"
+        }
+      }
+    },
+    "structure": {
+      "type": "object",
+      "required": ["catalog_k", "catalog_k_meaning"],
+      "properties": {
+        "catalog_k": { "type": "integer", "const": 5 },
+        "catalog_k_meaning": { "type": "string" },
+        "catalog_pops": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["AFR", "EUR", "EAS", "SAS", "AMR"] }
+        },
+        "unsupervised_best_k": { "type": ["integer", "null"] },
+        "unsupervised_best_k_cv_error": { "type": ["number", "null"] },
+        "unsupervised_note": { "type": "string" }
+      }
+    },
+    "allele_frequency": {
+      "type": "object",
+      "required": ["path", "format", "n_rows", "join_key", "columns", "matched_pop"],
+      "properties": {
+        "path": { "type": "string", "description": "相对 evidence_pack.json 的 TSV 路径" },
+        "format": { "type": "string", "const": "tsv" },
+        "n_rows": { "type": "integer", "minimum": 1 },
+        "genome_build": { "type": "string", "enum": ["GRCh38"] },
+        "join_key": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "columns": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "matched_pop": { "type": "string" },
+        "matched_pop_must_equal": { "type": "string" },
+        "note": { "type": "string" }
+      }
+    },
+    "usage": {
+      "type": "object",
+      "required": ["must", "must_not"],
+      "properties": {
+        "must": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+        "must_not": { "type": "array", "items": { "type": "string" }, "minItems": 1 }
+      }
+    },
+    "qc": {
+      "type": "object",
+      "properties": {
+        "n_aim_intersect": { "type": ["integer", "null"] },
+        "snpEff": { "type": "string" },
+        "vqsr": { "type": "string" },
+        "capture_bed": { "type": "string" }
+      }
+    },
+    "files": {
+      "type": "object",
+      "description": "相对 evidence_pack.json 的路径。allele_frequency 为必读，其余可选。",
+      "required": ["allele_frequency"],
+      "additionalProperties": { "type": ["string", "null"] }
+    }
+  },
+  "definitions": {
+    "analysis_based": {
+      "type": "object",
+      "required": [
+        "superpop",
+        "pca_nearest",
+        "admixture_dominant",
+        "assignment",
+        "af_population",
+        "af_source",
+        "use_for_acmg_ba1_bs1",
+        "reason"
+      ],
+      "properties": {
+        "superpop": { "type": ["string", "null"] },
+        "pca_nearest": { "type": ["string", "null"] },
+        "admixture_dominant": { "type": ["string", "null"] },
+        "q": { "type": "object", "additionalProperties": { "type": "number" } },
+        "qmax": { "type": ["number", "null"] },
+        "concordant": { "type": "boolean" },
+        "assignment": {
+          "type": "string",
+          "enum": ["in_reference", "admixed", "out_of_reference"]
+        },
+        "af_population": { "type": ["string", "null"] },
+        "af_source": { "type": "string" },
+        "use_for_acmg_ba1_bs1": { "type": "boolean" },
+        "reason": { "type": "string" },
+        "pca_d_nearest": { "type": ["number", "null"] },
+        "pca_d_second": { "type": ["number", "null"] },
+        "pca_d_second_over_nearest": { "type": ["number", "null"] },
+        "out_of_reference_threshold": { "type": ["number", "null"] }
+      }
+    },
+    "gnn_based": {
+      "type": "object",
+      "required": ["predicted", "q", "qmax", "usable_for_lookup"],
+      "additionalProperties": true,
+      "properties": {
+        "predicted": {
+          "type": "string",
+          "enum": ["AFR", "EUR", "EAS", "SAS", "AMR"]
+        },
+        "q": {
+          "type": "object",
+          "additionalProperties": { "type": "number" }
+        },
+        "qmax": { "type": "number" },
+        "subpop_predicted": { "type": ["string", "null"] },
+        "pca3_nearest": { "type": ["string", "null"] },
+        "concordant_with_pca3": { "type": "boolean" },
+        "note": { "type": ["string", "null"] },
+        "n_snps": { "type": ["integer", "null"] },
+        "method": { "type": "string" },
+        "inference": { "type": "string" },
+        "usable_for_lookup": {
+          "type": "boolean",
+          "description": "true 仅当与 PCA3 一致且 analysis_based.assignment 为 in_reference。不得据此改 af_population。"
+        },
+        "discordance_reason": { "type": ["string", "null"] }
+      }
+    }
+  }
+}

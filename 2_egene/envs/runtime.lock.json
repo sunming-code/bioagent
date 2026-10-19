@@ -1,0 +1,10 @@
+{
+  "python": "3.11.9",
+  "python_executable": "/hpc2ssd/softwares/anaconda3/bin/python",
+  "python_implementation": "CPython",
+  "perl": "v5.30.0",
+  "git": "git version 2.45.1",
+  "python_packages": [],
+  "note": "InterVar uses only Python standard-library modules; ANNOVAR requires Perl. No shared environment was modified.",
+  "aria2": "1.35.0 (optional ranged downloader; uses existing proxy configuration)"
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["schema_version", "status", "stage", "sample_id", "assembly", "producer", "disease_manifest", "counts", "classification_labels_modified", "files"],
+  "properties": {
+    "schema_version": {"const": "1.0"}, "status": {"const": "complete"}, "stage": {"const": "generate_report"},
+    "assembly": {"const": "GRCh38"}, "classification_labels_modified": {"const": false},
+    "counts": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}},
+    "files": {"type": "object", "required": ["report.html", "report.json", "variants.tsv", "acmg_results.tsv", "disease_candidates.tsv", "carrier_findings.tsv", "variant_disease_links.tsv"],
+      "additionalProperties": {"type": "object", "required": ["path", "bytes", "sha256"],
+        "properties": {"path": {"type": "string"}, "bytes": {"type": "integer", "minimum": 0}, "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}}}
+  }
+}

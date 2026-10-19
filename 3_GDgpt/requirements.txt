@@ -1,0 +1,17 @@
+streamlit
+langchain
+langchain-openai
+langchain-community
+langgraph
+faiss-cpu
+ddgs
+xmltodict
+neo4j
+pyyaml
+matplotlib
+numpy
+openai
+requests
+duckduckgo-search
+scipy
+fastembed

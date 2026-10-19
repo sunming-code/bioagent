@@ -1,0 +1,334 @@
+{
+  "schema_version": "1.0",
+  "assembly": "GRCh38",
+  "annovar_build": "hg38",
+  "intervar": {
+    "repository": "https://github.com/WGLab/InterVar.git",
+    "commit": "4801682d37982bb3e99b50392790878a568b42cd",
+    "version": "2.2.2 20210727"
+  },
+  "annotation_profile": "unmodified InterVar 2.2.2 built-in ANNOVAR protocols; historical compatibility snapshot, not latest ClinGen specifications",
+  "catalog": {
+    "url": "https://www.openbioinformatics.org/annovar/download/hg38_avdblist.txt",
+    "sha256": "2ff5550bd97287029d436bbbc74b666802172c5e80b89e47c2e29122efbba187",
+    "snapshot": "config/hg38_avdblist.snapshot.txt"
+  },
+  "protocols": [
+    "refGene",
+    "esp6500siv2_all",
+    "1000g2015aug_all",
+    "avsnp147",
+    "dbnsfp42a",
+    "clinvar_20210501",
+    "gnomad_genome",
+    "dbscsnv11",
+    "rmsk",
+    "ensGene",
+    "knownGene"
+  ],
+  "downloads": [
+    {
+      "name": "hg38_refGene.txt.gz",
+      "url": "https://www.openbioinformatics.org/annovar/download/hg38_refGene.txt.gz",
+      "compression": "gzip",
+      "catalog_date": "20220803",
+      "compressed_bytes": 8594720,
+      "outputs": [
+        "hg38_refGene.txt"
+      ],
+      "catalog_bytes": 8594720,
+      "etag": "\"832520-5e54c526d3e24\"",
+      "last_modified": "Wed, 03 Aug 2022 01:40:46 GMT"
+    },
+    {
+      "name": "hg38_refGeneMrna.fa.gz",
+      "url": "https://www.openbioinformatics.org/annovar/download/hg38_refGeneMrna.fa.gz",
+      "compression": "gzip",
+      "catalog_date": "20220803",
+      "compressed_bytes": 69639707,
+      "outputs": [
+        "hg38_refGeneMrna.fa"
+      ],
+      "catalog_bytes": 69639707,
+      "etag": "\"4269e1b-5e54c530000fe\"",
+      "last_modified": "Wed, 03 Aug 2022 01:40:56 GMT"
+    },
+    {
+      "name": "hg38_refGeneVersion.txt.gz",
+      "url": "https://www.openbioinformatics.org/annovar/download/hg38_refGeneVersion.txt.gz",
+      "compression": "gzip",
+      "catalog_date": "20220803",
+      "compressed_bytes": 199671,
+      "outputs": [
+        "hg38_refGeneVersion.txt"
+      ],
+      "catalog_bytes": 199671,
+      "etag": "\"30bf7-5e54c52a25fe6\"",
+      "last_modified": "Wed, 03 Aug 2022 01:40:50 GMT"
+    },
+    {
+      "name": "hg38_ensGene.txt.gz",
+      "url": "https://www.openbioinformatics.org/annovar/download/hg38_ensGene.txt.gz",
+      "compression": "gzip",
+      "catalog_date": "20230316",
+      "compressed_bytes": 5898539,
+      "outputs": [
+        "hg38_ensGene.txt"
+      ],
+      "catalog_bytes": 5770942,
+      "etag": "\"5a012b-6240218fc8200\"",
+      "last_modified": "Wed, 09 Oct 2024 02:34:48 GMT"
+    },
+    {
+      "name": "hg38_ensGeneMrna.fa.gz",
+      "url": "https://www.openbioinformatics.org/annovar/download/hg38_ensGeneMrna.fa.gz",
+      "compression": "gzip",
+      "catalog_date": "20230316",
+      "compressed_bytes": 41341643,
+      "outputs": [
+        "hg38_ensGeneMrna.fa"
+      ],
+      "catalog_bytes": 40741918,
+      "etag": "\"276d2cb-624021b405780\"",
+      "last_modified": "Wed, 09 Oct 2024 02:35:26 GMT"
+    },
+    {
+      "name": "hg38_knownGene.txt.gz",
+      "url": "https://www.openbioinformatics.org/annovar/download/hg38_knownGene.txt.gz",
+      "compression": "gzip",
+      "catalog_date": "20220803",
+      "compressed_bytes": 11046659,
+      "outputs": [
+        "hg38_knownGene.txt"
+      ],
+      "catalog_bytes": 11046659,
+      "etag": "\"a88f03-5e54c55bf1bc5\"",
+      "last_modified": "Wed, 03 Aug 2022 01:41:42 GMT"
+    },
+    {
+      "name": "hg38_knownGeneMrna.fa.gz",
+      "url": "https://www.openbioinformatics.org/annovar/download/hg38_knownGeneMrna.fa.gz",
+      "compression": "gzip",
+      "catalog_date": "20220803",
+      "compressed_bytes": 61440556,
+      "outputs": [
+        "hg38_knownGeneMrna.fa"
+      ],
+      "catalog_bytes": 61440556,
+      "etag": "\"3a9822c-5e54c56715954\"",
+      "last_modified": "Wed, 03 Aug 2022 01:41:54 GMT"
+    },
+    {
+      "name": "hg38_esp6500siv2_all.txt.gz",
+      "url": "https://www.openbioinformatics.org/annovar/download/hg38_esp6500siv2_all.txt.gz",
+      "compression": "gzip",
+      "catalog_date": "20191205",
+      "compressed_bytes": 24841539,
+      "outputs": [
+        "hg38_esp6500siv2_all.txt"
+      ],
+      "catalog_bytes": 24841539,
+      "etag": "\"17b0d43-598f7918f8780\"",
+      "last_modified": "Thu, 05 Dec 2019 16:39:10 GMT"
+    },
+    {
+      "name": "hg38_esp6500siv2_all.txt.idx.gz",
+      "url": "https://www.openbioinformatics.org/annovar/download/hg38_esp6500siv2_all.txt.idx.gz",
+      "compression": "gzip",
+      "catalog_date": "20191205",
+      "compressed_bytes": 5710064,
+      "outputs": [
+        "hg38_esp6500siv2_all.txt.idx"
+      ],
+      "catalog_bytes": 5710064,
+      "etag": "\"5720f0-598f7918f8780\"",
+      "last_modified": "Thu, 05 Dec 2019 16:39:10 GMT"
+    },
+    {
+      "name": "hg38_avsnp147.txt.gz",
+      "url": "https://www.openbioinformatics.org/annovar/download/hg38_avsnp147.txt.gz",
+      "compression": "gzip",
+      "catalog_date": "20191205",
+      "compressed_bytes": 1775686247,
+      "outputs": [
+        "hg38_avsnp147.txt"
+      ],
+      "catalog_bytes": 1775686247,
+      "etag": "\"69d6d267-598f791433c40\"",
+      "last_modified": "Thu, 05 Dec 2019 16:39:05 GMT"
+    },
+    {
+      "name": "hg38_avsnp147.txt.idx.gz",
+      "url": "https://www.openbioinformatics.org/annovar/download/hg38_avsnp147.txt.idx.gz",
+      "compression": "gzip",
+      "catalog_date": "20191205",
+      "compressed_bytes": 222202148,
+      "outputs": [
+        "hg38_avsnp147.txt.idx"
+      ],
+      "catalog_bytes": 222202148,
+      "etag": "\"d3e8924-598f791433c40\"",
+      "last_modified": "Thu, 05 Dec 2019 16:39:05 GMT"
+    },
+    {
+      "name": "hg38_dbnsfp42a.txt.gz",
+      "url": "https://www.openbioinformatics.org/annovar/download/hg38_dbnsfp42a.txt.gz",
+      "compression": "gzip",
+      "catalog_date": "20210709",
+      "compressed_bytes": 9997930328,
+      "outputs": [
+        "hg38_dbnsfp42a.txt"
+      ],
+      "catalog_bytes": 9997930328,
+      "etag": "\"253ec4f58-5c6b3a47c53b2\"",
+      "last_modified": "Fri, 09 Jul 2021 16:55:44 GMT"
+    },
+    {
+      "name": "hg38_dbnsfp42a.txt.idx.gz",
+      "url": "https://www.openbioinformatics.org/annovar/download/hg38_dbnsfp42a.txt.idx.gz",
+      "compression": "gzip",
+      "catalog_date": "20210709",
+      "compressed_bytes": 5245862,
+      "outputs": [
+        "hg38_dbnsfp42a.txt.idx"
+      ],
+      "catalog_bytes": 5245862,
+      "etag": "\"500ba6-5c6b39509baed\"",
+      "last_modified": "Fri, 09 Jul 2021 16:51:25 GMT"
+    },
+    {
+      "name": "hg38_clinvar_20210501.txt.gz",
+      "url": "https://www.openbioinformatics.org/annovar/download/hg38_clinvar_20210501.txt.gz",
+      "compression": "gzip",
+      "catalog_date": "20210507",
+      "compressed_bytes": 14181106,
+      "outputs": [
+        "hg38_clinvar_20210501.txt"
+      ],
+      "catalog_bytes": 14181106,
+      "etag": "\"d862f2-5c1c5f3dd2f8d\"",
+      "last_modified": "Fri, 07 May 2021 23:40:27 GMT"
+    },
+    {
+      "name": "hg38_clinvar_20210501.txt.idx.gz",
+      "url": "https://www.openbioinformatics.org/annovar/download/hg38_clinvar_20210501.txt.idx.gz",
+      "compression": "gzip",
+      "catalog_date": "20210507",
+      "compressed_bytes": 666762,
+      "outputs": [
+        "hg38_clinvar_20210501.txt.idx"
+      ],
+      "catalog_bytes": 666762,
+      "etag": "\"a2c8a-5c1c5f46d20d7\"",
+      "last_modified": "Fri, 07 May 2021 23:40:37 GMT"
+    },
+    {
+      "name": "hg38_gnomad_genome.txt.gz",
+      "url": "https://www.openbioinformatics.org/annovar/download/hg38_gnomad_genome.txt.gz",
+      "compression": "gzip",
+      "catalog_date": "20191205",
+      "compressed_bytes": 3194084904,
+      "outputs": [
+        "hg38_gnomad_genome.txt"
+      ],
+      "catalog_bytes": 3194084904,
+      "etag": "\"be61de28-598f791bd4e40\"",
+      "last_modified": "Thu, 05 Dec 2019 16:39:13 GMT"
+    },
+    {
+      "name": "hg38_gnomad_genome.txt.idx.gz",
+      "url": "https://www.openbioinformatics.org/annovar/download/hg38_gnomad_genome.txt.idx.gz",
+      "compression": "gzip",
+      "catalog_date": "20191205",
+      "compressed_bytes": 233514014,
+      "outputs": [
+        "hg38_gnomad_genome.txt.idx"
+      ],
+      "catalog_bytes": 233514014,
+      "etag": "\"deb241e-598f791bd4e40\"",
+      "last_modified": "Thu, 05 Dec 2019 16:39:13 GMT"
+    },
+    {
+      "name": "hg38_dbscsnv11.txt.gz",
+      "url": "https://www.openbioinformatics.org/annovar/download/hg38_dbscsnv11.txt.gz",
+      "compression": "gzip",
+      "catalog_date": "20191205",
+      "compressed_bytes": 95748552,
+      "outputs": [
+        "hg38_dbscsnv11.txt"
+      ],
+      "catalog_bytes": 95748552,
+      "etag": "\"5b501c8-598f7918f8780\"",
+      "last_modified": "Thu, 05 Dec 2019 16:39:10 GMT"
+    },
+    {
+      "name": "hg38_dbscsnv11.txt.idx.gz",
+      "url": "https://www.openbioinformatics.org/annovar/download/hg38_dbscsnv11.txt.idx.gz",
+      "compression": "gzip",
+      "catalog_date": "20191205",
+      "compressed_bytes": 3681641,
+      "outputs": [
+        "hg38_dbscsnv11.txt.idx"
+      ],
+      "catalog_bytes": 3681641,
+      "etag": "\"382d69-598f7918f8780\"",
+      "last_modified": "Thu, 05 Dec 2019 16:39:10 GMT"
+    },
+    {
+      "name": "hg38_1000g2015aug.zip",
+      "url": "https://www.openbioinformatics.org/annovar/download/hg38_1000g2015aug.zip",
+      "compression": "zip",
+      "catalog_date": "20191205",
+      "compressed_bytes": 2732158830,
+      "outputs": [
+        "hg38_ALL.sites.2015_08.txt",
+        "hg38_ALL.sites.2015_08.txt.idx"
+      ],
+      "catalog_bytes": 2732158830,
+      "etag": "\"a2d96f6e-598f79133fa00\"",
+      "last_modified": "Thu, 05 Dec 2019 16:39:04 GMT"
+    },
+    {
+      "name": "hg38_rmsk.txt.gz",
+      "url": "https://hgdownload.soe.ucsc.edu/goldenPath/hg38/database/rmsk.txt.gz",
+      "compression": "gzip",
+      "outputs": [
+        "hg38_rmsk.txt"
+      ],
+      "catalog_date": null,
+      "compressed_bytes": 155633856,
+      "catalog_bytes": null,
+      "etag": "\"946c8c0-5eb5d78b067f0\"",
+      "last_modified": "Wed, 19 Oct 2022 06:39:32 GMT"
+    },
+    {
+      "name": "mim2gene.txt",
+      "url": "https://www.omim.org/static/omim/data/mim2gene.txt",
+      "compression": "none",
+      "outputs": [
+        "mim2gene.txt"
+      ],
+      "target": "omim",
+      "catalog_date": null,
+      "compressed_bytes": 990092,
+      "catalog_bytes": null,
+      "etag": "\"f1b8c-65de483e14198\"",
+      "last_modified": "Thu, 15 Oct 2026 17:38:26 GMT"
+    },
+    {
+      "name": "hg38_kgXref.txt.gz",
+      "url": "https://www.openbioinformatics.org/annovar/download/hg38_kgXref.txt.gz",
+      "compression": "gzip",
+      "outputs": [
+        "hg38_kgXref.txt"
+      ],
+      "catalog_date": null,
+      "catalog_bytes": null,
+      "compressed_bytes": 5960860,
+      "etag": "\"5af49c-594c85612dc80\"",
+      "last_modified": "Sun, 13 Oct 2019 10:37:22 GMT",
+      "required_by": "ANNOVAR knownGene cross-reference"
+    }
+  ],
+  "snapshot_note": "Catalog metadata may be stale. compressed_bytes, etag and last_modified were frozen from official HEAD responses; catalog_bytes preserves the original catalog entry. Installed file SHA-256 is recorded separately."
+}

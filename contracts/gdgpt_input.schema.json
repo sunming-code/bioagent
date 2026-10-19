@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["schema_version", "sample_id", "assembly", "producer", "source_report_manifest", "source_report", "sample", "case", "phenotypes", "upstream_summary", "ancestry", "frequency_policy", "selection", "tasks", "limitations"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "sample_id": {"type": "string", "minLength": 1},
+    "assembly": {"const": "GRCh38"},
+    "selection": {"type": "object", "required": ["candidate_count", "selected_candidate_count", "omitted_candidate_count", "requested_genes", "automatic_background_vus_inclusion"], "properties": {"automatic_background_vus_inclusion": {"const": false}}},
+    "tasks": {"type": "array", "items": {
+      "type": "object", "required": ["id", "kind", "gene", "candidate", "evidence", "knowledge_scope", "kg_snapshot_presence"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^task-[0-9a-f]{16}$"},
+        "kind": {"enum": ["disease_candidate", "explicit_gene_exploration"]},
+        "gene": {"type": "string", "minLength": 1},
+        "candidate": {"type": ["object", "null"]},
+        "knowledge_scope": {"const": "gene_level_only"},
+        "evidence": {"type": "array", "minItems": 1, "items": {
+          "type": "object", "required": ["normalized_id", "gene", "classification", "raw_classification", "source_GT", "triage_route", "gene_relation", "eligible_for_candidates", "exclusion_reasons", "integrated_evidence", "annotation", "frequency", "quality", "data_flags"],
+          "properties": {"classification": {"enum": ["Pathogenic", "Likely pathogenic", "Uncertain significance", "Likely benign", "Benign", "not_evaluated"]}, "gene_relation": {"const": "overlapping_gene_feature"}}
+        }}
+      }
+    }},
+    "limitations": {"type": "array", "items": {"type": "string"}}
+  }
+}

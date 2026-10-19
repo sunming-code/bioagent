@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "e-Gene InterVar classification and PopGen evidence integration",
+  "type": "object",
+  "required": ["schema_version", "status", "stage", "producer", "sample_id", "assembly", "annovar_build", "annotation_manifest", "classifier", "scope", "counts", "classification_performed", "phenotype_and_inheritance_evaluated", "frequency_policy", "files"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "status": {"const": "complete"},
+    "stage": {"const": "classify_variants"},
+    "assembly": {"const": "GRCh38"},
+    "annovar_build": {"const": "hg38"},
+    "sample_id": {"type": "string", "minLength": 1},
+    "classification_performed": {"type": "boolean"},
+    "phenotype_and_inheritance_evaluated": {"const": false},
+    "scope": {"enum": ["all", "candidates"]},
+    "classifier": {
+      "type": "object", "required": ["name", "version", "commit", "guidelines", "vendor_modified"],
+      "properties": {"name": {"const": "InterVar"}, "guidelines": {"const": "ACMG-AMP 2015"}, "vendor_modified": {"const": false}}
+    },
+    "counts": {
+      "type": "object", "required": ["selected_variants", "gene_context_records", "classification_changed_variants", "evidence_changed_variants"],
+      "additionalProperties": {"type": "integer", "minimum": 0}
+    },
+    "files": {
+      "type": "object",
+      "required": ["acmg_results.tsv", "acmg_results.jsonl", "acmg_summary.json", "frequency_policy.json", "frequency_evidence.jsonl", "evidence_overrides.tsv", "intervar_snapshot.json", "database_snapshot.json", "execution.json"],
+      "additionalProperties": {
+        "type": "object", "required": ["path", "bytes", "sha256"],
+        "properties": {"path": {"type": "string"}, "bytes": {"type": "integer", "minimum": 0}, "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}
+      }
+    }
+  }
+}

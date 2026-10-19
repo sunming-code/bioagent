@@ -1,0 +1,55 @@
+{
+  "validated_at": "2026-10-18T09:42:02.615031+00:00",
+  "stage": "spatial",
+  "status": "passed",
+  "workspace": "/hpc2hdd/home/msun663/e-gene/4_atheromap_data/GSE241346_gsMap",
+  "spatial": [
+    {
+      "sample": "sample1",
+      "geo_id": "GSM7727539",
+      "h5ad": "data/spatial/GSE241346/h5ad/GSE241346_sample1_gsmap_spagcn.h5ad",
+      "raw_spots": 4992,
+      "raw_features": 36945,
+      "tissue_spots": 1809,
+      "retained_spots": 1804,
+      "retained_genes": 13036,
+      "domains": {
+        "0": 498,
+        "1": 364,
+        "2": 341,
+        "3": 241,
+        "4": 129,
+        "5": 231
+      },
+      "reference_gene_overlap": 11988,
+      "count_sum": 906888,
+      "source_counts_exact": true,
+      "source_coordinates_exact": true,
+      "qc_membership_exact": true
+    },
+    {
+      "sample": "sample2",
+      "geo_id": "GSM7727540",
+      "h5ad": "data/spatial/GSE241346/h5ad/GSE241346_sample2_gsmap_spagcn.h5ad",
+      "raw_spots": 1165,
+      "raw_features": 17943,
+      "tissue_spots": 1165,
+      "retained_spots": 1039,
+      "retained_genes": 12738,
+      "domains": {
+        "0": 190,
+        "1": 180,
+        "2": 125,
+        "3": 180,
+        "4": 102,
+        "5": 153,
+        "6": 109
+      },
+      "reference_gene_overlap": 11890,
+      "count_sum": 1144167,
+      "source_counts_exact": true,
+      "source_coordinates_exact": true,
+      "qc_membership_exact": true
+    }
+  ]
+}

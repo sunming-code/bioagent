@@ -1,0 +1,13 @@
+macrophage_leiden,macrophage_subtype_raw,macrophage_subtype_final,macrophage_manual_note
+0,Mac_PLIN2hi/TREM1hi,Mac_PLIN2hi/TREM1hi,
+1,Mac_C1Q,Mac_C1Q,
+10,Mac_TREM2hi,Mac_TREM2hi,
+11,Mac_TREM2hi,Mac_TREM2hi,
+2,Mac_C1Q,Mac_C1Q,
+3,Mac_S100A8hi,Mac_S100A8hi,
+4,Mac_S100A8hi,Mac_S100A8hi,
+5,Mac_TREM2hi,Mac_TREM2hi,
+6,Mac_C1Q,Mac_C1Q,
+7,Intermediate,REMOVE_DC_contamination,"FCER1A 46%+, CD1C 22.6%+, CLEC10A+, HLA-II hi — confirmed cDC2 contamination"
+8,Mac_C1Q,Mac_C1Q,
+9,Mac_C1Q,Mac_C1Q,

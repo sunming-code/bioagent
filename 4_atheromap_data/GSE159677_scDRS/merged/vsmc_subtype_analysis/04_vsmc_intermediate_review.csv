@@ -1,0 +1,5 @@
+vsmc_leiden,n_cells,suggested_label,second_best_label,score_margin,mean_score_Contractile,mean_score_Fibromyocyte,mean_score_Modulated,scdrs_mean,scdrs_median,scdrs_frac_gt_1p65,top_markers
+5,576,Contractile,Fibromyocyte,0.9796,1.5617,0.5821,-0.2182,0.2179,0.1981,0.066,"FTL, C12orf75, CLU, CP, MFAP4, IGFBP2, COL14A1, SPINT2, A2M, C1S, GSTP1, WISP2, TCEAL2, GAPDH, ANXA1"
+6,571,Contractile,Fibromyocyte,0.6477,0.9004,0.2527,-0.1194,0.5853,0.5449,0.1419,"APOE, HLA-B, STEAP4, CCDC102B, LHFPL6, IGFBP4, B2M, NDUFA4L2, MT-CO1, TFPI, THY1, PLAC9, IFITM2, SEPT7, HLA-A"
+7,177,Fibromyocyte,Modulated,0.2216,-0.4563,0.1371,-0.0845,0.3908,0.4132,0.1017,"RNASE1, IFI27, TMSB10, CD74, PECAM1, HLA-DRB1, RAMP2, VWF, CALCRL, EGFL7, HLA-E, HLA-B, CLEC14A, ECSCR, GIMAP7"
+9,45,Contractile,Fibromyocyte,0.2904,0.7861,0.4957,-0.0788,0.2724,0.1579,0.0667,"B2M, CD74, HLA-B, HLA-A, HLA-DRB1, HLA-C, PSMB9, HLA-DRA, IFITM3, LAP3, TMSB10, RARRES3, GBP4, GBP1, HLA-DPA1"

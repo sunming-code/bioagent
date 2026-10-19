@@ -1,0 +1,147 @@
+{
+  "schema_version": "1.0",
+  "verified_at": "2026-10-18T08:46:19.232912+00:00",
+  "status": "passed",
+  "sample_id": "NA18526",
+  "reference_dataset_id": "GSE159677",
+  "reference_files_verified": 25,
+  "source_files_unchanged": true,
+  "runs": [
+    {
+      "run": "runs/NA18526_RNF34_atheromap_scdrs_validated_20261018",
+      "mode": "reuse",
+      "status": "passed",
+      "manifest": {
+        "path": "runs/NA18526_RNF34_atheromap_scdrs_validated_20261018/atheromap_manifest.json",
+        "bytes": 48438,
+        "sha256": "6d4b2262b214e7cc1f481d9c9cab22e522971655dd271f0c8ea4a4e71836f7c7"
+      },
+      "files_verified": 135,
+      "steps": 13,
+      "step_elapsed_seconds": 132.157,
+      "figures": {
+        ".pdf": 3,
+        ".png": 24
+      },
+      "cells": 40563,
+      "subtypes": {
+        "macrophage": {
+          "cells": 7055,
+          "subtype_counts": {
+            "Mac_C1Q": 2951,
+            "Mac_S100A8hi": 1646,
+            "Mac_PLIN2hi/TREM1hi": 1403,
+            "Mac_TREM2hi": 1055
+          }
+        },
+        "vsmc": {
+          "cells": 4935,
+          "subtype_counts": {
+            "Fibromyocyte": 1930,
+            "Contractile": 1706,
+            "Modulated": 1299
+          }
+        }
+      },
+      "target_gene_mapping": {
+        "RNF34": {
+          "status": "matched_unique_symbol",
+          "feature_ids": [
+            "ENSG00000170633"
+          ]
+        }
+      },
+      "checks": [
+        "all_registered_file_hashes",
+        "subtype_h5ad_scores",
+        "id_bearing_tsv_scores",
+        "legacy_r_csv_scores",
+        "all_html_links"
+      ]
+    },
+    {
+      "run": "runs/NA18526_RNF34_atheromap_recompute_validated_20261018",
+      "mode": "recompute",
+      "status": "passed",
+      "manifest": {
+        "path": "runs/NA18526_RNF34_atheromap_recompute_validated_20261018/atheromap_manifest.json",
+        "bytes": 26032,
+        "sha256": "9b464a2cab55222d50349e0626bd7f32f6fb1ad14be72bcf954661b3b733f819"
+      },
+      "files_verified": 68,
+      "steps": 2,
+      "step_elapsed_seconds": 1866.406,
+      "figures": {
+        ".png": 7
+      },
+      "cells": 40563,
+      "subtypes": {
+        "macrophage": {
+          "cells": 7055,
+          "subtype_counts": {
+            "Mac_C1Q": 2951,
+            "Mac_S100A8hi": 1646,
+            "Mac_PLIN2hi/TREM1hi": 1403,
+            "Mac_TREM2hi": 1055
+          }
+        },
+        "vsmc": {
+          "cells": 4935,
+          "subtype_counts": {
+            "Fibromyocyte": 1930,
+            "Contractile": 1706,
+            "Modulated": 1299
+          }
+        }
+      },
+      "target_gene_mapping": {
+        "RNF34": {
+          "status": "matched_unique_symbol",
+          "feature_ids": [
+            "ENSG00000170633"
+          ]
+        }
+      },
+      "checks": [
+        "all_registered_file_hashes",
+        "subtype_h5ad_scores",
+        "id_bearing_tsv_scores",
+        "legacy_r_csv_scores",
+        "all_html_links"
+      ]
+    }
+  ],
+  "recompute_comparison": {
+    "max_abs_norm_score_difference_from_legacy": 0.0,
+    "pearson_correlation_with_legacy": 1.0
+  },
+  "code_sha256_at_verification": {
+    "4_atheromap/tools/register_scdrs_reference.sh": "93b373228b5a687fa6961c797320b22e3617e3eece30ba343ec3614ae5ec63ba",
+    "4_atheromap/tools/run_scdrs.sh": "cca1731fbd310d11c4a5601218481171d4d4ba8fcf316fbd8b2fc42ce0556000",
+    "contracts/atheromap_input.schema.json": "dcb401d83b98a171fe471db339499526161c1fd5fcf9eec5e5771aad18966dec",
+    "contracts/atheromap_reference.schema.json": "2a56d5d6caf28ccb6435a7814808a9966a700b1228692cc914de302fe623ff3e",
+    "egene_pipeline/__init__.py": "699ecf7c5ed849e2e8daa4ba53da0e5e3e756b1ad12a112501db9d7104a93226",
+    "egene_pipeline/atheromap_adapter.py": "b93984fc5fdf5504f3707b48d26ec096d563149b572a425544918c3a268ddef5",
+    "egene_pipeline/atheromap_reference.py": "03a6b4964f8afe655fdcc282b62dd4f4a6a15ad7cf39eb109a6fcf6cfaa730f3",
+    "egene_pipeline/atheromap_scdrs.py": "39ccf62811073f8470d30d61654b03edea62fb50511df0d39681ea30f0a5f2a1",
+    "egene_pipeline/common.py": "decd42c15f0df9723cdf3e624b875068b1becae3fdf0d163f17b1a1feab768d1",
+    "run_atheromap_scdrs.py": "7baa796e4744e6a7f4acd36a4bf4bd5a0d78f515c3e1f12e5907048e6643fdfd",
+    "tests/test_atheromap.py": "3b162294855ada41a779b66c92f90b779bed03e992f454ac52775b049a2a9a18"
+  },
+  "tests": {
+    "base_environment": {
+      "total": 22,
+      "passed": 21,
+      "skipped": 1
+    },
+    "scdrs_environment": {
+      "total": 11,
+      "passed": 11,
+      "skipped": 0
+    }
+  },
+  "limitations": [
+    "GWAS provenance remains unverified; reference context only",
+    "No gsMap or unified fourth-stage orchestration in this change"
+  ]
+}

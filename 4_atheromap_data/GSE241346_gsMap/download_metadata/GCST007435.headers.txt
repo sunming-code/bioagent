@@ -1,0 +1,15 @@
+HTTP/1.1 200 Connection established
+
+HTTP/1.1 206 Partial Content
+Date: Sun, 18 Oct 2026 09:03:54 GMT
+Server: Apache
+Last-Modified: Thu, 03 Oct 2024 09:38:41 GMT
+ETag: "af200fa-6238f51e64caf"
+Accept-Ranges: bytes
+Content-Length: 183632122
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Methods: GET,OPTIONS
+Access-Control-Allow-Headers: Authorization,Origin,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Accept
+Content-Range: bytes 0-183632121/183632122
+Content-Type: application/x-gzip
+

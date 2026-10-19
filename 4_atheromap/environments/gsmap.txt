@@ -1,0 +1,12 @@
+-r python-common.txt
+# louvain 0.8.2 imports pkg_resources, which newer setuptools no longer provides.
+setuptools==69.5.1
+# Install the CPU build of torch separately; see tools/setup_environments.sh.
+torch==2.2.2+cpu
+torch-geometric==2.5.3
+gsMap==1.73.8
+SpaGCN==1.2.7
+python-igraph==0.11.8
+louvain==0.8.2
+opencv-python-headless==4.10.0.84
+pyarrow==18.1.0

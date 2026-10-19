@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0",
+  "hpo_release": "v2026-09-01",
+  "hgnc_release": "2026-10-06",
+  "resources": [
+    {
+      "name": "hp-international.obo",
+      "url": "https://github.com/obophenotype/human-phenotype-ontology/releases/download/v2026-09-01/hp-international.obo",
+      "bytes": 22476318,
+      "sha256": "ce42512e1339b9ff46617c1de2a408eb0b2d83fbf2cddf8f8c25320c16ebbec4",
+      "license": "https://hpo.jax.org/app/license"
+    },
+    {
+      "name": "genes_to_disease.txt",
+      "url": "https://github.com/obophenotype/human-phenotype-ontology/releases/download/v2026-09-01/genes_to_disease.txt",
+      "bytes": 1492039,
+      "sha256": "7937a1b92779dc8614e39ace623b443c7c71dd15e4de11d5e52b14e331ab5978",
+      "license": "https://hpo.jax.org/app/license"
+    },
+    {
+      "name": "phenotype.hpoa",
+      "url": "https://github.com/obophenotype/human-phenotype-ontology/releases/download/v2026-09-01/phenotype.hpoa",
+      "bytes": 35816037,
+      "sha256": "e89aa39c8f97bf5a52c5d160f9250a603681d630ade8ec2679d84ac5aece1f72",
+      "license": "https://hpo.jax.org/app/license"
+    },
+    {
+      "name": "hgnc_complete_set.tsv",
+      "url": "https://storage.googleapis.com/public-download-files/hgnc/archive/archive/quarterly/tsv/hgnc_complete_set_2026-10-06.tsv",
+      "bytes": 16973125,
+      "md5": "af43fd56a64ad57c0fcc72d6ef65e516",
+      "license": "https://www.genenames.org/about/license/"
+    }
+  ]
+}

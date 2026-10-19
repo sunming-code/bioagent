@@ -1,0 +1,15 @@
+{
+  "stage": "prepare_input",
+  "python": "Python 3.11.9",
+  "packages": {
+    "attrs": "26.1.0",
+    "jsonschema-specifications": "2025.9.1",
+    "jsonschema": "4.26.0",
+    "referencing": "0.37.0",
+    "pysam": "0.24.1",
+    "typing_extensions": "4.16.0",
+    "rpds-py": "2026.9.1"
+  },
+  "bcftools_version": "bcftools 1.21",
+  "requirements": "envs/input.requirements.txt"
+}

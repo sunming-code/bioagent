@@ -1,0 +1,10 @@
+{
+  "schema_version": "1.0",
+  "sample_id": "REPLACE_WITH_ACTUAL_SAMPLE_ID",
+  "sex": "unknown",
+  "age_years": null,
+  "onset_age_years": null,
+  "clinical_description": "",
+  "phenotypes": [],
+  "family": {"relationships_confirmed": false, "genotypes": [], "phase": []}
+}

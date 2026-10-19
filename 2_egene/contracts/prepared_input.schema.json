@@ -1,0 +1,45 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "e-Gene prepared PopGen input",
+  "type": "object",
+  "required": ["schema_version", "status", "stage", "producer", "sample_id", "assembly", "annovar_build", "inputs", "reference", "tools", "frequency_policy", "counts", "files"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "status": {"const": "complete"},
+    "stage": {"const": "prepare_input"},
+    "sample_id": {"type": "string", "minLength": 1},
+    "assembly": {"const": "GRCh38"},
+    "annovar_build": {"const": "hg38"},
+    "producer": {"type": "object"},
+    "inputs": {"type": "object", "required": ["evidence_pack", "patient_vcf", "allele_frequency"]},
+    "reference": {"type": "object", "required": ["path", "sha256", "fai_sha256"]},
+    "tools": {"type": "object", "required": ["bcftools_version", "convert2annovar_sha256"]},
+    "frequency_policy": {
+      "type": "object",
+      "required": ["lookup_population", "use_for_acmg_ba1_bs1", "missing_AF_semantics", "classification_performed"],
+      "properties": {
+        "use_for_acmg_ba1_bs1": {"type": "boolean"},
+        "missing_AF_semantics": {"const": "unknown_not_zero"},
+        "classification_performed": {"const": false}
+      }
+    },
+    "counts": {
+      "type": "object",
+      "required": ["input_records", "input_alleles", "frequency_rows", "retained_variants"],
+      "additionalProperties": {"type": "integer", "minimum": 0}
+    },
+    "files": {
+      "type": "object",
+      "required": ["normalized.vcf.gz", "normalized.vcf.gz.tbi", "patient.avinput", "source_records.tsv", "variant_mapping.tsv", "patient_variants.tsv", "allele_freq.tsv", "input_qc.json", "reference_mismatches.tsv"],
+      "additionalProperties": {
+        "type": "object",
+        "required": ["path", "bytes", "sha256"],
+        "properties": {
+          "path": {"type": "string"},
+          "bytes": {"type": "integer", "minimum": 0},
+          "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+        }
+      }
+    }
+  }
+}

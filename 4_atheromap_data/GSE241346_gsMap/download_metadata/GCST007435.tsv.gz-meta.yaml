@@ -1,0 +1,78 @@
+# Study meta-data
+gwas_id: GCST007435
+author_notes: "1. Citation: \n\tAmbalavanan A, Chang L, Choi J, Zhang Y, Stickley
+  SA, Fang ZY, Miliku K, Robertson B, Yonemitsu C, Turvey SE, Mandhane PJ, Simons
+  E, Moraes TJ, Anand SS, Paré G, Williams JE, Murdoch BM, Otoo GE, Mbugua S, Kamau-Mbuthia
+  EW, Kamundia EW, Gindola DK, Rodriguez JM, Pareja RG, Sellen DW, Moore SE, Prentice
+  AM, Foster JA, Kvist LJ, Neibergs HL, McGuire MA, McGuire MK, Meehan CL, Sears MR,
+  Subbarao P, Azad MB, Bode L, Duan QL (2024) Human milk oligosaccharides are associated
+  with maternal genetics and respiratory health of human milk-fed children. Nature
+  Communications.\n\n2. Additional columns: \n\ttest: Association test type used in
+  PLINK, ADD denoting an additive test\n\tT-statistic: Value of the coefficient t-statistic
+  (PLINK linear and logistic models)\n\n3. QC measures:\n\tSubject-level QC: For the
+  sex check, we selected variants with minor allele frequencies above 0.01 and pruned
+  variants by linkage disequilibrium (LD; r2 > 0.5), excluding the pseudo-autosomal
+  regions of the sex chromosomes. A total of 57 subjects were removed for exceeding
+  an X chromosome inbreeding coefficient of 0.2 for females and 0.8 for males. We
+  validated these results using Y chromosome counts for each subject. A total of 5,450
+  subjects remained after the sex check. Among the mothers, 73 had excess heterozygosity
+  based on the observed number of non-homozygous variants (+/-2 standard deviation)
+  and genotype missingness > 7%. Among the children, 39 subjects had excess heterozygosity
+  (+/-2 standard deviation) and genotype missingness >10%. These were removed from
+  further analysis.Subjects with third-degree relatives were identified using pairwise
+  Identify-By-Descent (IBD) analysis and one of each pair with inbreeding coefficients
+  > 0.185 were removed as recommended by previous studies2. We identified 40 related
+  subjects among the mothers and 37 related subjects among the children. \n\tSNP level
+  QC: We selected autosomal variants and removed all variants that exceeded a missingness
+  of 0.05 or greater. Hardy-Weinberg equilibrium filtering was not applied to this
+  dataset as the CHILD Study included mixed ancestries . However, we performed a Hardy-Weinberg
+  equilibrium test for subjects who reported as Central European ancestry only, excluding
+  variants that deviated from the P<10e-07 threshold. A total of 515,033 variants
+  and 5,261 subjects (mothers and children) passed QC filters."
+gwas_catalog_api: https://www.ebi.ac.uk/gwas/rest/api/studies/GCST007435
+date_metadata_last_modified: 2024-09-16
+
+# Trait Information
+trait_description:
+  - Carotid plaque
+ontology_mapping:
+  - ''
+
+# Genotyping Information
+genome_assembly: GRCh37
+coordinate_system: 1-based
+genotyping_technology:
+  - Genome-wide genotyping array
+imputation_panel: 1KGv3|1KGv2 Cosmopolitan integrated|1KG CEU|1KGv3 and Genome of
+  The Netherlands (GoNL)
+imputation_software: MaCH|IMPUTE2|SHAPEITv1|SHAPEITv2|miniMACH|minimac
+
+# Sample Information
+samples:
+  - sample_ancestry_category:
+      - European
+    sample_size: 48434
+    case_control_study: true
+sex: combined
+
+# Summary Statistic information
+data_file_name: GCST007435.tsv.gz
+file_type: GWAS-SSF v1.0
+data_file_md5sum: cc009982e0c2fa5a5f65a35f777ac3d0
+analysis_software: ProbABEL|GenABEL|R||FAST|plink|plink2|GWAF|R GEE|R LME|Mach2qtl|SNPTEST
+  v2|Quicktest|SOLAR 6.3.6|snpStats|
+adjusted_covariates:
+  - age,sex
+  - age,sex,region,10 pcs
+  - age,sex,4 pcs
+  - age,sex,clinic
+  - age,sex,10 pcs
+  - age,sex,site,4 pcs
+  - age,sex,3 pcs
+  - age,sex,2 pcs
+  - age,10 pcs
+minor_allele_freq_lower_limit: 0.0101
+
+# Harmonization status
+is_harmonised: false
+is_sorted: false

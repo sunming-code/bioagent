@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "e-Gene disease associations and phenotype/genotype review hypotheses",
+  "type": "object",
+  "required": ["schema_version", "status", "stage", "sample_id", "assembly", "counts", "producer", "acmg_manifest", "disease_database", "case_input", "acmg_classifications_modified", "phenotype_status", "files"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "status": {"const": "complete"},
+    "stage": {"const": "prioritize_diseases"},
+    "assembly": {"const": "GRCh38"},
+    "sample_id": {"type": "string", "minLength": 1},
+    "acmg_classifications_modified": {"const": false},
+    "phenotype_status": {"enum": ["resolved", "partial", "no_resolved_positive_phenotypes"]},
+    "counts": {
+      "type": "object",
+      "required": ["input_variants", "gene_context_records", "candidate_disease_gene_pairs", "distinct_candidate_diseases", "carrier_findings", "phenotype_evaluated_candidates", "inheritance_compatible_candidates", "unresolved_patient_phenotypes"],
+      "additionalProperties": {"type": "integer", "minimum": 0}
+    },
+    "files": {
+      "type": "object",
+      "required": ["case.json", "phenotypes.normalized.json", "disease_policy.json", "disease_database_snapshot.json", "variant_disease_links.jsonl", "variant_disease_links.tsv", "disease_candidates.json", "disease_candidates.jsonl", "disease_candidates.tsv", "carrier_findings.tsv", "disease_summary.json"],
+      "additionalProperties": {
+        "type": "object", "required": ["path", "bytes", "sha256"],
+        "properties": {
+          "path": {"type": "string"}, "bytes": {"type": "integer", "minimum": 0},
+          "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+        }
+      }
+    }
+  }
+}

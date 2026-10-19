@@ -1,0 +1,25 @@
+{
+  "status": "passed",
+  "archive_members": 18,
+  "files": {
+    "GSM7727539_sample1_aligned_fiducials.jpg.gz": 772351,
+    "GSM7727539_sample1_barcodes.tsv.gz": 25699,
+    "GSM7727539_sample1_detected_tissue_image.jpg.gz": 657899,
+    "GSM7727539_sample1_features.tsv.gz": 297037,
+    "GSM7727539_sample1_matrix.mtx.gz": 3695167,
+    "GSM7727539_sample1_scalefactors_json.json.gz": 156,
+    "GSM7727539_sample1_tissue_hires_image.png.gz": 1021572,
+    "GSM7727539_sample1_tissue_lowres_image.png.gz": 111135,
+    "GSM7727539_sample1_tissue_positions_list.csv.gz": 59270,
+    "GSM7727540_sample2_aligned_fiducials.jpg.gz": 975481,
+    "GSM7727540_sample2_barcodes.tsv.gz": 6430,
+    "GSM7727540_sample2_detected_tissue_image.jpg.gz": 1580583,
+    "GSM7727540_sample2_features.tsv.gz": 142333,
+    "GSM7727540_sample2_matrix.mtx.gz": 2086856,
+    "GSM7727540_sample2_scalefactors_json.json.gz": 171,
+    "GSM7727540_sample2_tissue_hires_image.png.gz": 2283311,
+    "GSM7727540_sample2_tissue_lowres_image.png.gz": 293132,
+    "GSM7727540_sample2_tissue_positions_list.csv.gz": 59082
+  },
+  "check": "Official file inventory, per-member sizes and all internal gzip CRCs"
+}

@@ -1,0 +1,209 @@
+{
+  "schema_version": "1.0",
+  "stage": "scdrs_reference",
+  "created_at": "2026-10-18T08:06:43.259836+00:00",
+  "producer": {
+    "name": "egene_pipeline.atheromap_reference",
+    "version": "1.1.0"
+  },
+  "reference_dataset_id": "GSE159677",
+  "reference_scope": "external_cohort",
+  "species": "human",
+  "tissue": "carotid plaque",
+  "expression_genome_build": null,
+  "data_root": "../../4_atheromap_data/GSE159677_scDRS",
+  "files": {
+    "auto_h5ad": {
+      "path": "merged/overall_analysis/09_harmony_highlevel_auto_annotated.h5ad",
+      "bytes": 537240140,
+      "sha256": "203a45d708de56e9a2ef0ceafa00bcb5d2c794756a0242b2a56b70e8b9eff3d9"
+    },
+    "review": {
+      "path": "merged/overall_analysis/10_annotation_review_table.csv",
+      "bytes": 7598,
+      "sha256": "9d8d055e5de65e5d7b517ff31807674903bafa6849ce26a954c2943f379d10a1"
+    },
+    "cluster_mapping": {
+      "path": "merged/overall_analysis/11_harmony_cluster_to_final_highlevel_mapping.csv",
+      "bytes": 7598,
+      "sha256": "9d8d055e5de65e5d7b517ff31807674903bafa6849ce26a954c2943f379d10a1"
+    },
+    "annotated_h5ad": {
+      "path": "merged/overall_analysis/12_harmony_highlevel_annotated_final.h5ad",
+      "bytes": 537266404,
+      "sha256": "709bbc3133e1c0624386402d89dd1550478cf03a063d3e1a8291e87c195cd7ad"
+    },
+    "scdrs_h5ad": {
+      "path": "merged/overall_analysis/14_for_scdrs_rawcount.h5ad",
+      "bytes": 367827390,
+      "sha256": "02c9d9b81b1a8f4f58e08807f4f5017891a992469a02598ff158ebb907e214c0"
+    },
+    "covariates": {
+      "path": "metadata/GSE159677_scdrs_covariates.tsv",
+      "bytes": 2480464,
+      "sha256": "91f376cfcc31c129bd92ed628f017356dbc52607670b3e520daf3033d42acb98"
+    },
+    "gene_set": {
+      "path": "scdrs_input/trait_gene_sets.gs",
+      "bytes": 13356,
+      "sha256": "a1ac9180eeae4bc8c2bc4c0d5c9c08be77ca798fc82a8943e7a1255eb31453fe"
+    },
+    "markers": {
+      "path": "metadata/final_report_marker_manual.tsv",
+      "bytes": 14914,
+      "sha256": "a7f0afcbed274542dc751579a55537232f2c6df9c8e2acc89a8d55ecec84af66"
+    },
+    "marker_json": {
+      "path": "metadata/GSE159677_paper10_highlevel_markers.json",
+      "bytes": 824,
+      "sha256": "574899663aa02e04229cdb9470773d178c61e0ac13aa8d16c74a9eb4472d5bbd"
+    },
+    "full_score": {
+      "path": "scdrs_out/z_score.full_score.gz",
+      "bytes": 191435345,
+      "sha256": "889e7bbc735f26cfc291b273e279f93cd8c06c537cd89569cf9216b40979409a"
+    },
+    "score": {
+      "path": "scdrs_out/z_score.score.gz",
+      "bytes": 1354088,
+      "sha256": "23ccc9754d06087827fec136c5487b2aa7e4e5af986a3e5e2f481f1c9ed6824a"
+    },
+    "group_final_high_level_celltype_10": {
+      "path": "scdrs_out/z_score.scdrs_group.final_high_level_celltype_10",
+      "bytes": 943,
+      "sha256": "956e8c565a3452c8a4c379fea21438031d0a713bcf3ca05b0917e017904db586"
+    },
+    "group_patient": {
+      "path": "scdrs_out/z_score.scdrs_group.patient",
+      "bytes": 310,
+      "sha256": "bf70728bc57dc26ba56e319208f15a089ab7d775225d3984f4b04ef96833a006"
+    },
+    "group_condition": {
+      "path": "scdrs_out/z_score.scdrs_group.condition",
+      "bytes": 237,
+      "sha256": "a0f94d35f1de281a4225548b3fd65058e3831d858324381aad7b5c9a9cd5f94f"
+    },
+    "group_harmony_leiden": {
+      "path": "scdrs_out/z_score.scdrs_group.harmony_leiden",
+      "bytes": 1711,
+      "sha256": "8f8d724b0c31aafdba637b72cc07433607b8bf08d3abf2c24d5d174b71dc1897"
+    },
+    "macrophage_base": {
+      "path": "merged/macrophage_subtype_analysis/01_macrophage_subtyped.h5ad",
+      "bytes": 135119676,
+      "sha256": "070ff2746ddd1ef76ea6e3358ce10fdcbf7681e1c23c649a7aa1aa93bdeadcb4"
+    },
+    "macrophage_final": {
+      "path": "merged/macrophage_subtype_analysis/11_macrophage_subtyped_final.h5ad",
+      "bytes": 127369450,
+      "sha256": "0c59c8e50de8be052ba2fcaf26630e3a28d76604e54e0848bd0cc7710435b9e2"
+    },
+    "macrophage_mapping": {
+      "path": "merged/macrophage_subtype_analysis/08_macrophage_cluster_manual_relabel.csv",
+      "bytes": 488,
+      "sha256": "d2da5a2b66b84241f00e037ddcae5f1c050abe4a0c8c88f827464aeadd42559d"
+    },
+    "macrophage_celllevel": {
+      "path": "merged/macrophage_subtype_analysis/14_macrophage_celllevel_scores.csv",
+      "bytes": 176616,
+      "sha256": "a3fcca99dda67fb19e37066f1787c3a5f9d8e45ec9bbee4b6637a31d830c28cc"
+    },
+    "macrophage_dge": {
+      "path": "merged/macrophage_subtype_analysis/03_macrophage_leiden_wilcoxon_dge.csv",
+      "bytes": 25278818,
+      "sha256": "b5550f430450f31ccb4efe2e2974b5a92bf8f33ec3fad0ab22066bddd745f3d1"
+    },
+    "vsmc_base": {
+      "path": "merged/vsmc_subtype_analysis/01_vsmc_subtyped.h5ad",
+      "bytes": 78199455,
+      "sha256": "75ff95629ea0411d7e8c619c2fb528a53cb35b2b0e96fe00ba1ec6d80894fd1d"
+    },
+    "vsmc_final": {
+      "path": "merged/vsmc_subtype_analysis/09_vsmc_subtyped_final.h5ad",
+      "bytes": 77114140,
+      "sha256": "55e7e6646c8db2635085dea14c79586f55f2eef5cf8941b5bddf4ee9174f8bef"
+    },
+    "vsmc_mapping": {
+      "path": "merged/vsmc_subtype_analysis/06_vsmc_cluster_manual_relabel.csv",
+      "bytes": 612,
+      "sha256": "e663c9b59fd448e3f3dd4410df79850b887eac56c98ba14ed92798a429dd2a94"
+    },
+    "vsmc_celllevel": {
+      "path": "merged/vsmc_subtype_analysis/12_vsmc_celllevel_scores.csv",
+      "bytes": 121693,
+      "sha256": "bb31d91bb967d542e58d993ffffab4fa627cae94f303a196017494115e8555aa"
+    },
+    "vsmc_top_markers": {
+      "path": "merged/vsmc_subtype_analysis/05_vsmc_intermediate_top_markers.csv",
+      "bytes": 5545,
+      "sha256": "1d57a5c4ac6ad90e11bd59bd47c10562dd6f933f1c090b77874ebf45ee7dfb96"
+    }
+  },
+  "annotation_validation": {
+    "status": "passed",
+    "cells": 40563,
+    "clusters": 23,
+    "celltype_counts": {
+      "T-cell": 13526,
+      "Macrophage": 7498,
+      "VSMC": 5112,
+      "Endothelial": 5063,
+      "FB": 3358,
+      "NK-cell": 2318,
+      "B-cell": 1538,
+      "Unknown": 710,
+      "Dendritic-cell": 518,
+      "Plasma-cell": 470,
+      "Mast-cell": 452
+    },
+    "gene_set_size": 1000,
+    "control_columns": 1000,
+    "condition_labels": [
+      "D",
+      "H"
+    ],
+    "subtypes": {
+      "macrophage": {
+        "before": 7498,
+        "removed": 443,
+        "after": 7055,
+        "counts": {
+          "Mac_C1Q": 2951,
+          "Mac_S100A8hi": 1646,
+          "Mac_PLIN2hi/TREM1hi": 1403,
+          "Mac_TREM2hi": 1055
+        },
+        "manual_rules": {
+          "7": "REMOVE_DC_contamination"
+        }
+      },
+      "vsmc": {
+        "before": 5112,
+        "removed": 177,
+        "after": 4935,
+        "counts": {
+          "Fibromyocyte": 1930,
+          "Contractile": 1706,
+          "Modulated": 1299
+        },
+        "manual_rules": {
+          "5": "Fibromyocyte",
+          "6": "Modulated",
+          "7": "REMOVE_Endothelial_like",
+          "9": "Modulated"
+        }
+      }
+    }
+  },
+  "trait": {
+    "id": "local:z_score",
+    "score_label": "z_score",
+    "provenance_status": "unverified",
+    "disease_name": null,
+    "gwas_study_id": null,
+    "gwas_genome_build": null,
+    "mapped_disease_ids": [],
+    "source_records": [],
+    "note": "z_score 是交付文件中的标签；真实疾病、GWAS 来源和权重生成方法尚未确认。"
+  }
+}

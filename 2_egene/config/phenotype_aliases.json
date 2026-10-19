@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0",
+  "description": "Explicit Chinese terminology aliases for structured phenotype entries; not a free-text clinical NLP model. HPO identifiers and primary names are checked against the installed ontology.",
+  "aliases": {
+    "癫痫": "HP:0001250",
+    "癫痫发作": "HP:0001250",
+    "全面发育迟缓": "HP:0001263",
+    "智力障碍": "HP:0001249",
+    "肌张力低下": "HP:0001252",
+    "小头畸形": "HP:0000252",
+    "巨头畸形": "HP:0000256",
+    "身材矮小": "HP:0004322",
+    "咖啡牛奶斑": "HP:0000957",
+    "听力障碍": "HP:0000365",
+    "感音神经性听力障碍": "HP:0000407",
+    "视网膜色素变性": "HP:0000510",
+    "共济失调": "HP:0001251",
+    "肌无力": "HP:0001324",
+    "心肌病": "HP:0001638",
+    "肥厚型心肌病": "HP:0001639",
+    "关节过度活动": "HP:0001382",
+    "脊柱侧弯": "HP:0002650"
+  }
+}

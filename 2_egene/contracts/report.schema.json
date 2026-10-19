@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["schema_version", "report_id", "generated_at", "sample", "assembly", "conclusion", "analysis_scope", "variant_statistics", "disease_candidates", "input_quality", "versions", "files"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "assembly": {"const": "GRCh38"},
+    "sample": {"type": "object", "required": ["sample_id"]},
+    "conclusion": {"type": "object", "required": ["finding", "interpretation", "risk_probability", "risk_probability_status", "diagnosis_established"],
+      "properties": {"risk_probability": {"type": "null"}, "risk_probability_status": {"const": "not_estimated"}, "diagnosis_established": {"const": false}}},
+    "analysis_scope": {"type": "object", "required": ["classification_labels_modified"], "properties": {"classification_labels_modified": {"const": false}}},
+    "variant_statistics": {"type": "object", "required": ["counts", "gene_context_classifications", "variant_display_priority_classifications", "preview"]},
+    "disease_candidates": {"type": "array"}
+  }
+}

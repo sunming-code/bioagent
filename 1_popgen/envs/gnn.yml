@@ -1,0 +1,19 @@
+name: popgen_gnn
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - python=3.10
+  - numpy=1.26
+  - pandas=2.2
+  - scipy=1.14
+  - scikit-learn=1.5
+  - bcftools=1.21
+  - jsonschema
+  - fastapi
+  - uvicorn
+  - python-multipart
+  - httpx
+  - pytest
+  - pip
+# scripts/setup_runtime.sh installs torch 2.1.0 CPU and PyG 2.4.0 separately.
