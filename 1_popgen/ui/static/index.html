@@ -389,6 +389,7 @@
           rows.map(r => [r.CHROM, r.POS, r.REF, r.ALT, r.matched_pop, r.matched_pop_AF, r.global_AF]));
 
       const labels = {
+        popgen_report: "下载 popgen_report.html",
         evidence_pack: "evidence_pack.json",
         interface: "INTERFACE.md",
         allele_freq: "allele_freq.tsv",
@@ -407,6 +408,7 @@
         `<a class="btn" href="/api/download-zip?kind=delivery${query}">下载 e-Gene 交付包 zip</a>`,
         `<a class="btn ghost" href="/api/download-zip?kind=all${query}">下载全部结果 zip</a>`,
       ];
+      if (d.files.popgen_report) btns.unshift(`<a class="btn" href="/reports/${d.job_id || 'current'}/delivery/popgen_report.html" target="_blank" rel="noopener">打开 PopGen 报告</a>`);
       Object.keys(labels).forEach(k => {
         if (d.files[k]) btns.push(`<a class="btn ghost" href="/api/download/${k}${singleQuery}">${labels[k]}</a>`);
       });

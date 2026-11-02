@@ -195,6 +195,10 @@ class PipelineTests(unittest.TestCase):
         verify_files(moved, read_json(moved / "delivery_manifest.json")["files"])
         self.assertTrue((moved / "egene/report.html").is_file())
         self.assertTrue((moved / "gdgpt/report.html").is_file())
+        self.assertTrue((moved / "popgen/report.html").is_file())
+        index = (moved / "index.html").read_text()
+        self.assertLess(index.index('href="popgen/report.html"'), index.index('href="egene/report.html"'))
+        self.assertEqual(read_json(moved / "pipeline_report.json")["files"]["popgen_report"], "popgen/report.html")
 
     def test_failure_stops_before_gdgpt_and_does_not_publish_archive(self):
         source = self.fixture()

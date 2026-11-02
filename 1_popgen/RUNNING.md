@@ -64,6 +64,15 @@ API：
 - `allele_freq.tsv`、`af_coverage.json`
 - `partial_evidence.json`、`gnn_decision.json`
 - `delivery/evidence_pack.json`、`delivery/INTERFACE.md`、`delivery/allele_freq.tsv`
+- `delivery/popgen_report.html`：可离线打开的 PopGen 报告，含监督 ADMIXTURE、PCA、有效时的 GNN 比较、全表频率分布及前 25 行预览。打包时自动生成，下载 ZIP 时一并交付。
+
+仅补生成报告、不重跑分析或修改证据包：
+
+```bash
+python reporting.py --evidence-pack results/你的任务/delivery/evidence_pack.json
+```
+
+统一流水线会把 PopGen 报告放在 `delivery/popgen/report.html`，总报告入口排在 e-Gene 前面；证据包、频率表及接口说明位于 `popgen/`，患者 VCF 位于其上一级。复用 e-Gene 报告时，会从已校验的溯源文件寻找原始 PopGen 证据包；原始输入不可用时，页面明确写明缺少 PopGen 报告。
 
 样本 ID 来自 VCF，不再默认填写 HG002。患者 VCF 不会在此步骤做 snpEff、VQSR 或 ACMG 致病性分级；ACMG 分级由下游 e-Gene 完成。
 

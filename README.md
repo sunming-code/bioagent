@@ -283,6 +283,8 @@ runs/任务/
 │   ├── index.html            统一报告首页
 │   ├── pipeline_report.json  汇总结果、祖源/频率、任务选择和溯源
 │   ├── delivery_manifest.json
+│   ├── popgen/               report.html、evidence_pack.json、allele_freq.tsv、INTERFACE.md
+│   ├── patient.vcf.gz        原始 PopGen 患者 VCF（有可验证的 PopGen 输入时）
 │   ├── egene/                完整 e-Gene 离线交付
 │   └── gdgpt/                完整机制分析交付
 ├── delivery.zip              解压后打开 delivery/index.html
@@ -291,7 +293,7 @@ runs/任务/
 └── status.json
 ```
 
-复用阶段仍在原运行目录，不复制大型生信中间文件；最终离线交付会复制所需报告与完整 TSV。`delivery/provenance` 和 `*.source.json` 中的原始路径用于溯源，不是搬移后可执行的任务入口。报告中的祖源及频率已经由 e-Gene 承接；原始 PopGen VCF、中间数据和模型产物保留在 `01_popgen` 或其原任务目录。
+复用阶段仍在原运行目录，不复制大型生信中间文件；最终离线交付会复制所需报告与完整 TSV。`delivery/provenance` 和 `*.source.json` 中的原始路径用于溯源，不是搬移后可执行的任务入口。总报告首项为 PopGen，链接 `popgen/report.html`，排在 e-Gene 前面；PopGen 自己打包时自动生成 `delivery/popgen_report.html`。统一交付会复制原始患者 VCF 和报告所需的分析文件，保持所有相对下载链接可用。复用 e-Gene 报告时从已验证的输入溯源寻找 PopGen 证据；原始证据不可用时明确显示报告未提供。其余大型中间数据和模型产物保留在 `01_popgen` 或原任务目录。
 
 从失败任务继续，必须指定新输出目录：
 

@@ -32,6 +32,7 @@ UPLOADS.mkdir(parents=True, exist_ok=True)
 
 SUPERPOP_ORDER = ["AFR", "EUR", "EAS", "SAS", "AMR"]
 DOWNLOADS = {
+    "popgen_report": DELIVERY / "popgen_report.html",
     "evidence_pack": DELIVERY / "evidence_pack.json",
     "interface": DELIVERY / "INTERFACE.md",
     "allele_freq": DELIVERY / "allele_freq.tsv",
@@ -365,6 +366,17 @@ def download(key: str, job_id: str | None = None):
     return FileResponse(path, filename=path.name)
 
 
+@app.get("/reports/{job_id}/{relative:path}")
+def report_file(job_id: str, relative: str):
+    results = job_directory(job_id) / "output" if job_id != "current" else RESULTS
+    if job_id != "current" and _load_json(results.parent / "job.json").get("status") != "completed":
+        raise HTTPException(409, "任务尚未完成")
+    path = (results / relative).resolve()
+    if not path.is_relative_to(results.resolve()) or not path.is_file():
+        raise HTTPException(404, "报告文件不存在")
+    return FileResponse(path)
+
+
 @app.get("/api/download-zip")
 def download_zip(kind: str = "delivery", job_id: str | None = None):
     results = job_directory(job_id) / "output" if job_id else RESULTS
@@ -375,6 +387,8 @@ def download_zip(kind: str = "delivery", job_id: str | None = None):
     if not pack:
         raise HTTPException(404, "尚无可交付的证据包")
     paths = {(delivery / "evidence_pack.json").resolve(), (delivery / "INTERFACE.md").resolve()}
+    if (delivery / "popgen_report.html").is_file():
+        paths.add((delivery / "popgen_report.html").resolve())
     paths.update((delivery / rel).resolve() for rel in pack.get("files", {}).values() if rel)
     if kind == "all":
         paths.update(p.resolve() for p in download_paths(results).values() if p.is_file())

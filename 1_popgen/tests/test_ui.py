@@ -63,12 +63,57 @@ class UIIntegrationTests(unittest.TestCase):
                     names=set(z.namelist())
                     self.assertEqual(len(names),len(z.namelist()))
                     self.assertIn('patient.vcf.gz',names)
+                    if (result/'delivery/popgen_report.html').is_file():
+                        self.assertIn('delivery/popgen_report.html',names)
                     pack=json.loads(z.read('delivery/evidence_pack.json'))
                     import posixpath
                     for relative in pack['files'].values():
                         if relative:
                             self.assertIn(posixpath.normpath('delivery/'+relative),names)
                 self.assertEqual(client.get('/api/download/patient_vcf',params={'job_id':job}).status_code,200)
+
+    def test_report_and_relative_download_routes(self):
+        with tempfile.TemporaryDirectory() as tmp, patch.object(ui, 'JOBS', Path(tmp)):
+            job = 'b' * 32
+            directory = Path(tmp) / job
+            delivery = directory / 'output/delivery'
+            delivery.mkdir(parents=True)
+            (delivery / 'popgen_report.html').write_text('<html>PopGen</html>')
+            (delivery / 'evidence_pack.json').write_text('{}')
+            (directory / 'output/patient.vcf.gz').write_bytes(b'synthetic')
+            ui.write_job(directory, {'job_id': job, 'status': 'completed'})
+            with TestClient(ui.app) as client:
+                prefix = f'/reports/{job}/'
+                self.assertEqual(client.get(prefix + 'delivery/popgen_report.html').status_code, 200)
+                self.assertEqual(client.get(prefix + 'delivery/evidence_pack.json').status_code, 200)
+                self.assertEqual(client.get(prefix + 'patient.vcf.gz').status_code, 200)
+                self.assertEqual(client.get(prefix + '%2e%2e%2fjob.json').status_code, 404)
+                ui.write_job(directory, {'job_id': job, 'status': 'running'})
+                self.assertEqual(client.get(prefix + 'delivery/popgen_report.html').status_code, 409)
+
+    def test_pipeline_report_links_resolve_to_run_local_files(self):
+        from pipeline_ui import app as pipeline_ui
+        from urllib.parse import urljoin
+        with tempfile.TemporaryDirectory() as tmp, patch.object(pipeline_ui, 'RUNS', Path(tmp)):
+            run = 'ui_synthetic_00000000'
+            directory = Path(tmp) / run
+            delivery = directory / 'output/delivery'
+            (delivery / 'popgen').mkdir(parents=True)
+            (directory / 'ui_state.json').write_text(json.dumps({'output_dir': str(directory / 'output')}))
+            (delivery / 'index.html').write_text('<a href="popgen/report.html">PopGen</a>')
+            (delivery / 'popgen/report.html').write_text('<a href="evidence_pack.json">evidence</a>')
+            (delivery / 'popgen/evidence_pack.json').write_text('{}')
+            (delivery / 'patient.vcf.gz').write_bytes(b'synthetic')
+            with TestClient(pipeline_ui.app) as client:
+                index = client.get(f'/api/runs/{run}/report')
+                self.assertEqual(index.status_code, 200)
+                report = client.get(urljoin(str(index.url), 'popgen/report.html'))
+                self.assertEqual(report.status_code, 200)
+                self.assertEqual(client.get(urljoin(str(report.url), 'evidence_pack.json')).status_code, 200)
+                self.assertEqual(client.get(urljoin(str(report.url), '../patient.vcf.gz')).status_code, 200)
+                artifact = client.get(f'/api/runs/{run}/artifacts', params={'path': 'delivery/popgen/report.html'})
+                self.assertEqual(str(artifact.url), str(report.url))
+                self.assertEqual(client.get(f'/api/runs/{run}/files/%2e%2e%2fui_state.json').status_code, 404)
 
 
 if __name__=='__main__':

@@ -8,6 +8,11 @@ import shutil
 from datetime import datetime, timezone
 from pathlib import Path
 
+if __package__:
+    from .reporting import generate_report
+else:
+    from reporting import generate_report
+
 ROOT = Path(__file__).resolve().parent
 SCHEMA_PATH = ROOT / "contracts" / "evidence_pack.schema.json"
 SCHEMA_VERSION = "1.0"
@@ -143,6 +148,7 @@ def build_evidence_pack(
     files = {
         "allele_frequency": "allele_freq.tsv",
         "interface": "INTERFACE.md",
+        "report": "popgen_report.html",
         "admixture_supervised": "../admixture_results_K5.tsv",
         "admixture_cv": "../admixture_cv.tsv" if (results_dir / "admixture_cv.tsv").exists() else None,
         "admixture_unsupervised": "../" + Path(unsup["path"]).name if unsup.get("path") else None,
@@ -228,7 +234,8 @@ def build_evidence_pack(
         analysis["ancestry"]["gnn_based"] = gnn_based
         analysis["ancestry"]["confidence"] = gnn_conf
         partial_evidence.write_text(json.dumps(analysis, indent=2, ensure_ascii=False) + "\n")
-    logging.info("写出交付包 %s", pack_path)
+    generate_report(pack_path)
+    logging.info("写出交付包和 PopGen 报告 %s", pack_path)
     return pack_path
 
 

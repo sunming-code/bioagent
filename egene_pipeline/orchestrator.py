@@ -153,6 +153,8 @@ def deliver(outdir, stages):
     er = read_json(egene_files["report.json"])
     gr = read_json(gdgpt_files["report.json"])
     am = read_json(atheromap_files["report.json"]) if atheromap_files else None
+    from .popgen import deliver_popgen
+    popgen_status = deliver_popgen(delivery, stages, egene_files, egene["sample_id"])
     summary = {"schema_version": "1.0", "sample_id": egene["sample_id"], "assembly": "GRCh38", "generated_at": now(),
         "producer": {"name": "egene_pipeline", "version": __version__},
         "upstream_conclusion": er["conclusion"], "variant_counts": er["variant_statistics"]["counts"],
@@ -163,7 +165,8 @@ def deliver(outdir, stages):
         "classification_labels_modified": False, "diagnosis_established": False, "risk_probability": None,
         "stages": stages, "limitations": list(dict.fromkeys(gr["limitations"] + (am.get("limitations", []) if am else []))),
         "atheromap_analysis_status": (am["status"] if am else None),
-        "files": {"egene_report": "egene/report.html", "gdgpt_report": "gdgpt/report.html", "gdgpt_input": "gdgpt/gdgpt_input.json",
+        "popgen_report_status": popgen_status,
+        "files": {"popgen_report": "popgen/report.html", "egene_report": "egene/report.html", "gdgpt_report": "gdgpt/report.html", "gdgpt_input": "gdgpt/gdgpt_input.json",
                   "atheromap_report": "atheromap/report.html" if atheromap_files else None}}
     write_json(delivery / "pipeline_report.json", summary)
     sample = escape(egene["sample_id"])
@@ -172,7 +175,8 @@ def deliver(outdir, stages):
         '<style>body{max-width:1000px;margin:40px auto;padding:0 20px;font:17px/1.8 system-ui}a{color:#0759aa}li{margin:12px 0}</style>'
         f'<h1>统一分析报告：{sample}</h1><p>PopGen → e-Gene → GDgpt' + (' → AtheroMap' if atheromap_files else '') + '</p>'
         f'<p>{escape(er["conclusion"]["finding"])}</p><p>{escape(gr["summary"])}</p>'
-        '<ul><li><a href="egene/report.html">e-Gene：完整变异、ACMG 分类与疾病候选</a></li>'
+        '<ul><li><a href="popgen/report.html">PopGen：祖源、人群频率与查表策略</a></li>'
+        '<li><a href="egene/report.html">e-Gene：完整变异、ACMG 分类与疾病候选</a></li>'
         '<li><a href="gdgpt/report.html">GDgpt：机制分析、图谱证据和分析边界</a></li>'
         + ('<li><a href="atheromap/report.html">AtheroMap：scDRS 参考分析与 gsMap 空间结果</a></li>' if atheromap_files else '') +
         '<li><a href="gdgpt/gdgpt_input.json">GDgpt 完整输入证据</a></li>'

@@ -10,6 +10,7 @@ import json
 import os
 from pathlib import Path
 import re
+from urllib.parse import quote
 import signal
 import subprocess
 import sys
@@ -20,7 +21,7 @@ import uuid
 from starlette.applications import Starlette
 from starlette.exceptions import HTTPException
 from starlette.requests import Request
-from starlette.responses import FileResponse, JSONResponse, StreamingResponse
+from starlette.responses import FileResponse, JSONResponse, RedirectResponse, StreamingResponse
 from starlette.routing import Mount, Route
 from starlette.staticfiles import StaticFiles
 
@@ -463,13 +464,24 @@ async def stop_run(request: Request) -> JSONResponse:
     return JSONResponse({"run_id": run_id, "status": "stopping"})
 
 
-async def report(request: Request) -> FileResponse:
+async def report(request: Request):
     run_id = request.path_params["run_id"]
     directory = _run_dir(run_id)
     state = _read_json(directory / "ui_state.json")
     path = Path(state.get("output_dir") or directory) / "delivery/index.html"
     if not path.is_file():
         raise HTTPException(404, "报告尚未生成")
+    return RedirectResponse(f"/api/runs/{run_id}/files/delivery/index.html")
+
+
+async def report_file(request: Request) -> FileResponse:
+    """Preserve relative report and download URLs inside a confined run directory."""
+    directory = _run_dir(request.path_params["run_id"])
+    state = _read_json(directory / "ui_state.json")
+    outdir = Path(state.get("output_dir") or directory).resolve()
+    path = (outdir / request.path_params["path"]).resolve()
+    if not path.is_relative_to(outdir) or not path.is_file():
+        raise HTTPException(404, "产物不存在")
     return FileResponse(path)
 
 
@@ -485,6 +497,8 @@ async def artifact(request: Request) -> FileResponse:
     path = (outdir / relative).resolve()
     if not path.is_relative_to(outdir) or not path.is_file():
         raise HTTPException(404, "产物不存在")
+    if path.suffix.lower() == ".html":
+        return RedirectResponse(f"/api/runs/{run_id}/files/{quote(path.relative_to(outdir).as_posix())}")
     return FileResponse(path)
 
 
@@ -497,6 +511,7 @@ app = Starlette(routes=[
     Route("/api/runs/{run_id}/events", events, methods=["GET"]),
     Route("/api/runs/{run_id}/stop", stop_run, methods=["POST"]),
     Route("/api/runs/{run_id}/report", report, methods=["GET"]),
+    Route("/api/runs/{run_id}/files/{path:path}", report_file, methods=["GET"]),
     Route("/api/runs/{run_id}/artifacts", artifact, methods=["GET"]),
 ])
 

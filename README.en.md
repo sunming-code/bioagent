@@ -284,6 +284,8 @@ runs/task/
 │   ├── index.html             Unified report home page
 │   ├── pipeline_report.json   Ancestry/frequency summaries, task selection, and provenance
 │   ├── delivery_manifest.json
+│   ├── popgen/                report.html, evidence_pack.json, allele_freq.tsv, INTERFACE.md
+│   ├── patient.vcf.gz         Original PopGen patient VCF, when verified input is available
 │   ├── egene/                 Complete offline e-Gene delivery
 │   └── gdgpt/                 Complete mechanism-analysis delivery
 ├── delivery.zip               Extract and open delivery/index.html
@@ -292,7 +294,7 @@ runs/task/
 └── status.json
 ```
 
-Reused stages stay in their original run directories; large bioinformatics intermediates are not copied. The final offline package copies the required reports and complete TSV files. Original paths in `delivery/provenance` and `*.source.json` are provenance records, not executable entry points after relocation. Ancestry and frequency results are carried into the e-Gene report; the original PopGen VCF, intermediates, and model outputs stay in `01_popgen/` or their original task directories.
+Reused stages stay in their original run directories; large bioinformatics intermediates are not copied. The final offline package copies the required reports and complete TSV files. Original paths in `delivery/provenance` and `*.source.json` are provenance records, not executable entry points after relocation. The first report entry is PopGen at `popgen/report.html`, before e-Gene. Standalone PopGen packaging automatically generates `delivery/popgen_report.html`. Integrated delivery includes the original patient VCF and report inputs, preserving relative download links. When resuming from e-Gene, verified input provenance locates the original PopGen evidence; if unavailable, the report explicitly states this. Other large intermediates and model artifacts remain in `01_popgen/` or their original task directories.
 
 To resume a failed run, specify a new output directory:
 
