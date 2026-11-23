@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from html import escape
 import json
 import os
@@ -9,10 +10,12 @@ from pathlib import Path
 import shutil
 import signal
 import sys
+from threading import Event
 from time import monotonic
 from urllib.parse import urlsplit, urlunsplit
 
 from . import __version__
+from .adapter import MAX_GDGPT_TASKS, limit_tasks
 from .gdgpt_report import write_html_reports
 from .report_theme import document
 from .common import ROOT, digest, file_spec, files_in, now, object_digest, read_json, run_command, validate_contract, verify_files, verify_manifest, write_json
@@ -31,7 +34,7 @@ def load_input(path):
     for task in payload["tasks"]:
         if any(e["gene"] != task["gene"] for e in task["evidence"]):
             raise ValueError("任务基因与变异证据不一致")
-    return payload
+    return limit_tasks(payload)
 
 
 def make_question(payload, task, prompt_variants=20):
@@ -140,6 +143,12 @@ def write_report(outdir, payload, results, runtime):
     status = "analyzed" if results else "no_eligible_candidates"
     summary = (f"已完成 {len(results)} 项基因机制分析。" if results else
                "上游没有可自动进入机制分析的疾病候选，本次未调用大模型。未自动提升 background VUS，也未生成疾病诊断。")
+    selection = payload["selection"]
+    if selection["omitted_candidate_count"]:
+        summary += (f"e-Gene 共列出 {selection['candidate_count']} 个疾病候选，本次按排名分析前 "
+                    f"{selection['selected_candidate_count']} 个，另有 {selection['omitted_candidate_count']} 个保存在 e-Gene 报告中。")
+    if selection.get("omitted_exploration_genes"):
+        summary += "本次任务达到上限，未分析的指定基因为 " + "、".join(selection["omitted_exploration_genes"]) + "。"
     report = {"schema_version": "1.0", "sample_id": payload["sample_id"], "assembly": "GRCh38",
         "generated_at": now(), "analysis_status": status, "summary": summary,
         "upstream_summary": payload["upstream_summary"], "selection": payload["selection"],
@@ -190,39 +199,91 @@ def run(args):
             previous = read_json(args.resume_results / "gdgpt_manifest.json")
             if previous["sample_id"] != payload["sample_id"] or previous["input_manifest"]["sha256"] != digest(args.input_manifest):
                 raise ValueError("续接 GDgpt 结果的样本或输入清单不一致")
-        results = []
         write_json(args.outdir / "gdgpt_input.json", payload)
-        shutil.copyfile(args.input_manifest, args.outdir / "input_manifest.source.json")
-        for task in payload["tasks"]:
+        source_dir = args.outdir
+        source_manifest, source_files = verify_manifest(args.input_manifest, "prepare_gdgpt_input")
+        if source_manifest["task_count"] > len(payload["tasks"]):
+            # Keep the original checksum references separate from the reduced execution input.
+            source_dir = args.outdir / "source_input"
+            source_dir.mkdir()
+            for name, path in source_files.items():
+                target = source_dir / source_manifest["files"][name]["path"]
+                target.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copyfile(path, target)
+            shutil.copyfile(args.input_manifest.parent / "status.json", source_dir / "status.json")
+            if previous and previous.get("tasks") and read_json(args.resume_results / "gdgpt_input.json") != payload:
+                previous = None
+        shutil.copyfile(args.input_manifest, source_dir / "input_manifest.source.json")
+        ordered_tasks = payload["tasks"]
+        completed = {}
+        pending = []
+        input_hash = object_digest(payload)
+        cancel = Event()
+
+        def publish_progress():
+            active = [k for k, v in manifest["tasks"].items() if v["status"] == "running"]
+            write_json(manifest_path, manifest)
+            write_json(args.outdir / "status.json", {"stage": manifest["stage"], "status": "running",
+                "task": next(iter(active), None), "active_tasks": active})
+
+        def record_result(task, path):
+            task_id = task["id"]
+            result = read_json(path)
+            if (result.get("status") != "complete" or result.get("sample_id") != payload["sample_id"]
+                    or result.get("task_id") != task_id or result.get("task_sha256") != object_digest(task)
+                    or result.get("runtime") != runtime or result.get("input_sha256") != input_hash
+                    or result.get("parameters") != parameters):
+                raise ValueError(f"{task_id} 的任务、输入、模型、参数或完成状态不一致")
+            target = args.outdir / "tasks" / (task_id + ".json")
+            if path != target:
+                shutil.copyfile(path, target)
+            completed[task_id] = result
+            manifest["tasks"][task_id].update(status="complete", finished_at=now(), file=file_spec(target, args.outdir))
+
+        def execute(task_id):
+            target = args.outdir / "tasks" / (task_id + ".json")
+            run_command([sys.executable, "-m", "egene_pipeline.gdgpt", "--input-manifest", args.input_manifest,
+                "--task-id", task_id, "--task-output", target, "--max-rounds", args.max_rounds,
+                "--prompt-variants", args.prompt_variants], ROOT, args.outdir / "logs" / (task_id + ".log"),
+                timeout=args.task_timeout, cancel_event=cancel)
+            return target
+
+        for task in ordered_tasks:
             current_task = task["id"]
-            target = args.outdir / "tasks" / (current_task + ".json")
             (args.outdir / "questions" / (current_task + ".txt")).write_text(make_question(payload, task, args.prompt_variants), encoding="utf-8")
+            manifest["tasks"][current_task] = {"status": "pending"}
             old = (previous or {}).get("tasks", {}).get(current_task)
             if old and old.get("status") == "complete":
                 old_path = verify_files(args.resume_results, {current_task: old["file"]})[current_task]
-                result = read_json(old_path)
-                if (result["runtime"] != runtime or result["parameters"] != parameters
-                        or result["task_sha256"] != object_digest(task) or result["input_sha256"] != object_digest(payload)):
-                    raise ValueError("已完成任务的模型、代码、参数或输入变化；请从输入清单开始新分析")
-                shutil.copyfile(old_path, target)
+                record_result(task, old_path)
                 print(f"复用已完成任务 {current_task}", flush=True)
             else:
-                manifest["tasks"][current_task] = {"status": "running", "started_at": now()}
-                write_json(manifest_path, manifest)
-                write_json(args.outdir / "status.json", {"stage": manifest["stage"], "status": "running", "task": current_task})
-                run_command([sys.executable, "-m", "egene_pipeline.gdgpt", "--input-manifest", args.input_manifest,
-                    "--task-id", current_task, "--task-output", target, "--max-rounds", args.max_rounds,
-                    "--prompt-variants", args.prompt_variants], ROOT, args.outdir / "logs" / (current_task + ".log"),
-                    timeout=args.task_timeout)
-                result = read_json(target)
-            if (result.get("status") != "complete" or result.get("sample_id") != payload["sample_id"]
-                    or result.get("task_id") != current_task or result.get("task_sha256") != object_digest(task)
-                    or result.get("runtime") != runtime or result.get("input_sha256") != object_digest(payload)
-                    or result.get("parameters") != parameters):
-                raise ValueError("模型运行产物的任务、输入、模型或完成状态不一致")
-            results.append(result)
-            manifest["tasks"][current_task] = {"status": "complete", "file": file_spec(target, args.outdir)}
-            write_json(manifest_path, manifest)
+                pending.append(task)
+
+        current_task = None
+        failures = {}
+        if pending:
+            for task in pending:
+                manifest["tasks"][task["id"]].update(status="running", started_at=now())
+            publish_progress()
+            with ThreadPoolExecutor(max_workers=MAX_GDGPT_TASKS) as pool:
+                try:
+                    futures = {pool.submit(execute, task["id"]): task for task in pending}
+                    for future in as_completed(futures):
+                        task = futures[future]
+                        task_id = task["id"]
+                        try:
+                            record_result(task, future.result())
+                        except Exception as exc:
+                            manifest["tasks"][task_id].update(status="failed", finished_at=now(), error=str(exc))
+                            failures[task_id] = exc
+                        publish_progress()
+                finally:
+                    cancel.set()
+        if failures:
+            current_task = next(task["id"] for task in pending if task["id"] in failures)
+            raise failures[current_task]
+        results = [completed[t["id"]] for t in ordered_tasks]
         # Upstream input must still be intact after all model calls.
         load_input(args.input_manifest)
         if digest(args.input_manifest) != manifest["input_manifest"]["sha256"]:
@@ -235,6 +296,9 @@ def run(args):
         print(f"GDgpt 完成：{args.outdir / 'report.html'}", flush=True)
         return manifest
     except BaseException as error:
+        for task_id, state in manifest["tasks"].items():
+            if state["status"] in ("running", "pending"):
+                state.update(status="failed" if task_id == current_task else "cancelled", finished_at=now())
         manifest.update(status="failed", failed_at=now(), failed_task=current_task, error=str(error))
         write_json(manifest_path, manifest)
         write_json(args.outdir / "status.json", {"stage": manifest["stage"], "status": "failed", "task": current_task, "error": str(error)})

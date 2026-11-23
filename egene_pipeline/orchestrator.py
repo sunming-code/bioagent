@@ -8,11 +8,13 @@ from importlib import import_module
 import os
 from pathlib import Path
 import shutil
+import signal
 import sys
 import uuid
 import zipfile
 
 from . import __version__
+from .adapter import MAX_CANDIDATES_HELP, MAX_GDGPT_TASKS, candidate_limit
 from .report_theme import document
 from .failure import REPORT as ERROR_REPORT, publish_failure
 from .common import ROOT, digest, file_spec, files_in, now, read_json, run_command, verify_files, verify_manifest, write_json
@@ -28,14 +30,14 @@ EGENE_BOOLS = ("include_filtered", "verify_database_hashes", "include_background
 ATHEROMAP_PATHS = ("atheromap_reference", "atheromap_gsmap_root")
 ATHEROMAP_VALUES = ATHEROMAP_PATHS + ("atheromap_scope", "atheromap_mode", "atheromap_plots", "atheromap_timeout")
 DEFAULTS = {"threads": 4, "skip_cv": False, "skip_gnn": False, "ref_mismatch": "error", "preview_limit": 200,
-            "gene": [], "max_candidates": None, "max_rounds": 6, "task_timeout": 3600, "prompt_variants": 20,
-            "with_atheromap": False, "atheromap_scope": "reference-context", "atheromap_mode": "reuse",
+            "gene": [], "max_candidates": MAX_GDGPT_TASKS, "max_rounds": 6, "task_timeout": 3600, "prompt_variants": 20,
+            "atheromap_scope": "reference-context", "atheromap_mode": "reuse",
             "atheromap_plots": "all", "atheromap_timeout": 7200,
             **{name: False for name in EGENE_BOOLS}}
 
 
 def argument_parser():
-    p = argparse.ArgumentParser(description="PopGen → e-Gene → GDgpt 统一流水线，默认保留全部疾病候选，逐任务保存证据。")
+    p = argparse.ArgumentParser(description="PopGen → e-Gene → GDgpt → AtheroMap 统一流水线，GDgpt 按候选排名最多分析前三项。")
     sources = p.add_mutually_exclusive_group(required=True)
     for name in SOURCE_FLAGS:
         sources.add_argument("--" + name.replace("_", "-"), type=Path)
@@ -46,12 +48,15 @@ def argument_parser():
     p.add_argument("--skip-cv", action="store_true", default=None)
     p.add_argument("--skip-gnn", action="store_true", default=None)
     p.add_argument("--gene", action="append", help="显式探索患者已有变异的指定基因，可重复；不改变疾病候选或 ACMG 分类")
-    p.add_argument("--max-candidates", type=int, help="可选限制疾病候选任务数量；默认全部，省略数量记入报告")
+    p.add_argument("--max-candidates", type=int, help=MAX_CANDIDATES_HELP)
     p.add_argument("--max-rounds", type=int, help="GDgpt 每任务最大轮数，默认 6")
     p.add_argument("--task-timeout", type=int, help="每任务硬超时秒数，默认 3600；超时终止子进程后可续接")
     p.add_argument("--prompt-variants", type=int, help="每任务模型上下文最多展示的变异上下文数，默认20；完整证据始终交付")
-    p.add_argument("--with-atheromap", "--atheromap", dest="with_atheromap", action="store_true", default=None,
-                   help="在 GDgpt 完成后接入第四阶段 AtheroMap：scDRS 参考分析及已验收 gsMap 空间结果")
+    coverage = p.add_mutually_exclusive_group()
+    coverage.add_argument("--with-atheromap", "--atheromap", dest="with_atheromap", action="store_true", default=None,
+                          help="GDgpt 完成后继续 AtheroMap（默认）")
+    coverage.add_argument("--without-atheromap", dest="with_atheromap", action="store_false", default=None,
+                          help="打包截至 GDgpt 的三阶段报告")
     p.add_argument("--atheromap-reference", type=Path, help="AtheroMap scDRS 参考数据清单")
     p.add_argument("--atheromap-gsmap-root", type=Path, help="已验收 GSE241346 gsMap 工作目录")
     p.add_argument("--atheromap-scope", choices=("reference-context", "matched-trait"))
@@ -77,12 +82,16 @@ def argument_parser():
 
 def configuration(args, previous=None):
     values = {key: str(value.expanduser().absolute()) if isinstance(value, Path) else value
-              for key, value in vars(args).items() if key not in SOURCE_FLAGS + ("outdir", "end_stage")}
+              for key, value in vars(args).items() if key not in SOURCE_FLAGS + ("outdir", "end_stage", "with_atheromap")}
     config = dict((previous or {}).get("configuration", {}))
+    if previous:
+        config["max_candidates"] = candidate_limit(config.get("max_candidates"))
+    if values.get("max_candidates") is not None:
+        values["max_candidates"] = candidate_limit(values["max_candidates"])
     for key, value in values.items():
         if previous and value is not None and value != config.get(key, popgen_parameters.DEFAULTS.get(key)) and key not in {
             "threads", "task_timeout", "popgen_python", "egene_python", "gdgpt_python",
-            "with_atheromap", "atheromap_reference", "atheromap_gsmap_root",
+            "atheromap_reference", "atheromap_gsmap_root",
             "atheromap_scope", "atheromap_mode", "atheromap_plots", "atheromap_timeout",
         }:
             raise ValueError(f"--resume-from 不允许改变已记录的 {key}；请从相应上游清单开始新运行")
@@ -103,12 +112,16 @@ def configuration(args, previous=None):
         config.setdefault(name, None)
     if not 1 <= config["threads"] <= 64 or not 1 <= config["max_rounds"] <= 6 or config["task_timeout"] < 1 or config["prompt_variants"] < 1 or config["atheromap_timeout"] < 1:
         raise ValueError("threads 范围为1–64，max-rounds 为1–6，超时及上下文数量必须为正数")
-    if config["max_candidates"] is not None and config["max_candidates"] < 1:
-        raise ValueError("max-candidates 必须为正整数")
     for name in ("popgen_python", "egene_python", "gdgpt_python"):
         if not Path(config[name]).is_file() or not os.access(config[name], os.X_OK):
             raise ValueError(f"缺少可执行环境 {name}: {config[name]}")
-    if config["with_atheromap"]:
+    # The requested range belongs to this invocation, including when continuing a legacy run.
+    from_gdgpt = args.gdgpt_manifest or (previous and previous["input"]["kind"] == "gdgpt_manifest")
+    if args.with_atheromap is False and (args.end_stage == "atheromap" or from_gdgpt):
+        raise ValueError("从 GDgpt 清单接入或指定 AtheroMap 为终点时，不能同时指定 --without-atheromap")
+    config["with_atheromap"] = args.end_stage in (None, "atheromap") and args.with_atheromap is not False
+    already_complete = (previous or {}).get("stages", {}).get("atheromap", {}).get("status") == "complete"
+    if config["with_atheromap"] and not already_complete:
         for name in ("atheromap_reference", "atheromap_gsmap_root"):
             if not Path(config[name]).exists():
                 raise ValueError(f"缺少 AtheroMap 输入: {name}={config[name]}")
@@ -230,12 +243,14 @@ def _run(args, outdir):
     source_stage = {"fastq_dir": "popgen", "vcf": "popgen", "popgen_pack": "egene",
                     "prepared_manifest": "egene", "annotation_manifest": "egene", "acmg_manifest": "egene",
                     "disease_manifest": "egene", "egene_report": "gdgpt", "gdgpt_input": "gdgpt",
-                    "gdgpt_manifest": "atheromap"}.get(source_name)
+                    "gdgpt_manifest": "atheromap"}.get("gdgpt_manifest" if entry_kind == "gdgpt_manifest" else source_name)
     if args.end_stage and source_stage and PIPELINE_STAGES.index(source_stage) > PIPELINE_STAGES.index(args.end_stage):
         raise ValueError(f"输入已经来自 {source_stage}，不能结束在更早的 {args.end_stage} 阶段")
     if previous:
         entry = previous["input"]
         stages = {name: {**record, "reused": True} for name, record in previous["stages"].items() if record["status"] == "complete"}
+        if not config["with_atheromap"]:
+            stages.pop("atheromap", None)
     else:
         entry = {"kind": source_name, **file_spec(source_path)} if source_path.is_file() else {"kind": source_name, "path": str(source_path)}
         stages = {}
@@ -382,8 +397,7 @@ def _run(args, outdir):
             command = [config["egene_python"], "-m", "egene_pipeline.adapter", "--egene-report", stages["egene"]["artifact"]["path"], "--outdir", destination]
             for gene in config["gene"]:
                 command += ["--gene", gene]
-            if config["max_candidates"] is not None:
-                command += ["--max-candidates", config["max_candidates"]]
+            command += ["--max-candidates", config["max_candidates"]]
             execute("bridge", command, ROOT)
             record("bridge", destination / "input_manifest.json")
         if args.end_stage == "gdgpt" and "gdgpt" in stages:
@@ -416,6 +430,16 @@ def _run(args, outdir):
             record("atheromap", destination / "atheromap_manifest.json")
         if args.end_stage == "atheromap" and "atheromap" in stages:
             return finish_partial("atheromap")
+        if kind == "gdgpt_manifest" and "egene" not in stages:
+            # A portable GDgpt delivery can travel with its e-Gene sibling or by itself.
+            source = read_json(path.parent / "gdgpt_input.json")["source_report_manifest"]
+            reports = [p for p in (path.parent.parent / "egene/report_manifest.json", Path(source["path"])) if p.is_file()]
+            if not reports:
+                return finish_partial("atheromap")
+            report_path = next((p for p in reports if digest(p) == source["sha256"]), None)
+            if report_path is None:
+                raise ValueError("GDgpt 对应的 e-Gene 报告清单校验失败")
+            record("egene", report_path, True)
         active = "delivery"
         save()
         for name, item in stages.items():
@@ -443,12 +467,17 @@ def _run(args, outdir):
 
 
 def main(argv=None):
+    # The studio sends SIGTERM to the controller. Unwind run_command so it
+    # forwards cancellation to the stage and its active candidate workers.
+    previous_handler = signal.signal(signal.SIGTERM, signal.default_int_handler)
     try:
         run(argument_parser().parse_args(argv))
         return 0
     except (Exception, KeyboardInterrupt) as error:
         print(f"统一流水线失败：{error}", file=sys.stderr)
         return 2
+    finally:
+        signal.signal(signal.SIGTERM, previous_handler)
 
 
 if __name__ == "__main__":

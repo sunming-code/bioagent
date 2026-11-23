@@ -23,7 +23,7 @@ The UI and queries run locally. Start in the repository root; use the language s
 报告的纸白、陶土和灰梅配色由 `egene_pipeline/report_theme.css` 定义，生成时内嵌，解压后可离线查看。GDgpt 专业版先展示摘要，再给出任务指标、逐基因证据和分析边界；易读版和交互图谱可通过相对链接切换。历史 ZIP、导入的上游报告以及带原始色标的科研图保留原件。
 
 - **参考分析**：真实统计人群构成、批量归一化中英文 HPO 术语、计算一阶图谱邻居和关系计数。在 `runs/reference-notebooks.sqlite` 持久化，可在任务记录重开或导出含输入、来源和代码基线的 JSON。邻域统计不是因果推断。
-- **样本流水线**：从 PopGen（VCF/FASTQ）、e-Gene（`evidence_pack.json`）、GDgpt（`report_manifest.json`）或 AtheroMap（`gdgpt_manifest.json`）开始。网页调用仓库的 `run_pipeline.py`；通过 SSE 更新阶段状态，支持停止任务、查看原始日志及产物。终点选 GDgpt/AtheroMap 时同时打包，较早终点提供阶段交付。运行目录为 `runs/ui_*/output`。
+- **样本流水线**：从 PopGen（VCF/FASTQ）、e-Gene（`evidence_pack.json`）、GDgpt（`report_manifest.json`）或 AtheroMap（`gdgpt_manifest.json`）开始。网页默认以 AtheroMap 为终点，GDgpt 完成后自动继续。网页调用仓库的 `run_pipeline.py`，通过 SSE 更新阶段状态，支持停止任务、查看原始日志及产物。终点选 GDgpt/AtheroMap 时同时打包，较早终点提供阶段交付。运行目录为 `runs/ui_*/output`。
 - **可立即运行的端到端样例**：「分析 → 样本流水线 → 运行内置无候选样例」。使用合成 e-Gene manifest，实际执行适配、GDgpt 空候选分支、HTML 与 ZIP 打包，不运行基因组比对或调用模型。`pipeline_ui/examples/no_candidates` 与 GDgpt 报告预览均来自上游测试结构；不是患者数据。
 - **真实样本环境**：网页环境不会安装参考基因组、ANNOVAR/InterVar、模块计算环境、Neo4j 或模型凭据。按仓库根 `README.md` 和 `DATASETS.md` 在分析机完成配置。涉及真实样本或模型供应商时，请先核对访问权限、数据用途和费用。
 

@@ -18,6 +18,7 @@ import threading
 import time
 import uuid
 
+from egene_pipeline.adapter import candidate_limit
 from egene_pipeline.failure import REPORT as ERROR_REPORT, log_reason, publish_failure
 from egene_pipeline.orchestrator import popgen_parameters
 
@@ -253,7 +254,8 @@ def snapshot(run_id: str) -> dict:
         "requested_end_stage": manifest.get("requested_end_stage") or request_state.get("request", {}).get("end_stage"),
         "log_tail": log_tail,
         "error_report_url": f"/api/runs/{run_id}/files/{ERROR_REPORT}" if status == "failed" and (outdir / ERROR_REPORT).is_file() else None,
-        "report_url": f"/api/runs/{run_id}/report" if status == "complete" and (outdir / "delivery/index.html").is_file() else None,
+        "report_url": f"/api/runs/{run_id}/report" if status == "complete" and any(
+            (outdir / name).is_file() for name in ("delivery/index.html", "05_atheromap/report.html")) else None,
         "popgen_shortlist_url": next((f"/api/runs/{run_id}/files/{rel}" for rel in
                                      ("delivery/popgen/review_shortlist.tsv.gz", "01_popgen/delivery/review_shortlist.tsv.gz")
                                      if (outdir / rel).is_file()), None),
@@ -312,10 +314,8 @@ def _path_value(payload: dict, key: str, label: str, *, directory: bool = False)
 
 def _validate_request(payload: dict) -> dict:
     start_stage = str(payload.get("start_stage", "popgen"))
-    # Keep API callers that predate range selection on the former three-stage
-    # behavior; the browser always sends an explicit end_stage.
     requested_end = payload.get("end_stage")
-    end_stage = str(requested_end if requested_end is not None else ("atheromap" if payload.get("with_atheromap") else "gdgpt"))
+    end_stage = str(requested_end if requested_end is not None else ("gdgpt" if payload.get("with_atheromap") is False else "atheromap"))
     if start_stage not in SELECTABLE_STAGES or end_stage not in SELECTABLE_STAGES:
         raise HTTPException(400, "开始和结束步骤必须是 popgen、egene、gdgpt 或 atheromap")
     if SELECTABLE_STAGES.index(start_stage) > SELECTABLE_STAGES.index(end_stage):
@@ -381,7 +381,7 @@ def _validate_request(payload: dict) -> dict:
     if scope not in ("reference-context", "matched-trait") or mode not in ("reuse", "recompute") or plots not in ("all", "python", "none"):
         raise HTTPException(400, "AtheroMap 参数无效")
     return {**tuning, "start_stage": start_stage, "end_stage": end_stage, "input_type": input_type,
-            "package_delivery": payload.get("package_delivery") is True and end_stage in ("gdgpt", "atheromap"),
+            "package_delivery": payload.get("package_delivery", requested_end is None) is True and end_stage in ("gdgpt", "atheromap"),
             "source": source, "reference": reference, "threads": threads,
             "skip_cv": bool(payload.get("skip_cv")), "skip_gnn": bool(payload.get("skip_gnn")),
             "max_rounds": max_rounds, "task_timeout": task_timeout, "prompt_variants": prompt_variants,
@@ -402,6 +402,8 @@ def _command_for(request: dict, output_dir: Path) -> list[str]:
     command += ["--outdir", str(output_dir), "--threads", str(request["threads"])]
     if not request['package_delivery']:
         command += ["--end-stage", request["end_stage"]]
+    elif request["end_stage"] == "gdgpt":
+        command.append("--without-atheromap")
     if (SELECTABLE_STAGES.index(request["start_stage"]) <= SELECTABLE_STAGES.index("egene")
             and SELECTABLE_STAGES.index(request["end_stage"]) >= SELECTABLE_STAGES.index("egene")):
         command += ["--ref-mismatch", request["ref_mismatch"]]
@@ -413,11 +415,10 @@ def _command_for(request: dict, output_dir: Path) -> list[str]:
         command += ["--gene", gene]
     if request["max_candidates"] not in (None, ""):
         try:
-            if int(request["max_candidates"]) < 1:
-                raise ValueError
+            limit = candidate_limit(int(request["max_candidates"]))
         except (TypeError, ValueError):
             raise HTTPException(400, "max_candidates 必须是正整数")
-        command += ["--max-candidates", str(int(request["max_candidates"]))]
+        command += ["--max-candidates", str(limit)]
     if request["start_stage"] in ("gdgpt", "atheromap") or SELECTABLE_STAGES.index(request["end_stage"]) >= SELECTABLE_STAGES.index("gdgpt"):
         command += ["--max-rounds", str(request["max_rounds"]), "--task-timeout", str(request["task_timeout"]),
                     "--prompt-variants", str(request["prompt_variants"])]
@@ -526,10 +527,10 @@ async def report(request: Request):
     outdir = Path(state.get("output_dir") or directory)
     if (outdir / ERROR_REPORT).is_file():
         return RedirectResponse(f"/api/runs/{run_id}/files/{ERROR_REPORT}")
-    path = outdir / "delivery/index.html"
-    if not path.is_file():
-        raise HTTPException(404, "报告尚未生成")
-    return RedirectResponse(f"/api/runs/{run_id}/files/delivery/index.html")
+    for name in ("delivery/index.html", "05_atheromap/report.html"):
+        if (outdir / name).is_file():
+            return RedirectResponse(f"/api/runs/{run_id}/files/{name}")
+    raise HTTPException(404, "报告尚未生成")
 
 
 async def report_file(request: Request) -> FileResponse:

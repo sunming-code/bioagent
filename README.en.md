@@ -19,7 +19,7 @@ This project connects population genetics, variant annotation and ACMG classific
 | `egene_pipeline/`, `contracts/` | Cross-stage file contracts, verification, failure recovery, and unified delivery | Status manifests, complete reports, and ZIP packages |
 | `pipeline_ui/` | A local web interface for selecting start/end stages and viewing logs and stage outputs as they become available | Browser interface and SSE progress updates |
 
-The default workflow is `PopGen → e-Gene → GDgpt`. Add `--with-atheromap` to include the fourth stage. Each module uses an isolated environment. Stages exchange file manifests containing sizes, SHA-256 checksums, and sample identifiers.
+The default workflow is `PopGen → e-Gene → GDgpt → AtheroMap`. AtheroMap starts automatically when GDgpt finishes. Use `--without-atheromap` for a three-stage report package ending at GDgpt. Each module uses an isolated environment. Stages exchange file manifests containing sizes, SHA-256 checksums, and sample identifiers.
 
 ## Get the code
 
@@ -101,8 +101,8 @@ Set your model and database configuration in `3_GDgpt/config.local.json`, which 
 ```json
 {
   "api_key": "YOUR_MODEL_API_KEY",
-  "base_url": "https://your-model-service/v1",
-  "text_model": "YOUR_MODEL_NAME",
+  "base_url": "https://api.deepseek.com",
+  "text_model": "deepseek-v4-pro",
   "neo4j_uri": "bolt://127.0.0.1:7687",
   "neo4j_user": "neo4j",
   "neo4j_password": "YOUR_DATABASE_PASSWORD",
@@ -126,7 +126,7 @@ docker run -d --name bioagent-neo4j \
 
 The importer reads the database settings from `config.local.json`, verifies **10,133 nodes and 87,838 edges**, and refuses to mix in unrelated graph content. See the [official Neo4j Docker guide](https://neo4j.com/docs/operations-manual/current/docker/introduction/) for Docker configuration. `3_GDgpt/scripts/run_local.sh` manages the original server's local Neo4j/Java installation; it does not install the excluded `.runtime/` directory in a fresh clone. Docker users do not need that launcher.
 
-### 5. Set up the fourth stage when needed
+### 5. Set up the AtheroMap references and environment
 
 ```bash
 bash 4_atheromap/tools/setup_environments.sh
@@ -146,7 +146,7 @@ The root entry point also consumes an **already validated gsMap output directory
 After preparing the environments and data for your selected stages, run commands from the repository root. Input must use GRCh38; the pipeline does not perform automatic GRCh37 liftover. VCF ancestry analysis requires sufficient genome-wide sites, so a short list of candidate variants cannot replace a full sample VCF.
 
 ```bash
-# Run the default three-stage workflow from a single-sample VCF.
+# Run the default four-stage workflow from a single-sample VCF.
 2_egene/.runtime/venv/bin/python run_pipeline.py \
   --vcf /absolute/path/sample.vcf.gz --outdir runs/sample_analysis
 
@@ -169,9 +169,9 @@ After preparing the environments and data for your selected stages, run commands
 2_egene/.runtime/venv/bin/python run_pipeline.py \
   --vcf /absolute/path/sample.vcf.gz --end-stage egene --outdir runs/sample_egene
 
-# Enable the fourth stage after preparing its data and validated gsMap results.
+# Package the first three stages only.
 2_egene/.runtime/venv/bin/python run_pipeline.py \
-  --vcf /absolute/path/sample.vcf.gz --with-atheromap --outdir runs/sample_four_stage
+  --vcf /absolute/path/sample.vcf.gz --without-atheromap --outdir runs/sample_three_stage
 ```
 
 Use [case.template.json](2_egene/examples/case.template.json) for the case format. The sample ID must match the VCF. Missing age, phenotypes, family information, and medical history remain unknown. REF mismatches are rejected by default. `--ref-mismatch exclude` explicitly excludes mismatches and records them; it is not a universal default.
@@ -203,7 +203,7 @@ The five e-Gene stage entry points remain available, together with report, GDgpt
 
 | Entry point | Subsequent execution |
 |---|---|
-| `--vcf` | PopGen ancestry/frequency/GNN → all e-Gene stages → GDgpt → unified delivery |
+| `--vcf` | PopGen ancestry/frequency/GNN → all e-Gene stages → GDgpt → AtheroMap → unified delivery |
 | `--fastq-dir` | PopGen FASTQ preprocessing, then the workflow above; use `--reference` for the reference FASTA |
 | `--popgen-pack` | Start from an existing PopGen `delivery/evidence_pack.json` |
 | `--prepared-manifest` | Continue annotation from prepared e-Gene input |
@@ -212,6 +212,7 @@ The five e-Gene stage entry points remain available, together with report, GDgpt
 | `--disease-manifest` | Generate the e-Gene report, then run GDgpt |
 | `--egene-report` | Adapt an e-Gene `delivery/report_manifest.json` and run GDgpt |
 | `--gdgpt-input` | Run GDgpt from an adapted `input_manifest.json`; unified delivery still requires the original e-Gene report |
+| `--gdgpt-manifest` | Run AtheroMap directly from a completed GDgpt manifest. An available matching e-Gene report enables unified packaging. With a standalone GDgpt bundle, the run delivers the fourth-stage report |
 | `--resume-from` | Verify and reuse successful stages from a previous `pipeline_manifest.json`; continue failed stages in a new directory |
 
 For example, continue from an existing PopGen delivery on the original server:
@@ -227,7 +228,7 @@ Here, `--ref-mismatch exclude` preserves the exclusion strategy already document
 
 ## GDgpt task selection
 
-By default, the pipeline creates a mechanism-analysis task for **every disease candidate retained by e-Gene**. Use `--max-candidates N` to set an explicit limit; the report records the number left unanalyzed rather than silently truncating them. With zero candidates, it returns `no_eligible_candidates` and the upstream conclusion, **without calling a model, promoting background VUS, or generating a disease diagnosis**.
+GDgpt analyzes **up to three tasks per run**, starting with the highest-ranked e-Gene disease candidates. It includes all candidates when there are fewer than three. Use `--max-candidates N` to lower the candidate limit. Values above three are capped at three. Explicitly requested genes fill any remaining slots in request order. The e-Gene report retains the full ranking, and the GDgpt report records the selected and omitted candidate counts. With zero candidates, it returns `no_eligible_candidates` and the upstream conclusion, **without calling a model, promoting background VUS, or generating a disease diagnosis**.
 
 For explicit exploration of a gene, use `--gene`; the option can be repeated:
 
@@ -242,22 +243,22 @@ The gene must connect unambiguously to an existing patient variant context that 
 
 Each model task starts its query with the gene and disease hypothesis to accommodate the existing GDgpt query planner's first-600-character window. Complete structured evidence is stored in `gdgpt_input.json`, including positive/negative phenotypes, original GT, quality fields, ACMG evidence items, frequency-use permissions, and exclusion reasons. By default, 20 variant contexts per task are shown to the model, with the remaining count explicitly recorded. Increase this with `--prompt-variants`. Complete evidence remains in the delivery, and omitted contexts are not represented as individually reviewed by the model.
 
-GDgpt allows up to **6 rounds** by default and accepts `--max-rounds 1..6`; actual convergence follows its existing workflow. Each task has a default hard timeout of **3,600 seconds**, configurable with `--task-timeout`. Tasks run in separate subprocesses. A timeout or failure stops the current pipeline run, while completed tasks are retained for resuming. A failed task is not retried in the same background thread.
+GDgpt runs up to **three selected candidates concurrently** in separate subprocesses. Each task allows up to **6 rounds** by default, configurable with `--max-rounds 1..6`. Each task has its own **3,600-second** timeout from launch, configurable with `--task-timeout`. Results are checkpointed as tasks finish and the final report follows the original candidate ranking. If one task times out or fails, the others finish before the pipeline reports failure. Resuming reuses verified results and runs only the unfinished tasks.
 
 Model settings come from `3_GDgpt/config.json` or existing `GDGPT_*` environment variables. API keys are not written into unified configuration or reports. Neo4j must be running: new machines can use the Docker configuration above, while the original server's local installation is managed with `bash 3_GDgpt/scripts/run_local.sh start`. Empty-candidate delivery does not need a model service.
 
 ## Connect the fourth-stage scDRS analysis
 
-The pipeline provides a verifiable `3_GDgpt → 4_atheromap` interface, connected on the original server to the reviewed reference files under `4_atheromap_data/GSE159677_scDRS`. After preparing the fourth-stage assets described above, add `--with-atheromap` to run all four stages:
+The pipeline provides a verifiable `3_GDgpt → 4_atheromap` interface, connected on the original server to the reviewed reference files under `4_atheromap_data/GSE159677_scDRS`. Once the reference assets are ready, the standard command runs all four stages.
 
 ```bash
 python run_pipeline.py \
   --egene-report 2_egene/results/NA18526_complete/delivery/report_manifest.json \
-  --gene RNF34 --with-atheromap \
+  --gene RNF34 \
   --outdir runs/NA18526_four_stage
 ```
 
-This produces interface manifests, scDRS delivery, and validated gsMap results under `05_atheromap/`, with the fourth-stage report under `delivery/atheromap/`. You can also use `--resume-from .../pipeline_manifest.json --with-atheromap` on an existing three-stage run to execute only the fourth stage. The standalone continuation commands remain available:
+This produces interface manifests, scDRS delivery, and validated gsMap results under `05_atheromap/`, with the fourth-stage report under `delivery/atheromap/`. You can also use `--resume-from .../pipeline_manifest.json` on an existing three-stage run to execute only the fourth stage. The standalone continuation commands remain available:
 
 ```bash
 2_egene/.runtime/venv/bin/python -m egene_pipeline.atheromap_adapter \
@@ -281,7 +282,7 @@ runs/task/
 ├── 02_egene/                  Annotation, classification, disease analysis, original e-Gene report
 ├── 03_gdgpt_input/            gdgpt_input.json, input_manifest.json
 ├── 04_gdgpt/                  Per-task queries, raw results, tool records, timings, and reports
-├── 05_atheromap/              scDRS, validated gsMap outputs, and fourth-stage report (when enabled)
+├── 05_atheromap/              scDRS, validated gsMap outputs, and fourth-stage report
 ├── delivery/
 │   ├── index.html             Unified report home page
 │   ├── pipeline_report.json   Ancestry/frequency summaries, task selection, and provenance

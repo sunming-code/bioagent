@@ -37,6 +37,19 @@ class RunControlsTests(unittest.TestCase):
                 self.app._validate_request(dict(self.payload, **wrong))
             self.assertEqual(error.exception.status_code, 400)
 
+    def test_default_four_stage_delivery_and_explicit_gdgpt_stop(self):
+        from egene_pipeline.orchestrator import argument_parser, configuration
+        payload = dict(self.payload, atheromap_reference=self.payload["reference"], atheromap_gsmap_root=str(self.root))
+        del payload["end_stage"]
+        for options, expected in [({}, True), ({"end_stage": "gdgpt", "package_delivery": True}, False),
+                                  ({"with_atheromap": False}, False)]:
+            with self.subTest(options=options):
+                request = self.app._validate_request(dict(payload, **options))
+                self.assertTrue(request["package_delivery"])
+                args = argument_parser().parse_args(self.app._command_for(request, self.root / "out")[2:])
+                args.popgen_python = args.egene_python = args.gdgpt_python = Path(sys.executable)
+                self.assertEqual(configuration(args)["with_atheromap"], expected)
+
     def test_worker_exiting_early_publishes_a_report_visible_in_history(self):
         run_id = "ui_abnormal_test"
         directory = self.root / run_id

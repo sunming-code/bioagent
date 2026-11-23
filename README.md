@@ -19,7 +19,7 @@
 | `egene_pipeline/`、`contracts/` | 跨阶段文件契约、校验、失败续接与统一交付 | 状态清单、完整报告和 ZIP |
 | `pipeline_ui/` | 本地网页选择起止阶段，实时查看日志与阶段产物 | 浏览器界面及 SSE 进度 |
 
-默认链路为 `PopGen → e-Gene → GDgpt`，增加 `--with-atheromap` 后接入第四阶段。各模块使用独立环境，阶段间传递带大小、SHA-256 和样本标识的文件清单。
+默认链路为 `PopGen → e-Gene → GDgpt → AtheroMap`。GDgpt 完成后自动进入单细胞与空间参考分析。需要截至 GDgpt 的三阶段报告包时使用 `--without-atheromap`。各模块使用独立环境，阶段间传递带大小、SHA-256 和样本标识的文件清单。
 
 ## 获取代码
 
@@ -101,8 +101,8 @@ cp 3_GDgpt/config.example.json 3_GDgpt/config.json
 ```json
 {
   "api_key": "填写你自己的模型 API Key",
-  "base_url": "https://你的模型服务/v1",
-  "text_model": "你的模型名称",
+  "base_url": "https://api.deepseek.com",
+  "text_model": "deepseek-v4-pro",
   "neo4j_uri": "bolt://127.0.0.1:7687",
   "neo4j_user": "neo4j",
   "neo4j_password": "填写自己的数据库密码",
@@ -126,7 +126,7 @@ docker run -d --name bioagent-neo4j \
 
 导入器使用 `config.local.json` 中的数据库配置，核对 **10,133 个节点、87,838 条边**，拒绝混入无关图谱。Docker 设置见 [Neo4j 官方说明](https://neo4j.com/docs/operations-manual/current/docker/introduction/)。`3_GDgpt/scripts/run_local.sh` 是原服务器本地 Neo4j/Java 安装的管理入口，不会在新 clone 中安装被排除的 `.runtime/`；使用 Docker 时不需要该启动器。
 
-### 5. 第四阶段（按需）
+### 5. 准备 AtheroMap 参考数据与环境
 
 ```bash
 bash 4_atheromap/tools/setup_environments.sh
@@ -146,7 +146,7 @@ gsMap 使用 GSE241346 空间数据、GCST007435 GWAS 和 gsMap 官方参考资�
 完成所需阶段的环境和数据准备后，从仓库根目录执行。输入为 GRCh38；不会自动执行 GRCh37 liftover。VCF 祖源分析要求足够多的全局位点，少量候选变异不能代替完整样本 VCF。
 
 ```bash
-# 从单样本 VCF 执行默认三阶段。
+# 从单样本 VCF 执行默认四阶段。
 2_egene/.runtime/venv/bin/python run_pipeline.py \
   --vcf /绝对路径/sample.vcf.gz --outdir runs/sample_analysis
 
@@ -168,9 +168,9 @@ gsMap 使用 GSE241346 空间数据、GCST007435 GWAS 和 gsMap 官方参考资�
 2_egene/.runtime/venv/bin/python run_pipeline.py \
   --vcf /绝对路径/sample.vcf.gz --end-stage egene --outdir runs/sample_egene
 
-# 第四阶段的数据及已验收 gsMap 结果齐备后启用。
+# 只打包前三个阶段。
 2_egene/.runtime/venv/bin/python run_pipeline.py \
-  --vcf /绝对路径/sample.vcf.gz --with-atheromap --outdir runs/sample_four_stage
+  --vcf /绝对路径/sample.vcf.gz --without-atheromap --outdir runs/sample_three_stage
 ```
 
 病例格式见 [case.template.json](2_egene/examples/case.template.json)，样本 ID 必须匹配 VCF。年龄、表型、家系和病史缺失时保持未知。默认拒绝 REF 不匹配；`--ref-mismatch exclude` 是显式排除并留痕的选择，不是通用默认。
@@ -202,7 +202,7 @@ gsMap 使用 GSE241346 空间数据、GCST007435 GWAS 和 gsMap 官方参考资�
 
 | 入口 | 后续执行 |
 |---|---|
-| `--vcf` | PopGen 祖源/频率/GNN → e-Gene 全部阶段 → GDgpt → 统一交付 |
+| `--vcf` | PopGen 祖源/频率/GNN → e-Gene 全部阶段 → GDgpt → AtheroMap → 统一交付 |
 | `--fastq-dir` | PopGen FASTQ 预处理，然后执行上述流程；通过 `--reference` 指定参考 FASTA |
 | `--popgen-pack` | 从已完成的 PopGen `delivery/evidence_pack.json` 开始 |
 | `--prepared-manifest` | 从 e-Gene 输入准备结果继续注释 |
@@ -211,6 +211,7 @@ gsMap 使用 GSE241346 空间数据、GCST007435 GWAS 和 gsMap 官方参考资�
 | `--disease-manifest` | 生成 e-Gene 报告后进入 GDgpt |
 | `--egene-report` | 接收 e-Gene `delivery/report_manifest.json`，进行适配和 GDgpt 分析 |
 | `--gdgpt-input` | 接收适配后的 `input_manifest.json`，进行 GDgpt 分析；统一交付仍需要原 e-Gene 报告 |
+| `--gdgpt-manifest` | 接收已完成的 GDgpt 清单，直接运行 AtheroMap。能找到对应的 e-Gene 报告时一并打包，否则提供第四阶段报告 |
 | `--resume-from` | 接收旧任务的 `pipeline_manifest.json`，验证并复用成功阶段，失败阶段在新目录继续 |
 
 例如直接衔接服务器上已有的 PopGen 交付：
@@ -226,7 +227,7 @@ python run_pipeline.py \
 
 ## GDgpt 的任务选择
 
-默认对 e-Gene 已保留的**全部疾病候选**逐项生成机制分析任务。`--max-candidates N` 可显式限制数量，未分析的候选数写入报告；不会静默截断。候选数为零时，输出 `no_eligible_candidates` 和上游结论，**不调用模型、不自动提升 background VUS、不生成疾病诊断**。
+GDgpt 每次最多分析 **3 项**，优先选择 e-Gene 排名最高的疾病候选。候选不足 3 项时全部选取。`--max-candidates N` 可调低疾病候选数，超过 3 时按 3 处理。显式指定的基因按请求顺序使用剩余名额。e-Gene 报告保留完整排名，GDgpt 报告记录入选和省略的候选数。候选数为零时，输出 `no_eligible_candidates` 和上游结论，**不调用模型、不自动提升 background VUS、不生成疾病诊断**。
 
 显式探索指定基因时使用 `--gene`，可重复：
 
@@ -241,22 +242,22 @@ python run_pipeline.py \
 
 每个模型任务的查询前缀均含基因和疾病假设，以兼容现有 GDgpt 查询规划对前600字符的读取。完整结构化证据存入 `gdgpt_input.json`，包括正/负表型、原始 GT、质量字段、ACMG 证据项、频率权限和排除原因。默认每任务在模型上下文展示20条变异上下文，其余数量明确记录；可通过 `--prompt-variants` 增加。完整证据不会从交付中删除，未展示部分不会声称已被模型逐项审阅。
 
-GDgpt 默认最多 **6轮**，支持 `--max-rounds 1..6`；实际收敛仍由原工作流决定。默认每任务硬超时 **3600秒**，可通过 `--task-timeout` 调整。每任务使用独立子进程，超时或失败即终止本次流水线，成功任务单独保存供续接，不在同一后台线程上重试。
+GDgpt 将入选的候选放在独立子进程中并发分析，最多同时运行 **3 项**。每项默认最多 **6 轮**，可通过 `--max-rounds 1..6` 调整。每项从自身启动时计算超时，默认 **3600 秒**，可通过 `--task-timeout` 调整。各项完成后立即保存结果，最终报告按原候选排名展示。某项超时或失败时，其余已启动任务继续完成，随后流水线记录失败。续接时会复用通过校验的已完成任务，仅补跑未完成项。
 
 模型使用 `3_GDgpt/config.json` 或已有 `GDGPT_*` 环境变量，不将 API Key 写入统一配置或报告。Neo4j 需要处于运行状态；新机器可使用上文 Docker 配置，原服务器本地安装的管理命令是 `bash 3_GDgpt/scripts/run_local.sh start`。空候选交付不需要模型服务。
 
 ## 接入第四阶段 scDRS
 
-已增加可校验的 `3_GDgpt → 4_atheromap` 接口，并连接 `4_atheromap_data/GSE159677_scDRS` 的已复核数据。需要一条命令完成四个阶段时，在入口增加 `--with-atheromap`：
+已增加可校验的 `3_GDgpt → 4_atheromap` 接口，并连接 `4_atheromap_data/GSE159677_scDRS` 的已复核数据。准备好第四阶段参考数据后，统一入口自动执行四个阶段。
 
 ```bash
 python run_pipeline.py \
   --egene-report 2_egene/results/NA18526_complete/delivery/report_manifest.json \
-  --gene RNF34 --with-atheromap \
+  --gene RNF34 \
   --outdir runs/NA18526_four_stage
 ```
 
-它会在 `05_atheromap/` 中生成接口清单、scDRS 交付和 gsMap 验收结果，并把第四阶段报告放入 `delivery/atheromap/`。也可在已有三阶段任务上使用 `--resume-from .../pipeline_manifest.json --with-atheromap`，只执行第四阶段。独立续接命令仍可单独运行：
+它会在 `05_atheromap/` 中生成接口清单、scDRS 交付和 gsMap 验收结果，并把第四阶段报告放入 `delivery/atheromap/`。也可在已有三阶段任务上使用 `--resume-from .../pipeline_manifest.json`，只执行第四阶段。独立续接命令仍可单独运行：
 
 ```bash
 2_egene/.runtime/venv/bin/python -m egene_pipeline.atheromap_adapter \
@@ -280,7 +281,7 @@ runs/任务/
 ├── 02_egene/                  注释、判级、疾病分析及原 e-Gene 报告
 ├── 03_gdgpt_input/            gdgpt_input.json、input_manifest.json
 ├── 04_gdgpt/                  各任务的问题、原始结果、工具记录、计时和报告
-├── 05_atheromap/              scDRS 参考分析、gsMap 验收结果及第四阶段报告（启用 --with-atheromap 时）
+├── 05_atheromap/              scDRS 参考分析、gsMap 验收结果及第四阶段报告
 ├── delivery/
 │   ├── index.html            统一报告首页
 │   ├── pipeline_report.json  汇总结果、祖源/频率、任务选择和溯源

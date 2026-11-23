@@ -163,7 +163,10 @@ def run(args):
                 '<p>本阶段同时保留 scDRS 外部参考队列分析和已验收 gsMap 空间结果。</p></section>'
                 '<section><h2>空间证据与来源</h2><ul class="file-list">' + ''.join(links) +
                 '</ul></section><footer>这些结果不改变 ACMG 分类，不建立患者诊断或个体患病概率。</footer>'), encoding="utf-8")
-        manifest["files"] = files_in(output, ("atheromap_manifest.json", "status.json"))
+        # The handoff and scDRS subdirectories have their own status and
+        # manifest files. Keep them verifiable in the unified delivery.
+        manifest["files"] = files_in(output)
+        del manifest["files"]["atheromap_manifest.json"], manifest["files"]["status.json"]
         manifest.update(status="complete", finished_at=now(), report={"json": "report.json", "html": "report.html"},
                         scdrs_manifest="scdrs/atheromap_manifest.json",
                         gsmap_validation="gsmap/validation/gsmap_real_samples/validation_manifest.json")

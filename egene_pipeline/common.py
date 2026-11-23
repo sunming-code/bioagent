@@ -8,6 +8,7 @@ import os
 from pathlib import Path
 import signal
 import subprocess
+from time import monotonic
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -84,7 +85,7 @@ def validate_contract(value, name):
     jsonschema.Draft7Validator(schema).validate(value)
 
 
-def run_command(argv, cwd, log_path, *, timeout=None, env=None):
+def run_command(argv, cwd, log_path, *, timeout=None, env=None, cancel_event=None):
     """A failed/timed-out command never leaves its process group running."""
     log_path = Path(log_path)
     log_path.parent.mkdir(parents=True, exist_ok=True)
@@ -92,11 +93,19 @@ def run_command(argv, cwd, log_path, *, timeout=None, env=None):
         process = subprocess.Popen([str(x) for x in argv], cwd=cwd, stdout=log,
                                    stderr=subprocess.STDOUT, env=env, start_new_session=True)
         try:
+            if cancel_event is not None:
+                deadline = monotonic() + timeout if timeout is not None else float("inf")
+                while process.poll() is None:
+                    remaining = deadline - monotonic()
+                    if remaining <= 0:
+                        raise subprocess.TimeoutExpired(argv, timeout)
+                    if cancel_event.wait(min(0.2, remaining)):
+                        raise InterruptedError("任务已取消")
             code = process.wait(timeout=timeout)
         except BaseException:
             try:
                 os.killpg(process.pid, signal.SIGTERM)
-                process.wait(timeout=5)
+                process.wait(timeout=2 if cancel_event is not None else 5)
             except ProcessLookupError:
                 pass
             except subprocess.TimeoutExpired:

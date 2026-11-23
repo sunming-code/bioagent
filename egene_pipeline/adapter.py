@@ -12,6 +12,8 @@ from . import __version__
 from .common import ROOT, digest, file_spec, files_in, now, object_digest, read_json, validate_contract, verify_manifest, write_json
 
 LABELS = {"Pathogenic", "Likely pathogenic", "Uncertain significance", "Likely benign", "Benign", "not_evaluated"}
+MAX_GDGPT_TASKS = 3
+MAX_CANDIDATES_HELP = f"按 e-Gene 排名选择疾病候选；默认且最多 {MAX_GDGPT_TASKS} 项，可指定更小的正整数"
 LIMITATIONS = [
     "上游疾病候选是待复核假设，不是确诊；空候选不能排除遗传病。",
     "GDgpt 的知识图谱支持基因层面的机制关系，不能证明具体变异致病、药物敏感或个体患病概率。",
@@ -36,6 +38,30 @@ def parse_field(row, name, default):
     return json.loads(value) if value else default
 
 
+def candidate_limit(requested):
+    if requested is None:
+        return MAX_GDGPT_TASKS
+    if requested < 1:
+        raise ValueError("max-candidates 必须为正整数")
+    return min(requested, MAX_GDGPT_TASKS)
+
+
+def limit_tasks(payload):
+    """Apply the same task budget to new and previously prepared handoffs."""
+    tasks = payload["tasks"]
+    if len(tasks) <= MAX_GDGPT_TASKS:
+        return payload
+    candidates = [task for task in tasks if task["kind"] == "disease_candidate"]
+    candidates.sort(key=lambda task: task["candidate"].get("rank", float("inf")))
+    genes = [task for task in tasks if task["kind"] == "explicit_gene_exploration"]
+    selected = candidates[:MAX_GDGPT_TASKS]
+    remaining = MAX_GDGPT_TASKS - len(selected)
+    selection = {**payload["selection"], "selected_candidate_count": len(selected),
+                 "omitted_candidate_count": payload["selection"]["candidate_count"] - len(selected),
+                 "omitted_exploration_genes": [task["gene"] for task in genes[remaining:]]}
+    return {**payload, "tasks": selected + genes[:remaining], "selection": selection}
+
+
 def build(report_path, genes=(), max_candidates=None):
     manifest, files = verify_manifest(report_path, "generate_report")
     import jsonschema
@@ -53,12 +79,10 @@ def build(report_path, genes=(), max_candidates=None):
     candidates = report["disease_candidates"]
     if len(candidates) != manifest["counts"]["disease_candidates"]:
         raise ValueError("候选数量与报告清单不一致")
-    if max_candidates is not None and max_candidates < 1:
-        raise ValueError("max-candidates 必须为正整数")
     requested = list(dict.fromkeys(g.upper() for g in genes))
     if any(not re.fullmatch(r"[A-Z0-9_.-]+", g) for g in requested):
         raise ValueError("--gene 必须为基因符号")
-    selected = candidates if max_candidates is None else candidates[:max_candidates]
+    selected = sorted(candidates, key=lambda row: row.get("rank", float("inf")))[:candidate_limit(max_candidates)]
     candidate_pairs = {(vid, c["gene"]) for c in selected for vid in c["all_variant_ids"]}
     # Stream the complete association table; nearby genes never become variant targets.
     selected_links, gene_aliases = {}, {}
@@ -170,6 +194,7 @@ def build(report_path, genes=(), max_candidates=None):
             "omitted_candidate_count": len(candidates) - len(selected), "requested_genes": requested,
             "automatic_background_vus_inclusion": False}, "tasks": tasks,
         "limitations": list(dict.fromkeys(LIMITATIONS + report.get("limitations", []) + report.get("upstream_limitations", [])))}
+    result = limit_tasks(result)
     validate_contract(result, "gdgpt_input.schema.json")
     # Detect changed source files before publishing a successful handoff.
     verified, _ = verify_manifest(report_path, "generate_report")
@@ -205,7 +230,7 @@ def main():
     parser.add_argument("--egene-report", type=Path, required=True, help="e-Gene delivery/report_manifest.json")
     parser.add_argument("--outdir", type=Path, required=True)
     parser.add_argument("--gene", action="append", default=[])
-    parser.add_argument("--max-candidates", type=int)
+    parser.add_argument("--max-candidates", type=int, help=MAX_CANDIDATES_HELP)
     prepare(parser.parse_args())
 
 
