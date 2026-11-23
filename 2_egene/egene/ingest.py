@@ -67,7 +67,7 @@ def load_pack(path: Path) -> tuple[dict, dict[str, Path]]:
     }
     if paths["allele_frequency"] != referenced(path, files["allele_frequency"], "files.allele_frequency"):
         raise ValueError("交付包中的两个频率表引用指向不同文件")
-    for key in ("patient_vcf_index", "input_metadata", "af_coverage"):
+    for key in ("patient_vcf_index", "input_metadata", "af_coverage", "variant_review", "review_shortlist"):
         if files.get(key):
             paths[key] = referenced(path, files[key], key)
     if "input_metadata" in paths:

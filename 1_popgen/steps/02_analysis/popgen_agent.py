@@ -269,7 +269,7 @@ def run_pca(merged: Path, superpop: dict[str, str], outdir: Path, temp: Path) ->
     return out_pca, pca_info
 
 
-def run_admixture_supervised(patient_prefix: Path, panel_prefix: Path, outdir: Path, temp: Path, skip_cv: bool = False) -> tuple[Path, dict]:
+def run_admixture_supervised(patient_prefix: Path, panel_prefix: Path, outdir: Path, temp: Path, skip_cv: bool = False, cv_max_k: int = 10) -> tuple[Path, dict]:
     """在病人∩底库位点上监督训练 K=5，再 -P 投影病人。"""
     popfile = Path(str(panel_prefix) + ".pop")
     if not popfile.exists():
@@ -295,9 +295,9 @@ def run_admixture_supervised(patient_prefix: Path, panel_prefix: Path, outdir: P
         raise RuntimeError("ADMIXTURE 投影与参考位点/等位基因方向不一致")
     Path(str(panel_sub) + ".pop").write_text(popfile.read_text())
 
-    cv_info = {"cv_table": [], "best_k": 5, "best_k_cv_error": None, "cv_path": None}
+    cv_info = {"cv_table": [], "best_k": None, "best_k_cv_error": None, "cv_path": None}
     if not skip_cv:
-        cv_info = run_admixture_cv(panel_sub, outdir, temp)
+        cv_info = run_admixture_cv(panel_sub, outdir, temp, cv_max_k)
         unsup = run_unsupervised_patient_q(proj, panel_sub, int(cv_info["best_k"]), outdir, temp)
         cv_info["unsupervised_patient"] = unsup
 
@@ -325,7 +325,7 @@ def run_admixture_supervised(patient_prefix: Path, panel_prefix: Path, outdir: P
         "dominant": dominant,
         "K_supervised": 5,
         "K": 5,
-        "mode": "supervised_K5 + unsupervised_CV",
+        "mode": "supervised_K5" if skip_cv else "supervised_K5 + unsupervised_CV",
         **cv_info,
     }
 
@@ -350,7 +350,7 @@ def _run_admixture_cv_k(k: int, cv_dir: Path, panel_sub: Path, job_threads: int)
     return k, err
 
 
-def run_admixture_cv(panel_sub: Path, outdir: Path, temp: Path) -> dict:
+def run_admixture_cv(panel_sub: Path, outdir: Path, temp: Path, max_k: int = 10) -> dict:
     """无监督 CV：K 从 2 到最多 10，并行计算独立 K 后按原规则选最优。"""
     cv_dir = temp / "admix_cv"
     cv_dir.mkdir(exist_ok=True)
@@ -366,7 +366,7 @@ def run_admixture_cv(panel_sub: Path, outdir: Path, temp: Path) -> dict:
     best_err = None
     stale = 0
     errors: dict[int, float] = {}
-    ks = list(range(2, 11))
+    ks = list(range(2, max_k + 1))
     next_batch = 0
     job_threads = CV_JOB_THREADS
     while next_batch < len(ks):
@@ -402,7 +402,7 @@ def run_admixture_cv(panel_sub: Path, outdir: Path, temp: Path) -> dict:
     cv_df["n_samples"] = n_samples
     cv_df["n_snps"] = n_snps
     cv_df["dataset"] = "1000G_panel_unsupervised"
-    cv_df["stop_rule"] = "K2_to_10_patience3"
+    cv_df["stop_rule"] = f"K2_to_{max_k}_patience3"
     cv_path = outdir / "admixture_cv.tsv"
     cv_df.to_csv(cv_path, sep="\t", index=False)
     return {
@@ -560,7 +560,7 @@ def calc_matched_af(vcf: Path, superpop: str, superpop_map: dict[str, str], outd
     return out_path
 
 
-def execute(vcf: Path, outdir: Path, panel_prefix: Path, skip_cv: bool = False, skip_af: bool = False) -> Path:
+def execute(vcf: Path, outdir: Path, panel_prefix: Path, skip_cv: bool = False, skip_af: bool = False, cv_max_k: int = 10) -> Path:
     if not Path(str(panel_prefix) + ".bed").exists():
         raise FileNotFoundError(
             f"底库不存在: {panel_prefix}.bed ，请先运行 scripts/build_1000g_panel.sh"
@@ -598,7 +598,7 @@ def execute(vcf: Path, outdir: Path, panel_prefix: Path, skip_cv: bool = False, 
     patient_prefix = extract_patient_on_panel(vcf, panel_prefix, temp)
     merged = merge_patient_panel(patient_prefix, panel_prefix, temp)
     pca_path, pca_info = run_pca(merged, superpop_map, outdir, temp)
-    adm_path, adm_info = run_admixture_supervised(patient_prefix, panel_prefix, outdir, temp, skip_cv=skip_cv)
+    adm_path, adm_info = run_admixture_supervised(patient_prefix, panel_prefix, outdir, temp, skip_cv=skip_cv, cv_max_k=cv_max_k)
 
     policy = assign_af_policy(pca_info, adm_info)
     inferred = policy["af_population"]
@@ -638,7 +638,7 @@ def execute(vcf: Path, outdir: Path, panel_prefix: Path, skip_cv: bool = False, 
                 "best_k": adm_info.get("best_k"),
                 "best_k_cv_error": adm_info.get("best_k_cv_error"),
                 "cv_table": adm_info.get("cv_table"),
-                "cv_stop_rule": "K2_to_10_patience3",
+                "cv_stop_rule": None if skip_cv else f"K2_to_{cv_max_k}_patience3",
                 "unsupervised_patient": adm_info.get("unsupervised_patient"),
                 "mode": adm_info.get("mode"),
                 "dominant": adm_info.get("dominant"),
@@ -674,8 +674,9 @@ def main() -> None:
     parser.add_argument("--panel-prefix", type=Path, default=DEFAULT_PANEL)
     parser.add_argument("--skip-cv", action="store_true", help="跳过无监督 CV（留一自测）")
     parser.add_argument("--skip-af", action="store_true", help="跳过频率表（留一自测）")
+    parser.add_argument("--cv-max-k", type=int, choices=range(2, 11), default=10)
     args = parser.parse_args()
-    execute(args.vcf, args.outdir, args.panel_prefix, skip_cv=args.skip_cv, skip_af=args.skip_af)
+    execute(args.vcf, args.outdir, args.panel_prefix, skip_cv=args.skip_cv, skip_af=args.skip_af, cv_max_k=args.cv_max_k)
 
 
 if __name__ == "__main__":

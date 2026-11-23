@@ -9,8 +9,10 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 if __package__:
+    from . import parameters, review
     from .reporting import generate_report
 else:
+    import parameters, review
     from reporting import generate_report
 
 ROOT = Path(__file__).resolve().parent
@@ -83,7 +85,7 @@ def _gnn_fields(gnn: dict) -> tuple[dict | None, float | None]:
         "pca3_nearest": gnn.get("pca3_nearest"),
         "concordant_with_pca3": gnn.get("gnn_pca_concordant"),
         "note": gnn.get("note"),
-        "n_snps": gnn.get("n_snps") or gnn.get("n_snps_observed"),
+        "n_snps": gnn.get("n_snps"),
         "n_snps_observed": gnn.get("n_snps_observed"),
         "method": gnn.get("method"),
         "inference": gnn.get("inference"),
@@ -99,6 +101,7 @@ def build_evidence_pack(
     pack_dir: Path,
     results_dir: Path,
     sample_alias: str | None = None,
+    run_parameters: dict | None = None,
 ) -> Path:
     """写出 pack_dir/evidence_pack.json，并把 allele_freq.tsv 放到同一目录。"""
     analysis = _load_json(partial_evidence)
@@ -149,6 +152,7 @@ def build_evidence_pack(
         "allele_frequency": "allele_freq.tsv",
         "interface": "INTERFACE.md",
         "report": "popgen_report.html",
+        "variant_review": "variant_review.tsv.gz" if (results_dir / "patient.vcf.gz").is_file() else None,
         "admixture_supervised": "../admixture_results_K5.tsv",
         "admixture_cv": "../admixture_cv.tsv" if (results_dir / "admixture_cv.tsv").exists() else None,
         "admixture_unsupervised": "../" + Path(unsup["path"]).name if unsup.get("path") else None,
@@ -223,6 +227,16 @@ def build_evidence_pack(
     if pack["allele_frequency"]["matched_pop"] != based.get("af_population"):
         raise RuntimeError("allele_frequency.matched_pop 必须等于 af_population")
 
+    review_data = None
+    if files["variant_review"]:
+        settings = parameters.validated(run_parameters or {})
+        policy = {key.removeprefix("popgen_"): value for key, value in settings.items() if key != "popgen_cv_max_k"}
+        review_data = review.collect(results_dir / "patient.vcf.gz", meta["sample_id"], pack_dir / "allele_freq.tsv",
+                                     pack_dir, based["af_population"], based["use_for_acmg_ba1_bs1"] is True,
+                                     af_percent=policy["af_percent"])
+        policy["selected_alleles"] = review.write_shortlist(pack_dir, policy)
+        pack["review_policy"] = policy
+        files["review_shortlist"] = review.SHORTLIST
     pack_path = pack_dir / "evidence_pack.json"
     pack_path.write_text(json.dumps(pack, indent=2, ensure_ascii=False) + "\n")
     write_interface_md(pack_dir, pack)
@@ -234,7 +248,7 @@ def build_evidence_pack(
         analysis["ancestry"]["gnn_based"] = gnn_based
         analysis["ancestry"]["confidence"] = gnn_conf
         partial_evidence.write_text(json.dumps(analysis, indent=2, ensure_ascii=False) + "\n")
-    generate_report(pack_path)
+    generate_report(pack_path, review_data=review_data)
     logging.info("写出交付包和 PopGen 报告 %s", pack_path)
     return pack_path
 
@@ -285,6 +299,8 @@ def write_interface_md(pack_dir: Path, pack: dict) -> Path:
 
 | 文件 | 作用 |
 |---|---|
+| `review_shortlist.tsv.gz` | 根据本次 `review_policy` 选出的低频携带等位基因，供复核 |
+| `variant_review.tsv.gz` | 完整已判读携带 ALT 的复核表，按 VCF 记录号和 ALT 编号保留 GT、质量、频率及使用权限 |
 | `evidence_pack.json` | 祖先结论、查表人群、BA1 权限、用法硬规则 |
 | `allele_freq.tsv` | 每个病人 VCF 变异的匹配人群 AF + 全球 AF |
 

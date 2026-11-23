@@ -18,6 +18,9 @@ import threading
 import time
 import uuid
 
+from egene_pipeline.failure import REPORT as ERROR_REPORT, log_reason, publish_failure
+from egene_pipeline.orchestrator import popgen_parameters
+
 from starlette.applications import Starlette
 from starlette.exceptions import HTTPException
 from starlette.requests import Request
@@ -40,7 +43,7 @@ START_STAGE_FOR_INPUT = {
     "atheromap": ("gdgpt_manifest",),
 }
 STAGE_LABELS = {
-    "popgen": "PopGen：FASTQ → VCF",
+    "popgen": "PopGen：祖源与位点复核",
     "egene": "e-Gene：注释、ACMG 与疾病候选",
     "bridge": "结果适配：生成 GDgpt 输入",
     "gdgpt": "GDgpt：机制分析",
@@ -109,6 +112,7 @@ def _result_previews(outdir: Path) -> dict:
             "sample_id": meta.get("sample_id"),
             "variant_count": meta.get("variant_count"),
             "ancestry": ancestry.get("analysis_based") or ancestry.get("gnn_based") or ancestry,
+            "review_count": (pack.get("review_policy") or {}).get("selected_alleles"),
         }
     egene = {}
     if report:
@@ -203,7 +207,7 @@ def snapshot(run_id: str) -> dict:
     manifest = _read_json(outdir / "pipeline_manifest.json")
     status_file = _read_json(outdir / "status.json")
     # Keep compatibility with an early UI run that used one directory for both.
-    if not manifest and not status_file:
+    if not manifest and not status_file and (directory / "pipeline_manifest.json").is_file():
         manifest = _read_json(directory / "pipeline_manifest.json")
         status_file = _read_json(directory / "status.json")
         outdir = directory
@@ -228,7 +232,7 @@ def snapshot(run_id: str) -> dict:
             "finished_at": (commands.get(name) or {}).get("finished_at"),
         })
     status = status_file.get("status") or manifest.get("status") or request_state.get("status", "queued")
-    if status == "running" and not manifest and request_state.get("status") == "failed":
+    if request_state.get("status") == "failed":
         status = "failed"
     ui_log_tail = _tail(directory / "ui.log")
     active = status_file.get("active_stage")
@@ -248,7 +252,14 @@ def snapshot(run_id: str) -> dict:
                                        {item["name"]: item["status"] for item in stages}),
         "requested_end_stage": manifest.get("requested_end_stage") or request_state.get("request", {}).get("end_stage"),
         "log_tail": log_tail,
-        "report_url": f"/api/runs/{run_id}/report" if (outdir / "delivery/index.html").is_file() else None,
+        "error_report_url": f"/api/runs/{run_id}/files/{ERROR_REPORT}" if status == "failed" and (outdir / ERROR_REPORT).is_file() else None,
+        "report_url": f"/api/runs/{run_id}/report" if status == "complete" and (outdir / "delivery/index.html").is_file() else None,
+        "popgen_shortlist_url": next((f"/api/runs/{run_id}/files/{rel}" for rel in
+                                     ("delivery/popgen/review_shortlist.tsv.gz", "01_popgen/delivery/review_shortlist.tsv.gz")
+                                     if (outdir / rel).is_file()), None),
+        "popgen_report_url": next((f"/api/runs/{run_id}/files/{rel}" for rel in
+                                   ("delivery/popgen/report.html", "01_popgen/delivery/popgen_report.html")
+                                   if (outdir / rel).is_file()), None),
         "archive_url": f"/api/runs/{run_id}/files/delivery.zip" if (outdir / "delivery.zip").is_file() else None,
         "gdgpt_reports": {filename: f"/api/runs/{run_id}/files/{folder}/{filename}"
                           for folder in ("delivery/gdgpt", "04_gdgpt")
@@ -274,6 +285,18 @@ def _run_job(run_id: str, command: list[str], directory: Path, state: dict) -> N
     except Exception as error:  # pragma: no cover - defensive worker boundary
         state.update(status="failed", error=str(error))
     finally:
+        if state["status"] == "failed":
+            outdir = Path(state["output_dir"])
+            outdir.mkdir(exist_ok=True)
+            if not (outdir / ERROR_REPORT).is_file():
+                status = _read_json(outdir / "status.json")
+                manifest = _read_json(outdir / "pipeline_manifest.json")
+                stage = status.get("active_stage") or manifest.get("failed_stage") or "startup"
+                reason = log_reason(log_path) or state["error"]
+                failure = publish_failure(outdir, stage, reason, manifest.get("stages"), manifest.get("sample_id"))
+                status.update(status="failed", active_stage=stage, error=failure["reason"],
+                              updated_at=failure["time"], error_report=ERROR_REPORT)
+                _write_json(outdir / "status.json", status)
         with _process_lock:
             _processes.pop(run_id, None)
         _write_json(directory / "ui_state.json", state)
@@ -301,6 +324,14 @@ def _validate_request(payload: dict) -> dict:
     if input_type not in START_STAGE_FOR_INPUT[start_stage]:
         raise HTTPException(400, f"{start_stage} 不支持输入类型 {input_type}")
 
+    tuning = {}
+    if start_stage == "popgen":
+        try:
+            tuning = popgen_parameters.validated(payload)
+        except ValueError as exc:
+            raise HTTPException(400, str(exc))
+    elif any(k in payload and payload[k] is not None for k in popgen_parameters.DEFAULTS):
+        raise HTTPException(400, "更改 PopGen 参数需要以 PopGen 为起点")
     source = None
     reference_default = ROOT / "1_popgen/data/reference/GRCh38.fa"
     reference = Path(str(payload.get("reference") or reference_default)).expanduser().resolve()
@@ -349,7 +380,7 @@ def _validate_request(payload: dict) -> dict:
     plots = str(payload.get("atheromap_plots", "all"))
     if scope not in ("reference-context", "matched-trait") or mode not in ("reuse", "recompute") or plots not in ("all", "python", "none"):
         raise HTTPException(400, "AtheroMap 参数无效")
-    return {"start_stage": start_stage, "end_stage": end_stage, "input_type": input_type,
+    return {**tuning, "start_stage": start_stage, "end_stage": end_stage, "input_type": input_type,
             "package_delivery": payload.get("package_delivery") is True and end_stage in ("gdgpt", "atheromap"),
             "source": source, "reference": reference, "threads": threads,
             "skip_cv": bool(payload.get("skip_cv")), "skip_gnn": bool(payload.get("skip_gnn")),
@@ -365,6 +396,7 @@ def _command_for(request: dict, output_dir: Path) -> list[str]:
     command = [sys.executable, str(ROOT / "run_pipeline.py")]
     if request["start_stage"] == "popgen":
         command += ["--" + request["input_type"].replace("_", "-"), str(request["source"]), "--reference", str(request["reference"])]
+        command += popgen_parameters.cli_options(request)
     else:
         command += ["--" + request["input_type"].replace("_", "-"), str(request["source"])]
     command += ["--outdir", str(output_dir), "--threads", str(request["threads"])]
@@ -491,7 +523,10 @@ async def report(request: Request):
     run_id = request.path_params["run_id"]
     directory = _run_dir(run_id)
     state = _read_json(directory / "ui_state.json")
-    path = Path(state.get("output_dir") or directory) / "delivery/index.html"
+    outdir = Path(state.get("output_dir") or directory)
+    if (outdir / ERROR_REPORT).is_file():
+        return RedirectResponse(f"/api/runs/{run_id}/files/{ERROR_REPORT}")
+    path = outdir / "delivery/index.html"
     if not path.is_file():
         raise HTTPException(404, "报告尚未生成")
     return RedirectResponse(f"/api/runs/{run_id}/files/delivery/index.html")

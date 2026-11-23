@@ -91,6 +91,17 @@
         "note": { "type": "string" }
       }
     },
+    "review_policy": {
+      "type": "object",
+      "required": ["af_percent", "min_dp", "min_gq", "keep_missing_quality", "selected_alleles"],
+      "properties": {
+        "af_percent": {"type": "number", "minimum": 0, "maximum": 100},
+        "min_dp": {"type": ["integer", "null"], "minimum": 0},
+        "min_gq": {"type": ["integer", "null"], "minimum": 0},
+        "keep_missing_quality": {"type": "boolean"},
+        "selected_alleles": {"type": "integer", "minimum": 0}
+      }
+    },
     "usage": {
       "type": "object",
       "required": ["must", "must_not"],

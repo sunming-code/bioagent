@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 from datetime import datetime, timezone
 from html import escape
+from importlib import import_module
 import os
 from pathlib import Path
 import shutil
@@ -13,7 +14,10 @@ import zipfile
 
 from . import __version__
 from .report_theme import document
+from .failure import REPORT as ERROR_REPORT, publish_failure
 from .common import ROOT, digest, file_spec, files_in, now, read_json, run_command, verify_files, verify_manifest, write_json
+
+popgen_parameters = import_module("1_popgen.parameters")
 
 SOURCE_FLAGS = ("vcf", "fastq_dir", "popgen_pack", "prepared_manifest", "annotation_manifest",
                 "acmg_manifest", "disease_manifest", "egene_report", "gdgpt_input", "gdgpt_manifest", "resume_from")
@@ -67,6 +71,7 @@ def argument_parser():
         p.add_argument("--" + name.replace("_", "-"), action="store_true", default=None)
     for name in ("popgen_python", "egene_python", "gdgpt_python"):
         p.add_argument("--" + name.replace("_", "-"), type=Path)
+    popgen_parameters.add_arguments(p)
     return p
 
 
@@ -75,7 +80,7 @@ def configuration(args, previous=None):
               for key, value in vars(args).items() if key not in SOURCE_FLAGS + ("outdir", "end_stage")}
     config = dict((previous or {}).get("configuration", {}))
     for key, value in values.items():
-        if previous and value is not None and value != config.get(key) and key not in {
+        if previous and value is not None and value != config.get(key, popgen_parameters.DEFAULTS.get(key)) and key not in {
             "threads", "task_timeout", "popgen_python", "egene_python", "gdgpt_python",
             "with_atheromap", "atheromap_reference", "atheromap_gsmap_root",
             "atheromap_scope", "atheromap_mode", "atheromap_plots", "atheromap_timeout",
@@ -83,6 +88,8 @@ def configuration(args, previous=None):
             raise ValueError(f"--resume-from 不允许改变已记录的 {key}；请从相应上游清单开始新运行")
         if value is not None:
             config[key] = value
+    if args.vcf or args.fastq_dir or (previous and previous["input"]["kind"] in ("vcf", "fastq_dir")):
+        config.update(popgen_parameters.validated(config))
     for key, value in DEFAULTS.items():
         config.setdefault(key, value)
     for name in EGENE_VALUES:
@@ -174,7 +181,7 @@ def deliver(outdir, stages):
     (delivery / "index.html").write_text(document('统一分析报告', 'PIPELINE　/　REPORT INDEX',
         f'<p class="sub">样本 {sample}　·　PopGen → e-Gene → GDgpt' + (' → AtheroMap' if atheromap_files else '') + '</p>'
         f'<section class="finding"><h2>本次结果</h2><p>{escape(er["conclusion"]["finding"])}</p><p>{escape(gr["summary"])}</p></section>'
-        '<section><h2>报告与数据</h2><ul class="file-list"><li><a href="popgen/report.html">PopGen：祖源、人群频率与查表策略</a></li>'
+        '<section><h2>报告与数据</h2><ul class="file-list"><li><a href="popgen/report.html">PopGen：祖源、测序质量与携带位点复核</a></li>'
         '<li><a href="egene/report.html">e-Gene：完整变异、ACMG 分类与疾病候选</a></li>'
         '<li><a href="gdgpt/report.html">GDgpt：机制分析、图谱证据和分析边界</a></li>'
         + ('<li><a href="atheromap/report.html">AtheroMap：scDRS 参考分析与 gsMap 空间结果</a></li>' if atheromap_files else '') +
@@ -193,28 +200,45 @@ def deliver(outdir, stages):
 
 
 def run(args):
+    outdir = (args.outdir or ROOT / "runs" / (datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ") + "_" + uuid.uuid4().hex[:8])).expanduser().resolve()
+    try:
+        outdir.mkdir(parents=True)
+    except FileExistsError as error:
+        raise ValueError(f"输出目录已存在，拒绝覆盖: {outdir}") from error
+    try:
+        return _run(args, outdir)
+    except BaseException as error:
+        if not (outdir / ERROR_REPORT).exists():
+            failure = publish_failure(outdir, "startup", error)
+            print(f"运行错误报告：{outdir / ERROR_REPORT}", file=sys.stderr)
+            write_json(outdir / "status.json", {"stage": "integrated_pipeline", "status": "failed",
+                       "active_stage": "startup", "error": failure["reason"], "updated_at": failure["time"],
+                       "error_report": ERROR_REPORT})
+        raise
+
+
+def _run(args, outdir):
     source_name = next(name for name in SOURCE_FLAGS if getattr(args, name) is not None)
     source_path = getattr(args, source_name).expanduser().resolve(strict=True)
     previous = read_json(source_path) if source_name == "resume_from" else None
     if previous and (previous.get("stage") != "integrated_pipeline" or previous.get("schema_version") != "1.0"):
         raise ValueError("--resume-from 必须指向统一流水线的 pipeline_manifest.json")
     config = configuration(args, previous)
+    entry_kind = previous["input"]["kind"] if previous else source_name
+    if entry_kind not in ("vcf", "fastq_dir") and any(getattr(args, k) is not None for k in popgen_parameters.DEFAULTS):
+        raise ValueError("复用上游结果时不能更改 PopGen 计算参数，请从 VCF 或 FASTQ 新建任务")
     source_stage = {"fastq_dir": "popgen", "vcf": "popgen", "popgen_pack": "egene",
                     "prepared_manifest": "egene", "annotation_manifest": "egene", "acmg_manifest": "egene",
                     "disease_manifest": "egene", "egene_report": "gdgpt", "gdgpt_input": "gdgpt",
                     "gdgpt_manifest": "atheromap"}.get(source_name)
     if args.end_stage and source_stage and PIPELINE_STAGES.index(source_stage) > PIPELINE_STAGES.index(args.end_stage):
         raise ValueError(f"输入已经来自 {source_stage}，不能结束在更早的 {args.end_stage} 阶段")
-    outdir = (args.outdir or ROOT / "runs" / (datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ") + "_" + uuid.uuid4().hex[:8])).expanduser().resolve()
-    if outdir.exists():
-        raise ValueError(f"输出目录已存在，拒绝覆盖: {outdir}")
     if previous:
         entry = previous["input"]
         stages = {name: {**record, "reused": True} for name, record in previous["stages"].items() if record["status"] == "complete"}
     else:
         entry = {"kind": source_name, **file_spec(source_path)} if source_path.is_file() else {"kind": source_name, "path": str(source_path)}
         stages = {}
-    outdir.mkdir(parents=True)
     result = {"schema_version": "1.0", "stage": "integrated_pipeline", "status": "running", "started_at": now(),
         "producer": {"name": "egene_pipeline", "version": __version__}, "input": entry,
         "configuration": config, "stages": stages, "commands": [], "sample_id": None, "files": {},
@@ -231,7 +255,7 @@ def run(args):
         write_json(outdir / "status.json", {"stage": "integrated_pipeline", "status": status,
             "active_stage": active, "sample_id": result["sample_id"], "updated_at": now(), "error": error,
             "report": (result.get("report") or {}).get("html") if status == "complete" else None,
-            "end_stage": result.get("end_stage")})
+            "error_report": result.get("error_report"), "end_stage": result.get("end_stage")})
 
     def finish_partial(name):
         """Publish a successful stage-bounded run without requiring downstream reports."""
@@ -244,6 +268,8 @@ def run(args):
         return result
 
     def record(name, path, reused=False):
+        nonlocal active
+        active = name
         item = {"status": "complete", "artifact": file_spec(path), "reused": reused}
         sample_id = validate_reuse(item, name)
         if result["sample_id"] is not None and result["sample_id"] != sample_id:
@@ -270,6 +296,7 @@ def run(args):
     try:
         save()
         for name, stage_record in list(stages.items()):
+            active = name
             validate_reuse(stage_record, name)
             record(name, Path(stage_record["artifact"]["path"]), True)
         kind, path = entry["kind"], Path(entry["path"])
@@ -282,6 +309,7 @@ def run(args):
             for flag in ("skip_cv", "skip_gnn"):
                 if config[flag]:
                     command += ["--" + flag.replace("_", "-")]
+            command += popgen_parameters.cli_options(config)
             execute("popgen", command, ROOT / "1_popgen")
             record("popgen", destination / "delivery/evidence_pack.json")
         elif kind == "popgen_pack" and "popgen" not in stages:
@@ -406,8 +434,11 @@ def run(args):
         print(f"完整流水线交付：{outdir / 'delivery/index.html'}\n报告包：{outdir / 'delivery.zip'}", flush=True)
         return result
     except BaseException as error:
-        result.update(failed_at=now(), failed_stage=active, error=str(error))
-        save("failed", str(error))
+        failure = publish_failure(outdir, active, error, stages, result["sample_id"])
+        result.update(failed_at=failure["time"], failed_stage=failure["stage"], error=str(error),
+                      failure=failure, error_report=ERROR_REPORT)
+        save("failed", failure["reason"])
+        print(f"运行错误报告：{outdir / ERROR_REPORT}", file=sys.stderr)
         raise
 
 

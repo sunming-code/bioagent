@@ -74,6 +74,7 @@ class AnalysisRegressionTests(unittest.TestCase):
             with pysam.VariantFile(str(tmp/'output with spaces/patient.vcf.gz')) as f:
                 r=next(f.fetch('chr1',499,500))
                 self.assertEqual(r.alts,('C',))
+                self.assertIn('POPGEN_ORIG', r.info)
 
 
 if __name__ == '__main__':

@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import contextlib
 import csv
+import gzip
 import io
 import json
 from pathlib import Path
@@ -131,9 +132,15 @@ class InputAdapterTests(unittest.TestCase):
 
     def test_end_to_end_indel_multiallelic_quality_and_unknown_frequency(self):
         self.fixture(omit_frequency=[("X", 5, "A", "G")])
+        review_path = self.pack_path.parent / "variant_review.tsv.gz"
+        with gzip.open(review_path, "wt") as review_file:
+            review_file.write("record_id\talt_index\n1\t1\n")
+        self.pack["files"]["variant_review"] = review_path.name
+        self.save_pack()
         before = checksum(self.directory / "patient.vcf")
         out, manifest = self.run_adapter()
         self.assertEqual(checksum(self.directory / "patient.vcf"), before)
+        self.assertEqual(manifest["inputs"]["variant_review"]["sha256"], checksum(review_path))
         self.assertEqual(manifest["counts"]["retained_variants"], 8)
         mappings = rows(out / "variant_mapping.tsv")
         retained = rows(out / "patient_variants.tsv")

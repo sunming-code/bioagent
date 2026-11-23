@@ -44,7 +44,7 @@ def prepare(source: Path, outdir: Path) -> dict:
     if renames.stat().st_size:
         first += ["--rename-chrs", str(renames)]
     subprocess.run(first + [str(source)], check=True)
-    subprocess.run(["bcftools", "norm", "-m", "-any", "-Ob", "-o", str(normalized), str(annotated)], check=True)
+    subprocess.run(["bcftools", "norm", "-m", "-any", "--old-rec-tag", "POPGEN_ORIG", "-Ob", "-o", str(normalized), str(annotated)], check=True)
     subprocess.run(["bcftools", "sort", "-Oz", "-o", str(destination), str(normalized)], check=True)
     subprocess.run(["bcftools", "index", "-t", str(destination)], check=True)
     n = 0

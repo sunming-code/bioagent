@@ -209,8 +209,27 @@ class PipelineTests(unittest.TestCase):
         result = read_json(destination / "pipeline_manifest.json")
         self.assertEqual(result["status"], "failed")
         self.assertEqual(result["failed_stage"], "bridge")
+        status = read_json(destination / "status.json")
+        html = (destination / status["error_report"]).read_text()
+        self.assertIn('href="logs/bridge.log"', html)
+        self.assertIn('NEARBY', html)
+        self.assertEqual(result["failure"]["completed"], ["egene"])
         self.assertNotIn("gdgpt", result["stages"])
         self.assertFalse((destination / "delivery.zip").exists())
+
+    def test_startup_failure_writes_report_without_touching_an_existing_run(self):
+        output = self.root / "startup"
+        args = self.pipeline_args(["--vcf", str(self.root / "absent.vcf"), "--outdir", str(output)])
+        with self.assertRaises(FileNotFoundError):
+            orchestrator.run(args)
+        status = read_json(output / "status.json")
+        self.assertEqual(status["active_stage"], "startup")
+        report = output / status["error_report"]
+        original = report.read_bytes()
+        self.assertIn(b"absent.vcf", original)
+        with self.assertRaisesRegex(ValueError, "拒绝覆盖"):
+            orchestrator.run(args)
+        self.assertEqual(report.read_bytes(), original)
 
     def test_resume_rejects_a_changed_successful_stage_manifest(self):
         source = self.fixture()

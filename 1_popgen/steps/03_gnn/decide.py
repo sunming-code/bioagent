@@ -116,6 +116,9 @@ def run_gnn_inference(graph, ckpt: dict | None = None, device: str | None = None
 def decision_from_features(features, ckpt: dict, device: str | None = None) -> dict:
     graph = build_inductive_graph(features, k=int(ckpt.get("k", 20)))
     ancestry, confidence, pred, T, sub_pred, pca3 = run_gnn_inference(graph, ckpt, device)
+    src, dst = graph.edge_index.cpu().numpy()
+    neighbors = [{"iid": str(features.iids[j]), "superpop": SUPERPOPS[int(features.y_super[j])]}
+                 for j in src[dst == graph.patient_index] if j != graph.patient_index]
     concordant = pred == pca3
     n_obs = int(features.n_observed_patient or 0)
     n_snps = int(len(features.snp_ids))
@@ -133,6 +136,7 @@ def decision_from_features(features, ckpt: dict, device: str | None = None) -> d
             discordance_reason = "pca3_gnn_discordant_on_dense_overlap; do not lock lookup"
     return {
         "status": "OK",
+        "patient_neighbors": neighbors,
         "note": note,
         "discordance_reason": discordance_reason,
         "ancestry": ancestry,

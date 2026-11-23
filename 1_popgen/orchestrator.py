@@ -26,6 +26,7 @@ import time
 import uuid
 from datetime import datetime, timezone
 from pathlib import Path
+import parameters
 from runtime import run_in_environment
 
 logging.basicConfig(level=logging.INFO, format="[%(asctime)s] [%(levelname)s] %(message)s")
@@ -139,12 +140,12 @@ def run_preprocess(fastq_dir: Path, ref_fasta: Path, outdir: Path, threads: int 
     return find_patient_vcf(outdir)
 
 
-def run_analysis(vcf: Path, outdir: Path, threads: int = 8, skip_cv: bool = False) -> Path:
+def run_analysis(vcf: Path, outdir: Path, threads: int = 8, skip_cv: bool = False, cv_max_k: int = 10) -> Path:
     """步骤 2：祖先/频率分析（环境 popgen_analysis）。返回 partial_evidence.json。"""
     logging.info("====== 步骤 2 群体分析 (祖先/频率) ======")
     conda_run(
         ENV_ANALYSIS,
-        ["python", "popgen_agent.py", "--vcf", str(vcf), "--outdir", str(outdir)] + (["--skip-cv"] if skip_cv else []),
+        ["python", "popgen_agent.py", "--vcf", str(vcf), "--outdir", str(outdir), "--cv-max-k", str(cv_max_k)] + (["--skip-cv"] if skip_cv else []),
         cwd=STEP_ANALYSIS,
         threads=threads,
     )
@@ -171,6 +172,7 @@ def aggregate_evidence_pack(
     gnn_decision: Path | None,
     outdir: Path,
     results_dir: Path | None = None,
+    run_parameters=None,
 ) -> Path:
     sys.path.insert(0, str(ROOT))
     from pack import build_evidence_pack, validate_pack
@@ -183,6 +185,7 @@ def aggregate_evidence_pack(
         gnn_decision=gnn_decision,
         pack_dir=pack_dir,
         results_dir=src_results,
+        run_parameters=run_parameters,
     )
     validate_pack(pack_path)
     logging.info("====== 交付物已生成: %s ======", pack_path)
@@ -220,7 +223,12 @@ def main() -> None:
         action="store_true",
         help="不重跑步骤 1/2/3，用已有 partial_evidence 和 gnn_decision 写出 delivery 包",
     )
+    parameters.add_arguments(parser)
     args = parser.parse_args()
+    try:
+        settings = parameters.validated(vars(args))
+    except ValueError as exc:
+        parser.error(str(exc))
 
     if args.threads < 1:
         parser.error("--threads 必须为正整数")
@@ -232,6 +240,14 @@ def main() -> None:
     timing_records: list[dict] = []
 
     if args.pack_only:
+        prior_pack = outdir / "delivery/evidence_pack.json"
+        if prior_pack.is_file():
+            prior_policy = json.loads(prior_pack.read_text()).get("review_policy", {})
+            for key in parameters.DEFAULTS:
+                prior_key = key.removeprefix("popgen_")
+                if getattr(args, key) is None and prior_key in prior_policy:
+                    settings[key] = prior_policy[prior_key]
+            settings = parameters.validated(settings)
         partial_evidence = outdir / "partial_evidence.json"
         if not partial_evidence.exists():
             raise FileNotFoundError(partial_evidence)
@@ -239,7 +255,7 @@ def main() -> None:
         gnn_path = gnn_decision if gnn_decision.exists() else None
         timed_stage(
             "evidence_pack",
-            lambda: aggregate_evidence_pack(partial_evidence, gnn_path, outdir, results_dir=outdir),
+            lambda: aggregate_evidence_pack(partial_evidence, gnn_path, outdir, results_dir=outdir, run_parameters=settings),
             outdir=outdir,
             records=timing_records,
             run_started_at=run_started_at,
@@ -297,7 +313,7 @@ def main() -> None:
     else:
         partial_evidence = timed_stage(
             "population_analysis",
-            lambda: run_analysis(vcf, outdir, args.threads, args.skip_cv),
+            lambda: run_analysis(vcf, outdir, args.threads, args.skip_cv, settings["popgen_cv_max_k"]),
             outdir=outdir,
             records=timing_records,
             run_started_at=run_started_at,
@@ -317,7 +333,7 @@ def main() -> None:
 
     timed_stage(
         "evidence_pack",
-        lambda: aggregate_evidence_pack(partial_evidence, gnn_decision, outdir, results_dir=outdir),
+        lambda: aggregate_evidence_pack(partial_evidence, gnn_decision, outdir, results_dir=outdir, run_parameters=settings),
         outdir=outdir,
         records=timing_records,
         run_started_at=run_started_at,

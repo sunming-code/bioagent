@@ -46,7 +46,8 @@ def deliver_popgen(delivery, stages, egene_files, sample_id):
         if target.exists() and digest(target) != digest(source):
             raise ValueError(f"PopGen 交付路径冲突: {relative}")
         shutil.copyfile(source, target)
-    reporter.generate_report(folder / "evidence_pack.json", folder / "report.html")
+    reporter.generate_report(folder / "evidence_pack.json", folder / "report.html",
+                             acmg_path=egene_files.get("acmg_results.tsv"))
     # Preserve the pack's report reference as well as the integrated report URL.
     if pack.get("files", {}).get("report") == "popgen_report.html":
         shutil.copyfile(folder / "report.html", folder / "popgen_report.html")

@@ -27,6 +27,10 @@ The UI and queries run locally. Start in the repository root; use the language s
 - **可立即运行的端到端样例**：「分析 → 样本流水线 → 运行内置无候选样例」。使用合成 e-Gene manifest，实际执行适配、GDgpt 空候选分支、HTML 与 ZIP 打包，不运行基因组比对或调用模型。`pipeline_ui/examples/no_candidates` 与 GDgpt 报告预览均来自上游测试结构；不是患者数据。
 - **真实样本环境**：网页环境不会安装参考基因组、ANNOVAR/InterVar、模块计算环境、Neo4j 或模型凭据。按仓库根 `README.md` 和 `DATASETS.md` 在分析机完成配置。涉及真实样本或模型供应商时，请先核对访问权限、数据用途和费用。
 
+从 PopGen 开始时可设置匹配祖源的 ALT 频率上限（百分比，默认 1）、最低 DP、最低 GQ 及有质量下限时的缺失值策略。任务会将符合条件的携带等位基因写入 `01_popgen/delivery/review_shortlist.tsv.gz`，并在 `evidence_pack.json` 的 `review_policy` 中记录阈值和条数。频率未知的记录保留在全量表中。e-Gene 按自己的输入和判级策略读取完整证据。无监督 ADMIXTURE 的最大 K 可设为 2–10，实际搜索范围及误差记录在 `admixture_cv.tsv`。
+
+任务失败后，任务页和历史详情提供「打开运行错误报告」。运行目录下的 `error_report.html` 列出停止阶段、可取得的子步骤、原因、已完成阶段，并链接已有的阶段日志。启动前被拒绝的表单直接在页面提示原因。
+
 ## 复现 / Verification
 
 上游基线：`sunming-code/bioagent` 的 `2844be81dfe297f24287902b1433c095a5499043`。浏览器入口：`pipeline_ui/static/studio.html`。查询实现：`pipeline_ui/catalog.py`。参考分析 API：`pipeline_ui/studio.py`。原有流水线 API 仍保留在 `pipeline_ui/app.py`。
