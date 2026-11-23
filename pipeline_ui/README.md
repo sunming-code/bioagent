@@ -2,7 +2,19 @@
 
 **启动 / Start**：在 BioAgent 仓库根目录运行 `./start.command`，在浏览器打开 `http://127.0.0.1:8765`。macOS 也可双击 `start.command`。需要 Python 3.11+；首次启动会在项目 `.venv` 安装网页与 manifest 校验依赖。`PORT=8766 ./start.command` 可更换端口。中文 / EN 可以在任意页面切换；保留当前模块、查询、未提交输入及任务，记住界面语言。原始报告、日志、数据库字段和来源名称保留原文。
 
-The UI and queries run locally. Start in the repository root; use the language switch in the header. The interface distinguishes reference data, synthetic examples and sample-derived evidence. Do not expose the service through a public tunnel or reverse proxy: it reads local file paths and can launch scientific processes. No external analytics, hosted fonts, or model calls are used for reference queries.
+The default launcher serves the UI and queries on localhost. The interface distinguishes reference data, synthetic examples and sample-derived evidence. Reference queries use local data.
+
+## 公网工作台
+
+在仓库根目录，用装有 `pipeline_ui/requirements.txt` 依赖的 Python 启动公网服务。当前站点使用以下命令：
+
+```bash
+python -m pipeline_ui.public_server --public-host 1.13.248.151 --port 8000
+```
+
+服务监听 `127.0.0.1:8000`。现有反向代理将公网 HTTP 重定向到 HTTPS，保留请求的 `Host`，并通过隧道转发到此端口。当前站点允许匿名提交计算和查看样本报告。
+
+部署新版本时，先更新服务所在的检出目录，再重启工作台进程。访问 `/api/studio`，返回的 `app_revision` 和响应头 `X-BioAgent-Revision` 应与本地 `git rev-parse HEAD` 一致。公网首页也显示该提交的短哈希。
 
 ## 三个独立查询入口 / Module queries
 
