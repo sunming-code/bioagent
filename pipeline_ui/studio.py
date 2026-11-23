@@ -1,6 +1,7 @@
 """HTTP surface for independent module queries and reproducible reference notebooks."""
 import json
 import sqlite3
+import subprocess
 from datetime import datetime, timezone
 from uuid import uuid4
 
@@ -11,7 +12,21 @@ from starlette.middleware.trustedhost import TrustedHostMiddleware
 from starlette.responses import JSONResponse
 from starlette.routing import Route
 
+from egene_pipeline.adapter import MAX_GDGPT_TASKS
 from . import catalog
+
+
+def _running_revision():
+    if (catalog.ROOT / '.git').exists():
+        try:
+            return subprocess.check_output(['git', 'rev-parse', '--verify', 'HEAD'], cwd=catalog.ROOT,
+                                           stderr=subprocess.DEVNULL, text=True).strip()
+        except (OSError, subprocess.CalledProcessError):
+            pass
+    return None
+
+
+APP_REVISION = _running_revision()
 
 
 class LocalOrigin(BaseHTTPMiddleware):
@@ -33,7 +48,8 @@ middleware=[Middleware(TrustedHostMiddleware,allowed_hosts=['localhost','127.0.0
 def summary():
     graph=json.loads((catalog.ROOT/catalog.KG/'task_kg_summary.json').read_text())
     available=(catalog.ROOT/catalog.DISEASES).is_file()
-    return {'revision':catalog.REVISION,'samples':len(catalog.dataset('panel')),'populations':len({row['SUBPOP'] for row in catalog.dataset('panel')}),'terms':len(catalog.dataset('hpo')),'associations':len(catalog.dataset('disease')) if available else None,'nodes':graph['node_count'],'edges':graph['edge_count'],'classes':graph['nodes_by_type'],'reference_fasta':(catalog.ROOT/'1_popgen/data/reference/GRCh38.fa').is_file()}
+    return {'revision':catalog.REVISION, 'app_revision':APP_REVISION, 'max_gdgpt_tasks':MAX_GDGPT_TASKS,
+            'samples':len(catalog.dataset('panel')),'populations':len({row['SUBPOP'] for row in catalog.dataset('panel')}),'terms':len(catalog.dataset('hpo')),'associations':len(catalog.dataset('disease')) if available else None,'nodes':graph['node_count'],'edges':graph['edge_count'],'classes':graph['nodes_by_type'],'reference_fasta':(catalog.ROOT/'1_popgen/data/reference/GRCh38.fa').is_file()}
 
 
 def notebook(action, *, module='', value='', key=''):
