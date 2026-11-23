@@ -1,0 +1,91 @@
+{
+  "schema_version": "1.0",
+  "report_id": "synthetic-report",
+  "generated_at": "2026-10-16",
+  "sample": {
+    "sample_id": "SYNTHETIC",
+    "sex": "unknown"
+  },
+  "assembly": "GRCh38",
+  "conclusion": {
+    "finding": "Synthetic observations only",
+    "interpretation": "Not a diagnosis",
+    "risk_probability": null,
+    "risk_probability_status": "not_estimated",
+    "diagnosis_established": false
+  },
+  "analysis_scope": {
+    "classification_labels_modified": false
+  },
+  "variant_statistics": {
+    "counts": {
+      "retained_variants": 3,
+      "acmg_gene_contexts": 3
+    },
+    "gene_context_classifications": {
+      "Uncertain significance": 3
+    },
+    "variant_display_priority_classifications": {},
+    "preview": [
+      {
+        "sample_id": "SYNTHETIC",
+        "normalized_id": "GRCh38:chr1:1:A:G",
+        "source_GT": "0/1",
+        "genes_refGene": "TP53",
+        "Func.refGene": "intronic",
+        "ExonicFunc.refGene": ".",
+        "AAChange.refGene": ".",
+        "CLNSIG": ".",
+        "CLNREVSTAT": ".",
+        "CLNDN": ".",
+        "matched_pop": "EAS",
+        "matched_pop_AF": "",
+        "global_AF": "",
+        "af_status": "not_in_reference",
+        "use_for_acmg_ba1_bs1": "false",
+        "original_DP": "",
+        "original_GQ": "",
+        "original_QUAL": ".",
+        "original_FILTER": ".",
+        "quality_missing": "[\"DP\"]",
+        "acmg_gene_contexts": "[{\"gene\": \"TP53\", \"occurrence\": 1, \"classification\": \"Uncertain significance\"}]"
+      }
+    ]
+  },
+  "disease_candidates": [],
+  "case": {
+    "schema_version": "1.0",
+    "sample_id": "SYNTHETIC",
+    "sex": "unknown",
+    "phenotypes": [],
+    "clinical_description": "Synthetic empty-candidate example; no patient data.",
+    "family": {}
+  },
+  "phenotypes": {
+    "sample_id": "SYNTHETIC",
+    "status": "no_resolved_positive_phenotypes",
+    "positive_hpo_ids": [],
+    "negative_hpo_ids": [
+      "HP:0001250"
+    ]
+  },
+  "disease_statistics": {
+    "candidate_disease_gene_pairs": 0
+  },
+  "input_quality": {
+    "synthetic_fixture": true
+  },
+  "versions": {},
+  "files": {},
+  "ancestry": {
+    "analysis_based": {
+      "af_population": "EAS",
+      "use_for_acmg_ba1_bs1": false
+    }
+  },
+  "frequency_policy": {
+    "missing_AF_semantics": "unknown_not_zero",
+    "use_for_acmg_ba1_bs1": false
+  },
+  "limitations": []
+}

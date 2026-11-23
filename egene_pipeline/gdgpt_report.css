@@ -1,0 +1,38 @@
+.report-head { display: flex; align-items: end; justify-content: space-between; gap: 24px; padding: clamp(24px,4vw,46px) 0 24px }
+.report-head h1 { margin: 8px 0; font-size: clamp(30px,3.6vw,45px) }
+.report-head .sub { font-size: 14px }
+.accession { text-align: right; border-right: 3px solid var(--accent); padding-right: 13px; flex: 0 1 auto; min-width: 0; max-width: 35% }
+.accession small { display: block; color: var(--muted); font: 10px/1.5 var(--mono); letter-spacing: .13em }
+.accession strong { font: 500 17px/1.6 var(--mono) }
+.reading-grid { display: grid; grid-template-columns: 164px minmax(0,1fr); gap: clamp(24px,4.5vw,60px); margin-top: 30px }
+.toc { position: sticky; top: 18px; align-self: start; padding: 4px 0 }
+.toc-group { display: grid; margin-top: 8px; border-top: 1px solid var(--line) }
+.toc-group + .overline { margin-top: 26px }.toc a { display: flex; align-items: baseline; gap: 9px; padding: 7px 0; font-size: 13px; text-decoration: none; color: var(--ink) }
+.toc a:hover { color: var(--accent); text-decoration: underline }.toc a span { color: var(--accent); font: 11px var(--mono) }
+.report-body { min-width: 0 }.report-body > h2 { scroll-margin-top: 16px; margin: 34px 0 10px }.report-body > h2:first-child { margin-top: 0 }
+.section-title { display: flex; align-items: baseline; gap: 11px }.section-title small { font: 13px var(--mono); color: var(--accent) }
+.card { margin: 0 0 14px }.finding { border-left: 3px solid var(--accent); background: var(--paper) }
+.finding .lead { font: 500 clamp(19px,2vw,25px)/1.6 var(--serif); margin: 0 0 .3em }.finding p:last-child { margin-bottom: 0 }
+.metadata { display: flex; flex-wrap: wrap; gap: 4px 20px; font: 12px/1.6 var(--mono); color: var(--muted); border-top: 1px solid var(--line); margin-top: 14px; padding-top: 10px }
+.grid2 { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 14px }.grid2 > * { min-width: 0 }
+.plot-tag { color: var(--accent); font: 11px/1.5 var(--mono); letter-spacing: .1em; margin-bottom: 8px }
+.grid2 > .card:has(.plot-tag) { background: #f4eae4; border-color: #dfcfc5 }
+.grid2 > .card:nth-child(2):has(.plot-tag) { background: #f1e9eb; border-color: #dbcdd2 }
+.grid2 > .card:nth-child(2) .plot-tag { color: var(--plum) }
+.grid2 > .card:has(.plot-tag) .track { background: #e2d5ce }
+.grid2 > .card:nth-child(2):has(.plot-tag) .track { background: #e1d4d9 }
+.chart-row { display: grid; grid-template-columns: minmax(45px,1fr) minmax(48px,1.4fr) auto; gap: 10px; align-items: center; margin: 9px 0; font-size: 13px }
+.chart-value { font-family: var(--mono); font-size: 12px }.track { background: var(--wash); height: 7px; border-radius: 2px }.track i { display: block; height: 100%; border-radius: inherit }
+.badge,.tag-kg,.tag-llm { display: inline-block; border-radius: 3px; font: 600 12px/1.6 var(--sans); padding: 1px 7px }
+.badge { border: 1px solid; background: var(--paper) }.tag-kg { background: var(--lilac); color: #644b58 }.tag-llm { background: #eee2cf; color: #6d5333 }
+.gene-head,.graph-head { display: flex; align-items: center; gap: 15px; flex-wrap: wrap }.gene-head svg { flex: none }.gene-head h3 { margin: 0 }.gene-head > div { flex: 1; min-width: min(160px,100%) }
+.graph-head { margin-top: 20px; justify-content: space-between }.graph-head h3 { margin: 0 }
+.open-graph { display: inline-block; border: 1px solid var(--line); color: var(--accent); border-radius: 4px; padding: 5px 10px; text-decoration: none; font-size: 13px }.open-graph:hover { background: var(--wash) }
+.kgcard { margin-top: 8px; padding: 8px; background: var(--bg) }.kg { display: block }.kgcap { font-size: 12px; margin: 6px }
+.report-body details { border-top: 1px solid var(--line); padding: 10px 0; margin-top: 12px } summary { cursor: pointer; font-weight: 600 }
+.boundary { background: var(--wash); border-left: 3px solid var(--plum) }.boundary ul { padding-left: 20px }
+.reader { max-width: 880px }.reader .report-body { margin: 24px 0 }.reader .report-body > h2 { font-size: 24px }.reader h2 + .card { margin-top: 10px }
+.big { font-size: 18px; border-left: 3px solid var(--accent) }.big b:first-child { font: 600 24px/1.7 var(--serif) }.step { display: flex; gap: 12px; margin: 10px 0 }.step em { color: var(--accent); font: 16px/1.7 var(--mono) }
+@media (max-width: 780px) { .reading-grid { display: block; margin-top: 16px }.toc { position: static; display: flex; flex-wrap: wrap; gap: 4px 16px; border-bottom: 1px solid var(--line); padding-bottom: 12px; margin-bottom: 18px }.toc .overline { display: none }.toc-group { display: flex; flex-wrap: wrap; gap: 4px 16px; margin: 0; border: 0 }.toc a { padding: 3px 0 } }
+@media (max-width: 620px) { .report-head { align-items: start; flex-direction: column; gap: 12px }.accession { max-width: 100%; display: flex; align-items: baseline; gap: 8px; border: 0; padding: 0; text-align: left }.accession strong { font-size: 14px }.grid2 { grid-template-columns: 1fr; gap: 0 }.kpi:last-child:nth-child(odd) { grid-column: 1/-1 }.kpi { padding: 8px 13px } }
+@media print { .toc,.open-graph { display: none }.reading-grid { display: block; margin-top: 16px }.report-head { padding: 16px 0 }.card { margin-bottom: 8px }.track,.badge,.kg { print-color-adjust: exact } }

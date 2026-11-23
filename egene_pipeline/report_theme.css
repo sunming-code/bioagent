@@ -1,0 +1,48 @@
+:root {
+  color-scheme: light;
+  --bg: #f6f2ec; --paper: #fffcf7; --wash: #eee7df; --line: #d6ccc2;
+  --ink: #362e2a; --muted: #695e58; --accent: #835747; --plum: #765966;
+  --ochre: #88683e; --rose: #e9d8d3; --lilac: #e9dfe3;
+  --node-disease: #985f52; --node-gene: #806b60; --node-pathway: #866879; --node-focus: #9a7444;
+  --serif: Georgia, 'Songti SC', 'STSong', 'Noto Serif CJK SC', SimSun, serif;
+  --sans: -apple-system, 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
+  --mono: ui-monospace, 'SFMono-Regular', Consolas, monospace;
+  accent-color: var(--accent);
+}
+* { box-sizing: border-box }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.7 var(--sans); overflow-wrap: anywhere }
+main, .wrap { width: min(1192px,100%); margin: 0 auto; padding: 0 clamp(16px,4vw,52px) 56px }
+h1,h2,h3 { font-family: var(--serif); line-height: 1.3; text-wrap: balance }
+h1 { font-size: clamp(28px,4vw,46px); margin: 9px 0 12px; font-weight: 600 }
+h2 { font-size: clamp(21px,2.4vw,28px); margin: 0 0 14px }
+h3 { font-size: 19px; margin: 0 0 10px }
+p { margin: .65em 0 }
+a,summary { color: var(--accent); text-underline-offset: .24em }
+a:hover,summary:hover { color: var(--plum) }
+:focus-visible { outline: 2px solid var(--plum); outline-offset: 3px }
+::selection { background: var(--rose); color: var(--ink) }
+header { padding: 28px 0 20px; border-bottom: 1px solid var(--line) }
+.eyebrow, .folio, .overline { color: var(--accent); font: 600 11px/1.5 var(--mono); letter-spacing: .13em }
+.folio { display: flex; justify-content: space-between; align-items: center; gap: 18px; padding: 14px 0; border-bottom: 1px solid var(--line); color: var(--muted) }
+.imprint { display: inline-flex; align-items: center; gap: 9px; font: 600 17px/1.2 var(--serif); color: var(--ink); letter-spacing: 0 }
+.imprint::before { content: ''; width: 13px; height: 17px; border: 1px solid var(--accent); border-left: 4px double var(--accent); transform: skewY(-10deg) }
+section, .card { margin: 18px 0; border: 1px solid var(--line); background: var(--paper); padding: clamp(16px,2.2vw,28px); border-radius: 5px; min-width: 0 }
+.muted,.mute,.sub,.note,figcaption,.kgcap { color: var(--muted) }
+.metric,.kpi,table,svg { font-variant-numeric: tabular-nums }
+table { border-collapse: collapse; width: 100%; font-size: 13px }
+th,td { text-align: left; vertical-align: top; padding: 9px 12px; border-bottom: 1px solid var(--line) }
+th { background: var(--wash); font-weight: 600 } tbody tr:hover { background: var(--bg) }
+.table-wrap,.table-scroll { max-width: 100%; overflow-x: auto }
+.metrics,.kpis { display: grid; grid-template-columns: repeat(auto-fit,minmax(min(130px,100%),1fr)); background: var(--wash); gap: 1px; border: 1px solid var(--line); border-radius: 4px; overflow: hidden }
+.metric,.kpi { display: flex; flex-direction: column; justify-content: space-between; padding: 12px 16px; background: var(--paper) }
+.metric strong,.kpi b { color: var(--ink); font: 500 clamp(21px,2.1vw,29px)/1.25 var(--serif) }
+.metric span,.kpi span { font-size: 12px; color: var(--muted) }
+.empty,pre { background: var(--wash); color: var(--ink); padding: 14px; border-radius: 3px }
+pre { white-space: pre-wrap; overflow-wrap: anywhere; font: 13px/1.7 var(--mono) }
+footer { border-top: 1px solid var(--line); padding-top: 16px; margin-top: 32px; color: var(--muted); font-size: 12px }
+.digest { max-width: 940px } .digest header .sub { margin: 0 }
+.digest .finding, .conclusion { border-left: 3px solid var(--accent) }
+.file-list { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit,minmax(min(260px,100%),1fr)); gap: 0 24px }
+.file-list li { border-bottom: 1px solid var(--line); padding: 10px 0 } .file-list a { display: block }
+@media (max-width: 640px) { .metrics,.kpis { grid-template-columns: repeat(2,minmax(0,1fr)) } header { padding-top: 21px } }
+@media print { :root { --bg: white; --paper: white } main,.wrap { max-width: none; width: 100%; padding: 0 } header { padding-top: 10px } h2,h3 { break-after: avoid } a { color: inherit } svg,.kpis,.metrics { break-inside: avoid } }

@@ -1,0 +1,8 @@
+{
+  "schema_version": "1.0",
+  "sample_id": "SYNTHETIC",
+  "sex": "unknown",
+  "phenotypes": [],
+  "clinical_description": "Synthetic empty-candidate example; no patient data.",
+  "family": {}
+}

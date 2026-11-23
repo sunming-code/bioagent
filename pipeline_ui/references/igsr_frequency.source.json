@@ -1,0 +1,16 @@
+{
+  "url": "https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/data_collections/1000G_2504_high_coverage/working/20220422_3202_phased_SNV_INDEL_SV/1kGP_high_coverage_Illumina.chr1.filtered.SNV_INDEL_SV_phased_panel.vcf.gz",
+  "assembly": "GRCh38",
+  "range": "bytes=0-131071",
+  "range_sha256": "f5d23832849b4de73a1034ce7b7b190d8c47b5ce3e7bfcb3fce757bcc90f2317",
+  "allele_rows": 358,
+  "info_fields": [
+    "AF",
+    "AF_EAS",
+    "AF_AMR",
+    "AF_EUR",
+    "AF_AFR",
+    "AF_SAS"
+  ],
+  "scope": "Complete records from complete BGZF blocks in the byte range. No individual genotypes. Not a chromosome-wide panel."
+}

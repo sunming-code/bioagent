@@ -15,6 +15,7 @@ import sys
 import time
 
 from . import __version__
+from .report_theme import document
 from .atheromap_adapter import load_input
 from .atheromap_reference import MODULE, audit_reference, read_obs
 from .common import ROOT, digest, file_spec, files_in, now, read_json, run_command, write_json
@@ -274,12 +275,13 @@ def run(args):
         write_json(delivery / "atheromap_input.json", payload)
         links = [f'<li><a href="{escape(str(p.relative_to(delivery)), quote=True)}">{escape(str(p.relative_to(delivery)))}</a></li>'
                  for p in sorted(delivery.rglob("*")) if p.is_file() and p.suffix in (".png", ".pdf", ".tsv", ".csv", ".json")]
-        (delivery / "report.html").write_text('<!doctype html><html lang="zh-CN"><meta charset="utf-8"><title>AtheroMap scDRS</title>'
-            '<style>body{max-width:1100px;margin:32px auto;font:16px/1.8 system-ui}pre{white-space:pre-wrap}</style>'
-            f'<h1>AtheroMap scDRS：{escape(payload["sample_id"])}</h1><p>外部参考队列：GSE159677；性状标签：{escape(trait)}；范围：{escape(payload["analysis_scope"])}</p>'
+        (delivery / "report.html").write_text(document('AtheroMap scDRS', 'ATHEROMAP　/　REFERENCE COHORT',
+            f'<p class="sub">样本：{escape(payload["sample_id"])}</p><section class="finding"><h2>参考队列结果</h2>'
+            f'<p>外部参考队列：GSE159677；性状标签：{escape(trait)}；范围：{escape(payload["analysis_scope"])}</p>'
             f'<p>已处理参考队列 {len(obs):,} 个细胞；巨噬细胞 {counts["macrophage"]["cells"]:,} 个；VSMC {counts["vsmc"]["cells"]:,} 个。</p>'
-            '<p>参考表达与细胞关联结果不代表患者的组织测量，不改变原始变异分类。</p>'
-            '<ul>' + ''.join(links) + '</ul><pre>' + escape('\n'.join(payload["limitations"])) + '</pre></html>', encoding="utf-8")
+            '<p>参考表达与细胞关联结果不代表患者的组织测量，不改变原始变异分类。</p></section>'
+            '<section><h2>图表与数据</h2><ul class="file-list">' + ''.join(links) + '</ul></section>'
+            '<h2>分析边界</h2><pre>' + escape('\n'.join(payload["limitations"])) + '</pre>'), encoding="utf-8")
         # Re-read both the handoff and original reference hashes after the scripts finish.
         load_input(input_path)
         if digest(input_path) != manifest["input_manifest"]["sha256"]:

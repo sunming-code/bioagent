@@ -13,6 +13,7 @@ import shutil
 from pathlib import Path
 
 from . import __version__
+from .report_theme import document
 from .atheromap_adapter import prepare as prepare_handoff
 from .common import ROOT, digest, file_spec, files_in, now, read_json, run_command, verify_manifest, write_json
 
@@ -157,13 +158,11 @@ def run(args):
         for sample in gsmap_report["samples"]:
             links.append(f'<li><a href="gsmap/{escape(sample["report"], quote=True)}">{escape(sample["sample"])} gsMap HTML 报告</a></li>')
         (output / "report.html").write_text(
-            '<!doctype html><html lang="zh-CN"><meta charset="utf-8">'
-            '<meta name="viewport" content="width=device-width,initial-scale=1">'
-            '<title>AtheroMap 第四阶段报告</title>'
-            '<style>body{max-width:1100px;margin:32px auto;padding:0 20px;font:16px/1.8 system-ui}a{color:#0759aa}</style>'
-            f'<h1>AtheroMap 第四阶段：{escape(handoff["sample_id"])}</h1>'
-            '<p>本阶段同时保留 scDRS 外部参考队列分析和已验收 gsMap 空间结果。</p><ul>' + ''.join(links) +
-            '</ul><p>这些结果不改变 ACMG 分类，不建立患者诊断或个体患病概率。</p></html>', encoding="utf-8")
+            document('AtheroMap 第四阶段报告', 'ATHEROMAP　/　SPATIAL CONTEXT',
+                f'<p class="sub">样本：{escape(handoff["sample_id"])}</p><section class="finding"><h2>分析范围</h2>'
+                '<p>本阶段同时保留 scDRS 外部参考队列分析和已验收 gsMap 空间结果。</p></section>'
+                '<section><h2>空间证据与来源</h2><ul class="file-list">' + ''.join(links) +
+                '</ul></section><footer>这些结果不改变 ACMG 分类，不建立患者诊断或个体患病概率。</footer>'), encoding="utf-8")
         manifest["files"] = files_in(output, ("atheromap_manifest.json", "status.json"))
         manifest.update(status="complete", finished_at=now(), report={"json": "report.json", "html": "report.html"},
                         scdrs_manifest="scdrs/atheromap_manifest.json",

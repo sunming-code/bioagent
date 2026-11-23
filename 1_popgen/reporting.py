@@ -10,7 +10,7 @@ import math
 from pathlib import Path
 
 POPS = ("AFR", "EUR", "EAS", "SAS", "AMR")
-COLORS = dict(zip(POPS, ("#c85a35", "#3978ad", "#29977a", "#9b6fa9", "#d4a12d")))
+COLORS = dict(zip(POPS, ("#905c4f", "#765766", "#665e57", "#925e72", "#82653e")))
 MISSING = "未查到"
 AF_EDGES = (0.001, 0.01, 0.05, 0.1, 0.25, 0.5)
 AF_LABELS = ("[0, 0.1%)", "[0.1%, 1%)", "[1%, 5%)", "[5%, 10%)", "[10%, 25%)", "[25%, 50%)", "[50%, 100%]")
@@ -212,7 +212,7 @@ def scatter(points):
     sy = lambda y: 285 - (y - ymin) / (ymax - ymin) * 255
     for i in range(5):
         x, y = xmin + (xmax - xmin) * i / 4, ymin + (ymax - ymin) * i / 4
-        chart += (f'<path d="M {sx(x):.2f} 30 V 285 M 85 {sy(y):.2f} H 720" stroke="#e4e9ee"/>'
+        chart += (f'<path d="M {sx(x):.2f} 30 V 285 M 85 {sy(y):.2f} H 720" stroke="var(--line)"/>'
                   f'<text x="{sx(x):.2f}" y="307" text-anchor="middle">{x:.3g}</text>'
                   f'<text x="76" y="{sy(y)+4:.2f}" text-anchor="end">{y:.3g}</text>')
     for point in sorted(points, key=lambda p: p["pop"] == "PATIENT"):
@@ -220,7 +220,7 @@ def scatter(points):
         title = f'<title>{esc(point["iid"])} · {esc(point["pop"])} · PC1={point["x"]:.8g}, PC2={point["y"]:.8g}</title>'
         if point["pop"] == "PATIENT":
             chart += (f'<path class="patient-point" d="M {x:.2f} {y-9:.2f} L {x+9:.2f} {y:.2f} L {x:.2f} {y+9:.2f} L {x-9:.2f} {y:.2f} Z" '
-                      f'fill="#122a43" stroke="white" stroke-width="2">{title}</path>'
+                      f'fill="var(--ink)" stroke="white" stroke-width="2">{title}</path>'
                       f'<text x="{x:.2f}" y="{y-14:.2f}" text-anchor="middle" font-weight="bold">本次样本</text>')
         else:
             chart += f'<circle cx="{x:.2f}" cy="{y:.2f}" r="3" fill="{COLORS[point["pop"]]}" opacity=".6">{title}</circle>'
@@ -233,7 +233,7 @@ def bar_chart(series, labels, chart_id, title, probability=False):
     for i in range(5):
         value, y = maximum * i / 4, 260 - 220 * i / 4
         label = f"{value:.0%}" if probability else f"{value:,.0f}"
-        chart += f'<path d="M 70 {y} H 740" stroke="#e4e9ee"/><text x="60" y="{y+4}" text-anchor="end">{label}</text>'
+        chart += f'<path d="M 70 {y} H 740" stroke="var(--line)"/><text x="60" y="{y+4}" text-anchor="end">{label}</text>'
     step = 670 / len(labels)
     width = min(45, step * .72 / len(series))
     for i, label in enumerate(labels):
@@ -243,20 +243,17 @@ def bar_chart(series, labels, chart_id, title, probability=False):
             value = values[i]
             height = value / maximum * 220
             x = center + (j - len(series) / 2) * width
-            color = COLORS.get(label, "#3978ad")
+            color = COLORS.get(label, "#765766")
             chart += (f'<rect x="{x:.2f}" y="{260-height:.2f}" width="{width-2:.2f}" height="{height:.2f}" '
                       f'fill="{color}" fill-opacity="{opacity}"><title>{esc(label)} · {esc(name)}: {value:.8g}</title></rect>')
     return chart + '<text x="70" y="318">' + ("纵轴：比例" if probability else "纵轴：等位基因条数") + '</text></svg>'
 
 
-STYLE = """
-:root{color-scheme:light;--ink:#193047;--muted:#627386;--line:#dce5ec;--paper:#fff}
-*{box-sizing:border-box}body{margin:0;background:#f3f6f8;color:var(--ink);font:15px/1.65 system-ui,-apple-system,'Noto Sans CJK SC',sans-serif}
-main{max-width:1180px;margin:auto;padding:36px 28px 56px}header{border-top:5px solid #29977a;padding:24px 0}h1{font-size:32px;margin:4px 0 12px}h2{font-size:21px;margin:0 0 16px}p{margin:10px 0}.eyebrow{color:#247b67;font-weight:650;letter-spacing:2px;font-size:12px}
-section{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:24px;margin:20px 0}.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}.grid section{margin:0}.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px;margin:14px 0}.facts div{min-width:0}.facts dt{color:var(--muted);font-size:13px}.facts dd{margin:4px 0;overflow-wrap:anywhere;font-weight:600}
-.badge{display:inline-block;padding:4px 12px;border-radius:20px;background:#e5f3ec;color:#22624b}.blocked{background:#fff0dd;color:#845518}.note,.empty,figcaption{color:var(--muted);font-size:13px}.empty{padding:24px;background:#f5f7f9}.callout{border-left:3px solid #29977a;padding:4px 16px;background:#f5faf8}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;font-size:13px;font-variant-numeric:tabular-nums}th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);overflow-wrap:anywhere}th{background:#f4f7f9;white-space:nowrap}td:nth-child(n+5){min-width:130px}svg{display:block;width:100%;height:auto;font:13px system-ui,sans-serif}svg text{fill:var(--ink)}svg text[fill="white"]{fill:white}.legend{display:flex;flex-wrap:wrap;gap:16px;font-size:13px;margin:8px 0 16px}.legend span{display:flex;align-items:center;gap:6px}.legend i{display:inline-block;width:10px;height:10px;border-radius:3px}a{color:#246797;text-underline-offset:3px}.downloads{display:flex;flex-wrap:wrap;gap:12px 24px}ol{padding-left:24px}ol li{padding:7px 0}footer{color:var(--muted);border-top:1px solid var(--line);padding-top:20px}figure{margin:0}.counts dd{font-size:26px}nav{display:flex;gap:20px;flex-wrap:wrap}
-th,td{white-space:nowrap;overflow-wrap:normal}
-@media(max-width:760px){main{padding:20px 14px}section{padding:18px}.grid{grid-template-columns:1fr}h1{font-size:26px}.facts{grid-template-columns:repeat(2,minmax(0,1fr))}}@media print{body{background:white}main{padding:0}section{break-inside:avoid}.grid{display:block}.grid section{margin:18px 0}}
+STYLE = (Path(__file__).resolve().parents[1] / "egene_pipeline/report_theme.css").read_text(encoding="utf-8") + """
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.grid section{margin:0}.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(142px,1fr));gap:10px 18px}.facts dt,.note,figcaption{font-size:13px;color:var(--muted)}.facts dd{margin:3px 0;font-weight:600}.facts div{min-width:0}.counts dd{font:24px var(--serif)}
+.badge{display:inline-block;background:var(--lilac);color:var(--plum);padding:2px 10px;border-radius:3px}.blocked{background:var(--rose);color:var(--accent)}.callout{border-left:3px solid var(--ochre);padding:8px 12px;background:var(--wash)}
+svg{display:block;width:100%;height:auto;font:13px var(--sans)}svg text{fill:var(--ink)}svg text[fill="white"]{fill:white}.legend,nav,.downloads{display:flex;flex-wrap:wrap;gap:8px 18px}.legend{font-size:13px}.legend i{display:inline-block;width:11px;height:11px;margin-right:5px;border-radius:2px}.table-wrap th,.table-wrap td{white-space:nowrap}figure{margin:0}ol{padding-left:22px}ol li{padding:5px 0}
+@media(max-width:760px){.grid{grid-template-columns:1fr}.facts{grid-template-columns:repeat(2,minmax(0,1fr))}}@media print{.grid{display:block}.legend i,svg{print-color-adjust:exact}}
 """
 
 
@@ -321,10 +318,10 @@ def render_html(data):
              "这一页不是致病变异清单，也不进行患者诊断。"]
     return f'''<!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>PopGen 报告 · {esc(sample)}</title><style>{STYLE}</style></head><body><main>
+<title>PopGen 报告 · {esc(sample)}</title><style>{STYLE}</style></head><body><main><div class="folio"><span class="imprint">BioAgent</span><span>POPGEN　/　RESEARCH EDITION</span></div>
 <header><div class="eyebrow">POPGEN · POPULATION GENETICS</div><h1>祖源与人群频率报告</h1>{header}
 <nav aria-label="报告导航"><a href="#ancestry">祖源与查表策略</a><a href="#frequency">频率结果</a><a href="#rules">六条使用规则</a><a href="#downloads">下载文件</a></nav></header>
-<section id="ancestry"><h2>查表人群与 BA1/BS1 权限</h2><span class="badge {'' if allowed else 'blocked'}">BA1/BS1：{'允许' if allowed else '不允许'}</span>{policy}
+<section id="ancestry" class="conclusion"><h2>查表人群与 BA1/BS1 权限</h2><span class="badge {'' if allowed else 'blocked'}">BA1/BS1：{'允许' if allowed else '不允许'}</span>{policy}
 <p class="note">查表人群以 PCA 最近档为准。GNN 是补充祖源证据，不修改查表人群或 BA1/BS1 开关。</p></section>
 <div class="grid"><section><h2>监督 ADMIXTURE · K=5</h2>{admixture}<p class="note">数据：admixture_results_K5.tsv；五段按 AFR、EUR、EAS、SAS、AMR 排列。</p></section>
 <section><h2>PCA · PC1–PC2</h2>{scatter(data['points'])}{legend()}{pca_note}<p class="note">深色菱形为本次样本。距离与查表分档基于 PC1–PC3；散点展示 PC1–PC2。数据：ancestry_pca.tsv。</p></section></div>

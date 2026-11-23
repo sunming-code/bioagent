@@ -1,0 +1,4 @@
+sample_id	normalized_id	source_GT	genes_refGene	Func.refGene	ExonicFunc.refGene	AAChange.refGene	CLNSIG	CLNREVSTAT	CLNDN	matched_pop	matched_pop_AF	global_AF	af_status	use_for_acmg_ba1_bs1	original_DP	original_GQ	original_QUAL	original_FILTER	quality_missing	acmg_gene_contexts
+SYNTHETIC	GRCh38:chr1:1:A:G	0/1	TP53	intronic	.	.	.	.	.	EAS			not_in_reference	false			.	.	"[""DP""]"	"[{""gene"": ""TP53"", ""occurrence"": 1, ""classification"": ""Uncertain significance""}]"
+SYNTHETIC	GRCh38:chr1:2:A:G	0/1	BRCA1	intronic	.	.	.	.	.	EAS			not_in_reference	false			.	.	"[""DP""]"	"[{""gene"": ""BRCA1"", ""occurrence"": 1, ""classification"": ""Uncertain significance""}]"
+SYNTHETIC	GRCh38:chr1:3:A:G	0/1	NEARBY	intergenic	.	.	.	.	.	EAS			not_in_reference	false			.	.	"[""DP""]"	"[{""gene"": ""NEARBY"", ""occurrence"": 1, ""classification"": ""Uncertain significance""}]"

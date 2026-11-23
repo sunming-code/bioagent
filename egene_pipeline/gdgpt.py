@@ -14,6 +14,7 @@ from urllib.parse import urlsplit, urlunsplit
 
 from . import __version__
 from .gdgpt_report import write_html_reports
+from .report_theme import document
 from .common import ROOT, digest, file_spec, files_in, now, object_digest, read_json, run_command, validate_contract, verify_files, verify_manifest, write_json
 
 GDGPT = ROOT / "3_GDgpt"
@@ -160,11 +161,9 @@ def write_report(outdir, payload, results, runtime):
         write_html_reports(outdir, report)
     except Exception as exc:  # never let report rendering break the pipeline
         print(f"GDgpt 增强版报告生成失败，已回退为简版 report.html: {exc!r}", file=sys.stderr, flush=True)
-        (outdir / "report.html").write_text('<!doctype html><html lang="zh-CN"><meta charset="utf-8">'
-            '<meta name="viewport" content="width=device-width,initial-scale=1"><title>GDgpt 机制分析</title>'
-            '<style>body{max-width:1100px;margin:32px auto;padding:0 20px;font:16px/1.7 system-ui}pre{white-space:pre-wrap;overflow-wrap:anywhere}</style>'
+        (outdir / "report.html").write_text(document('GDgpt 机制分析', 'GDGPT　/　TEXT EDITION',
             '<nav><a href="report.json">结构化结果与工具记录</a> · <a href="gdgpt_input.json">完整上游任务证据</a></nav>'
-            '<pre>' + escape(content) + '</pre></html>', encoding="utf-8")
+            '<pre>' + escape(content) + '</pre>'), encoding="utf-8")
     return report
 
 

@@ -1,0 +1,8 @@
+{
+  "sample_id": "SYNTHETIC",
+  "status": "no_resolved_positive_phenotypes",
+  "positive_hpo_ids": [],
+  "negative_hpo_ids": [
+    "HP:0001250"
+  ]
+}

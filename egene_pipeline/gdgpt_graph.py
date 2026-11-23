@@ -3,7 +3,12 @@ import json
 import re
 from html import escape as esc
 
+from pathlib import Path
+
 from .gdgpt_report import _queries
+from .report_theme import CSS
+
+GRAPH_CSS = CSS + Path(__file__).with_suffix(".css").read_text(encoding="utf-8")
 
 
 def graph_data(results):
@@ -63,29 +68,15 @@ def graph_data(results):
 
 
 PAGE = r"""<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>知识图谱 · __SAMPLE__</title><style>
-*{box-sizing:border-box}html,body{margin:0;height:100%;background:#070d1f;color:#e8eeff;font:14px/1.5 -apple-system,"PingFang SC",system-ui,sans-serif;overflow:hidden}
-#stage{position:fixed;inset:0;cursor:grab}#stage.drag{cursor:grabbing}svg{width:100%;height:100%;display:block}
-.bar{position:fixed;top:14px;left:14px;right:14px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;pointer-events:none}
-.bar>*{pointer-events:auto}.pill{background:rgba(18,30,64,.85);border:1px solid #2a3c75;border-radius:12px;padding:6px 10px;backdrop-filter:blur(8px)}
-button,select,input{font:inherit;color:#e8eeff;background:#16244f;border:1px solid #2f4390;border-radius:8px;padding:5px 10px}button{cursor:pointer}button:hover{background:#21357a}
-input[type=search]{width:190px}label{margin-right:8px;white-space:nowrap}h1{font-size:15px;margin:0 6px 0 0}
-#panel{position:fixed;top:70px;right:14px;bottom:14px;width:320px;overflow:auto;background:rgba(14,24,54,.92);border:1px solid #2a3c75;border-radius:14px;padding:16px;display:none}
-#panel h2{margin:0 0 4px;font-size:17px;word-break:break-word}.tag{display:inline-block;padding:1px 9px;border-radius:99px;font-size:12px;color:#fff;margin-bottom:8px}
-#panel h4{margin:14px 0 4px;color:#9fb0d8;font-size:12px;letter-spacing:1px}.nb{display:inline-block;margin:2px 4px 2px 0;padding:2px 9px;border-radius:8px;background:#1d2d63;cursor:pointer;font-size:13px}.nb:hover{background:#2c449a}
-#x{float:right;padding:0 8px}.hint{position:fixed;left:14px;bottom:14px;color:#8fa0cc;font-size:12px}
-.node{cursor:pointer}.node text{pointer-events:none;paint-order:stroke;stroke:#070d1f;stroke-width:3px}.dim{opacity:.12}.edge{stroke-linecap:round}
-.flow{stroke-dasharray:5 7;animation:dash 2.4s linear infinite}@keyframes dash{to{stroke-dashoffset:-48}}
-.sel circle,.sel rect{stroke:#fff;stroke-width:3}.hit circle,.hit rect{stroke:#ffe27a;stroke-width:3}
-@media(prefers-reduced-motion:reduce){.flow{animation:none}}</style></head><body>
-<div id="stage"><svg id="svg"><g id="vp"><g id="el"></g><g id="nl"></g></g></svg></div>
-<div class="bar"><div class="pill"><h1>知识图谱</h1><select id="task"></select></div>
-<div class="pill"><input id="q" type="search" placeholder="搜索节点…"></div>
-<div class="pill" id="types"></div><div class="pill"><button id="fit">适应窗口</button> <button id="pause">暂停布局</button></div></div>
-<div id="panel"></div>
-<div class="hint">拖拽空白处平移 · 滚轮缩放 · 拖动节点 · 点击节点查看详情 · 双击空白取消选择</div>
+<title>知识图谱 · __SAMPLE__</title><style>__CSS__</style></head><body>
+<header class="atlas-head"><h1>知识图谱<small>GDGPT　/　EVIDENCE ATLAS</small></h1><div class="atlas-meta"><span>样本　__SAMPLE__</span><a href="report.html">← 专业报告</a></div></header>
+<div class="bar"><div class="pill"><select aria-label="分析任务" id="task"></select></div>
+<div class="pill"><input id="q" aria-label="搜索节点" type="search" placeholder="搜索节点…"></div>
+<div class="pill" id="types"></div><div class="pill"><button id="fit">适应窗口</button><button id="pause">暂停布局</button></div></div>
+<div class="atlas-work"><div id="stage"><svg id="svg" aria-label="交互式知识图谱"><g id="vp"><g id="el"></g><g id="nl"></g></g></svg></div><aside id="panel" aria-label="节点证据"></aside></div>
+<div class="hint"><span class="focus-key">● 本次关注基因</span>拖拽空白处平移 · 滚轮缩放 · 点击节点查看证据 · 双击空白取消选择</div>
 <script>
-const DATA=__DATA__;const COL={disease:"#ff5d73",gene:"#27d3a2",pathway:"#9b7bff"},TN={disease:"疾病",gene:"基因",pathway:"通路"};
+const DATA=__DATA__;const COL={disease:"var(--node-disease)",gene:"var(--node-gene)",pathway:"var(--node-pathway)"},TN={disease:"疾病",gene:"基因",pathway:"通路"};
 const NS="http://www.w3.org/2000/svg",$=id=>document.getElementById(id);
 const svg=$("svg"),vp=$("vp"),EL=$("el"),NL=$("nl"),panel=$("panel");
 let nodes=[],links=[],byId={},nb={},sel=null,view={x:0,y:0,k:1},alpha=1,paused=false,hidden=new Set(),q="";
@@ -104,12 +95,12 @@ function load(i){
  else dz.forEach(n=>{n.ax=0;n.ay=0});
  links=T.links.filter(l=>byId[l.s]&&byId[l.t]).map(l=>Object.assign({},l,{a:byId[l.s],b:byId[l.t]}));
  links.forEach(l=>{nb[l.s].add(l.t);nb[l.t].add(l.s);
-  l.el=mk("line",{class:"edge flow","stroke":l.a.type==="gene"&&l.b.type==="pathway"||l.b.type==="gene"&&l.a.type==="pathway"?"#9b7bff":"#27d3a2","stroke-width":1.3,"stroke-opacity":.6});
+  l.el=mk("line",{class:"edge flow","stroke":l.a.type==="gene"&&l.b.type==="pathway"||l.b.type==="gene"&&l.a.type==="pathway"?"var(--node-pathway)":"var(--node-gene)","stroke-width":1.3,"stroke-opacity":.6});
   const tt=mk("title",{});tt.textContent=(l.rel.join("、")||"关联")+(l.src.length?" · 来源："+l.src.join("、"):"");l.el.appendChild(tt);EL.appendChild(l.el)});
- nodes.forEach(n=>{const g=mk("g",{class:"node"});
+ nodes.forEach(n=>{const g=mk("g",{class:"node",role:"button",tabindex:0,"aria-label":TN[n.type]+" · "+n.label});
   const sh=n.type==="pathway"?mk("rect",{x:-n.r,y:-n.r,width:n.r*2,height:n.r*2,rx:4}):mk("circle",{r:n.r});
-  sh.setAttribute("fill",n.focus?"#ffc23d":COL[n.type]);g.appendChild(sh);
-  const tx=mk("text",{x:n.r+5,y:4,fill:"#e8eeff","font-size":n.type==="disease"?13:11.5});tx.textContent=n.label.length>34?n.label.slice(0,33)+"…":n.label;
+  sh.setAttribute("fill",n.focus?"var(--node-focus)":COL[n.type]);g.appendChild(sh);
+  const tx=mk("text",{x:n.r+5,y:4,fill:"var(--ink)","font-size":n.type==="disease"?13:11.5});tx.textContent=n.label.length>34?n.label.slice(0,33)+"…":n.label;
   if(n.type==="disease"){tx.setAttribute("x",0);tx.setAttribute("y",n.r+16);tx.setAttribute("text-anchor","middle")}g.appendChild(tx);
   const ti=mk("title",{});ti.textContent=n.label;g.appendChild(ti);n.el=g;NL.appendChild(g);bind(g,n)});
  alpha=1;draw();setTimeout(fit,700)}
@@ -124,9 +115,9 @@ function tick(){
 function draw(){for(const n of nodes)n.el.setAttribute("transform","translate("+n.x.toFixed(1)+","+n.y.toFixed(1)+")");
  for(const l of links){l.el.setAttribute("x1",l.a.x);l.el.setAttribute("y1",l.a.y);l.el.setAttribute("x2",l.b.x);l.el.setAttribute("y2",l.b.y)}}
 function apply(){vp.setAttribute("transform","translate("+view.x+","+view.y+") scale("+view.k+")")}
-function fit(){if(!nodes.length)return;const W=innerWidth,H=innerHeight;let x0=1e9,x1=-1e9,y0=1e9,y1=-1e9;
+function fit(){if(!nodes.length)return;const W=svg.clientWidth,H=svg.clientHeight;let x0=1e9,x1=-1e9,y0=1e9,y1=-1e9;
  for(const n of nodes){x0=Math.min(x0,n.x-60);x1=Math.max(x1,n.x+160);y0=Math.min(y0,n.y-30);y1=Math.max(y1,n.y+40)}
- view.k=Math.min(2,Math.min(W/(x1-x0),H/(y1-y0))*.9);view.x=W/2-(x0+x1)/2*view.k;view.y=H/2-(y0+y1)/2*view.k+20;apply()}
+ view.k=Math.min(2,Math.min(W/(x1-x0),H/(y1-y0))*.9);view.x=W/2-(x0+x1)/2*view.k;view.y=H/2-(y0+y1)/2*view.k;apply()}
 function vis(n){return !hidden.has(n.type)}
 function refresh(){const m=q?nodes.filter(n=>n.label.toLowerCase().includes(q)).map(n=>n.id):[];const hs=new Set(m);
  for(const n of nodes){const show=vis(n);n.el.style.display=show?"":"none";
@@ -135,17 +126,17 @@ function refresh(){const m=q?nodes.filter(n=>n.label.toLowerCase().includes(q)).
   l.el.classList.toggle("dim",!!sel&&l.s!==sel&&l.t!==sel);l.el.setAttribute("stroke-width",sel&&(l.s===sel||l.t===sel)?2.8:1.3)}}
 function show(n){sel=n.id;const p=panel;p.innerHTML="";p.style.display="block";
  const add=(tag,txt,cls)=>{const e=document.createElement(tag);e.textContent=txt;if(cls)e.className=cls;p.appendChild(e);return e};
- const x=add("button","×");x.id="x";x.onclick=()=>{sel=null;p.style.display="none";refresh()};
- add("h2",n.label);const t=add("span",TN[n.type]+(n.focus?" · 本次关注":""),"tag");t.style.background=n.focus?"#d99a00":COL[n.type];
+ const x=add("button","×");x.id="x";x.setAttribute("aria-label","关闭节点证据");x.onclick=()=>{sel=null;p.style.display="none";refresh()};
+ add("h2",n.label);const t=add("span",TN[n.type]+(n.focus?" · 本次关注":""),"tag");t.style.color=n.focus?"var(--ochre)":COL[n.type];
  add("div","直接关联节点："+nb[n.id].size+" 个");
  for(const k in n.info){add("h4",k);add("div",n.info[k].filter(Boolean).join("、")||"-")}
  const ls=links.filter(l=>l.s===n.id||l.t===n.id);const rel=[...new Set(ls.flatMap(l=>l.rel))];if(rel.length){add("h4","关系类型");add("div",rel.join("、"))}
  const src=[...new Set(ls.flatMap(l=>l.src))];if(src.length){add("h4","证据来源");add("div",src.join("、"))}
  for(const ty of ["disease","gene","pathway"]){const xs=[...nb[n.id]].map(i=>byId[i]).filter(o=>o.type===ty);if(!xs.length)continue;
-  add("h4","关联"+TN[ty]+"（"+xs.length+"）");const box=document.createElement("div");xs.forEach(o=>{const s=document.createElement("span");s.className="nb";s.textContent=o.label.length>28?o.label.slice(0,27)+"…":o.label;s.onclick=()=>{show(o);center(o)};box.appendChild(s)});p.appendChild(box)}
+  add("h4","关联"+TN[ty]+"（"+xs.length+"）");const box=document.createElement("div");xs.forEach(o=>{const s=document.createElement("button");s.className="nb";s.textContent=o.label.length>28?o.label.slice(0,27)+"…":o.label;s.onclick=()=>{show(o);center(o)};box.appendChild(s)});p.appendChild(box)}
  refresh()}
-function center(n){view.x=innerWidth/2-n.x*view.k-150;view.y=innerHeight/2-n.y*view.k;apply()}
-function bind(g,n){let sx,sy,moved;g.addEventListener("pointerdown",e=>{e.stopPropagation();g.setPointerCapture(e.pointerId);n.dragging=true;n.fixed=true;moved=false;sx=e.clientX;sy=e.clientY;alpha=Math.max(alpha,.3)});
+function center(n){view.x=(svg.clientWidth-(innerWidth>650?panel.offsetWidth:0))/2-n.x*view.k;view.y=(svg.clientHeight-(innerWidth<=650?panel.offsetHeight:0))/2-n.y*view.k;apply()}
+function bind(g,n){g.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();show(n)}};let sx,sy,moved;g.addEventListener("pointerdown",e=>{e.stopPropagation();g.setPointerCapture(e.pointerId);n.dragging=true;n.fixed=true;moved=false;sx=e.clientX;sy=e.clientY;alpha=Math.max(alpha,.3)});
  g.addEventListener("pointermove",e=>{if(!n.dragging)return;if(Math.abs(e.clientX-sx)+Math.abs(e.clientY-sy)>3)moved=true;n.x+=e.movementX/view.k;n.y+=e.movementY/view.k;draw()});
  g.addEventListener("pointerup",e=>{n.dragging=false;if(n.type!=="disease")n.fixed=false;if(!moved)show(n)});}
 let pan=null;$("stage").addEventListener("pointerdown",e=>{pan={x:e.clientX,y:e.clientY};$("stage").classList.add("drag")});
@@ -153,15 +144,15 @@ addEventListener("pointermove",e=>{if(!pan)return;view.x+=e.clientX-pan.x;view.y
 addEventListener("pointerup",()=>{pan=null;$("stage").classList.remove("drag")});
 $("stage").addEventListener("dblclick",e=>{if(e.target.closest(".node"))return;sel=null;panel.style.display="none";refresh()});
 $("stage").addEventListener("wheel",e=>{e.preventDefault();const f=Math.exp(-e.deltaY*.0015),k=Math.max(.15,Math.min(5,view.k*f));
- view.x=e.clientX-(e.clientX-view.x)*(k/view.k);view.y=e.clientY-(e.clientY-view.y)*(k/view.k);view.k=k;apply()},{passive:false});
+ const rect=svg.getBoundingClientRect(),x=e.clientX-rect.left,y=e.clientY-rect.top;view.x=x-(x-view.x)*(k/view.k);view.y=y-(y-view.y)*(k/view.k);view.k=k;apply()},{passive:false});
 $("task").onchange=e=>load(+e.target.value);$("q").oninput=e=>{q=e.target.value.trim().toLowerCase();refresh()};
 $("fit").onclick=fit;$("pause").onclick=e=>{paused=!paused;e.target.textContent=paused?"继续布局":"暂停布局"};
 $("types").onchange=e=>{const t=e.target.dataset.t;e.target.checked?hidden.delete(t):hidden.add(t);refresh()};
 addEventListener("resize",fit);
-if(DATA.length){load(+((location.hash.match(/t=(\d+)/)||[0,0])[1])<DATA.length?+((location.hash.match(/t=(\d+)/)||[0,0])[1]):0);$("task").value=String(+((location.hash.match(/t=(\d+)/)||[0,0])[1])<DATA.length?+((location.hash.match(/t=(\d+)/)||[0,0])[1]):0);tick()}else{document.body.insertAdjacentHTML("beforeend",'<div style="position:fixed;inset:0;display:grid;place-items:center;color:#9fb0d8">没有可展示的图谱数据</div>')}
+if(DATA.length){load(+((location.hash.match(/t=(\d+)/)||[0,0])[1])<DATA.length?+((location.hash.match(/t=(\d+)/)||[0,0])[1]):0);$("task").value=String(+((location.hash.match(/t=(\d+)/)||[0,0])[1])<DATA.length?+((location.hash.match(/t=(\d+)/)||[0,0])[1]):0);tick()}else{$("stage").insertAdjacentHTML("afterend",'<div class="empty-graph">没有可展示的图谱数据</div>')}
 </script></body></html>"""
 
 
 def render_graph(rep):
     data = json.dumps(graph_data(rep.get("task_results") or []), ensure_ascii=False).replace("</", "<\\/")
-    return PAGE.replace("__SAMPLE__", esc(str(rep.get("sample_id", "")))).replace("__DATA__", data)
+    return PAGE.replace("__CSS__", GRAPH_CSS).replace("__SAMPLE__", esc(str(rep.get("sample_id", "")))).replace("__DATA__", data)

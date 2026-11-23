@@ -5,6 +5,7 @@ from pathlib import Path
 import shutil
 
 from .common import digest, read_json
+from .report_theme import document
 
 
 def deliver_popgen(delivery, stages, egene_files, sample_id):
@@ -23,11 +24,9 @@ def deliver_popgen(delivery, stages, egene_files, sample_id):
             pack_path = Path(spec["path"])
     if pack_path is None:
         (folder / "report.html").write_text(
-            '<!doctype html><html lang="zh-CN"><meta charset="utf-8">'
-            '<meta name="viewport" content="width=device-width,initial-scale=1">'
-            '<title>PopGen 报告未提供</title><h1>PopGen 报告未提供</h1>'
-            f'<p>样本：{escape(sample_id)}</p><p>本次从下游结果开始，未找到可验证的原始 PopGen 证据包。'
-            '无法展示本次 PopGen 祖源、频率和 GNN 结论。</p></html>', encoding="utf-8")
+            document('PopGen 报告未提供', 'POPGEN　/　EVIDENCE STATUS',
+                f'<section class="finding"><h2>样本：{escape(sample_id)}</h2><p>本次从下游结果开始，未找到可验证的原始 PopGen 证据包。'
+                '无法展示本次 PopGen 祖源、频率和 GNN 结论。</p></section>'), encoding="utf-8")
         return "unavailable"
     if pack_path.stat().st_size != spec["bytes"] or digest(pack_path) != spec["sha256"]:
         raise ValueError("最终交付的 PopGen 证据包完整性校验失败")

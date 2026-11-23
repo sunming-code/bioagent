@@ -1,0 +1,4 @@
+sample_id	normalized_id	intervar_gene	gene_occurrence	acmg_classification	raw_classification	source_GT	triage_route	integrated_evidence	data_flags	evidence_changes
+SYNTHETIC	GRCh38:chr1:1:A:G	TP53	1	Uncertain significance	Uncertain significance	0/1	background	"{""PM2"": 0}"	"[""synthetic_fixture""]"	{}
+SYNTHETIC	GRCh38:chr1:2:A:G	BRCA1	1	Uncertain significance	Uncertain significance	0/1	background	"{""PM2"": 0}"	"[""synthetic_fixture""]"	{}
+SYNTHETIC	GRCh38:chr1:3:A:G	NEARBY	1	Uncertain significance	Uncertain significance	0/1	background	"{""PM2"": 0}"	"[""synthetic_fixture""]"	{}

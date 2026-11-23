@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0",
+  "sample_id": "SYNTHETIC",
+  "assembly": "GRCh38",
+  "case": {
+    "description": "synthetic case"
+  },
+  "phenotypes": {
+    "terms": []
+  },
+  "ancestry": {
+    "superpop": "EUR"
+  },
+  "frequency_policy": {
+    "af_source": "AF_EUR"
+  },
+  "selection": {
+    "candidate_count": 1,
+    "selected_candidate_count": 1,
+    "omitted_candidate_count": 0,
+    "requested_genes": [],
+    "automatic_background_vus_inclusion": false
+  },
+  "upstream_summary": {
+    "conclusion": {
+      "finding": "合成上游结论。"
+    }
+  },
+  "limitations": [
+    "仅基因层面知识，不含变异层面证据。"
+  ],
+  "tasks": []
+}

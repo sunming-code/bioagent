@@ -5,8 +5,9 @@ import tempfile
 import unittest
 
 from egene_pipeline import gdgpt
-from egene_pipeline.gdgpt_graph import graph_data
+from egene_pipeline.gdgpt_graph import graph_data, render_graph
 from egene_pipeline.gdgpt_report import render_plain, render_professional
+from egene_pipeline.report_theme import CSS
 
 KG_ONE = """[Neo4j_KG] intent=gene_disease rows=2
 - disease=Hypertrophic cardiomyopathy, gene=MYH7, relation=ASSOCIATED_WITH, source=ClinVar
@@ -148,6 +149,26 @@ class GDgptReportTests(unittest.TestCase):
         report = self.write([result()])
         self.assertEqual(render_professional(report), render_professional(report))
         self.assertEqual(render_plain(report), render_plain(report))
+
+    def test_offline_studio_examples_match_the_source_record(self):
+        folder = Path(__file__).resolve().parents[1] / 'pipeline_ui/static/example'
+        record = json.loads((folder / 'report.json').read_text(encoding='utf-8'))
+        for name, render in [('report.html', render_professional), ('report_plain.html', render_plain),
+                             ('report_graph.html', render_graph)]:
+            with self.subTest(name=name):
+                html = render(record)
+                self.assertEqual(html, (folder / name).read_text(encoding='utf-8'))
+                self.assertIn(CSS, html)
+
+    def test_summary_precedes_metrics_and_percent_bars_use_the_full_scale(self):
+        record = self.write([result()])
+        record['task_results'][0]['kg_coverage_ratio'] = 0.41
+        html = render_professional(record)
+        self.assertLess(html.index('id="sum"'), html.index('class="kpis"'))
+        self.assertIn('width:41.00%', html)
+        self.assertIn('class="chart-value">41%</span>', html)
+        record['task_results'] = []
+        self.assertNotIn('href="#tasks"', render_professional(record))
 
 
 if __name__ == "__main__":

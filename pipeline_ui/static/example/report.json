@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0",
+  "sample_id": "SYNTHETIC",
+  "assembly": "GRCh38",
+  "generated_at": "2026-11-21T10:56:08.895452+00:00",
+  "analysis_status": "analyzed",
+  "summary": "已完成 1 项基因机制分析。",
+  "upstream_summary": {
+    "conclusion": {
+      "finding": "合成上游结论。"
+    }
+  },
+  "selection": {
+    "candidate_count": 1,
+    "selected_candidate_count": 1,
+    "omitted_candidate_count": 0,
+    "requested_genes": [],
+    "automatic_background_vus_inclusion": false
+  },
+  "case": {
+    "description": "synthetic case"
+  },
+  "phenotypes": {
+    "terms": []
+  },
+  "ancestry": {
+    "superpop": "EUR"
+  },
+  "frequency_policy": {
+    "af_source": "AF_EUR"
+  },
+  "runtime": {
+    "text_model": "synthetic",
+    "code_version": "test"
+  },
+  "task_results": [
+    {
+      "schema_version": "1.0",
+      "status": "complete",
+      "task_id": "task-0000000000000000",
+      "sample_id": "SYNTHETIC",
+      "gene": "MYH7",
+      "kind": "disease_candidate",
+      "candidate_id": "cand-1",
+      "answer_text": "## 机制\n\n正文 [KG-supported] 说明。",
+      "kg_coverage_level": "high",
+      "kg_coverage_ratio": 0.9,
+      "elapsed_seconds": 12.5,
+      "tool_calls": [
+        {
+          "role": "Cardiologist",
+          "result": {
+            "text": "[Neo4j_KG] intent=gene_disease rows=2\n- disease=Hypertrophic cardiomyopathy, gene=MYH7, relation=ASSOCIATED_WITH, source=ClinVar\n- disease=Hypertrophic cardiomyopathy, pathway=Cardiac muscle contraction, genes=MYH7;TNNT2, gene_count=2\n",
+            "runs": [
+              {
+                "rows": 2
+              }
+            ]
+          }
+        }
+      ],
+      "execution_timings": [
+        {
+          "ok": true
+        }
+      ],
+      "diagnosis_established": false,
+      "classification_labels_modified": false,
+      "risk_probability": null
+    }
+  ],
+  "limitations": [
+    "仅基因层面知识，不含变异层面证据。"
+  ],
+  "diagnosis_established": false,
+  "risk_probability": null,
+  "classification_labels_modified": false
+}

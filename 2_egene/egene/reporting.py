@@ -23,6 +23,8 @@ from .common import ROOT, checksum, now, write_json
 from .disease import validate_acmg
 from .ingest import read_json, tsv_value
 
+REPORT_CSS = (ROOT.parent / "egene_pipeline/report_theme.css").read_text(encoding="utf-8")
+
 LABELS = {"Pathogenic": "致病", "Likely pathogenic": "可能致病", "Uncertain significance": "意义未明（VUS）",
           "Likely benign": "可能良性", "Benign": "良性", "not_evaluated": "未判级"}
 ORDER = {label: index for index, label in enumerate(LABELS)}
@@ -255,22 +257,15 @@ def render_html(report):
     return f'''<!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="light"><title>{e(sample['sample_id'])} · e-Gene 分析报告</title>
-<style>
-:root{{--ink:#182638;--muted:#53657a;--line:#dce5ee;--accent:#006c76;--bg:#f2f6f8}}
-*{{box-sizing:border-box}}body{{margin:0;background:var(--bg);color:var(--ink);font:15px/1.7 system-ui,-apple-system,"Noto Sans SC",sans-serif}}
-main{{max-width:1240px;margin:auto;padding:30px 24px 60px}}header{{border-top:5px solid var(--accent);padding:24px 0}}h1{{font-size:30px;margin:4px 0 12px}}h2{{font-size:21px;margin:0 0 16px}}h3{{font-size:17px}}
-.eyebrow{{font-size:12px;color:var(--accent);letter-spacing:2px}}.sub,.muted{{color:var(--muted)}}section{{background:white;border:1px solid var(--line);border-radius:12px;padding:24px;margin:20px 0}}
-.metrics{{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}}.metric{{border:1px solid var(--line);border-radius:10px;padding:18px;background:white}}.metric span{{display:block;color:var(--muted);font-size:13px}}.metric strong{{font-size:30px;color:var(--accent)}}
-.conclusion{{border-left:4px solid var(--accent)}}.table-scroll{{overflow:auto}}table{{width:100%;border-collapse:collapse;font-size:13px}}th,td{{text-align:left;vertical-align:top;padding:10px 12px;border-bottom:1px solid var(--line);overflow-wrap:anywhere}}th{{background:#eef5f7;font-weight:600;white-space:nowrap}}
-input{{padding:9px 12px;border:1px solid var(--line);border-radius:6px;width:min(100%,460px);margin:0 0 14px}}button,.downloads a{{display:inline-block;border:1px solid var(--line);background:white;color:var(--accent);padding:8px 12px;border-radius:6px;text-decoration:none;margin:4px;cursor:pointer}}details{{border-top:1px solid var(--line);padding:12px 0}}summary{{cursor:pointer;font-weight:600}}pre{{white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;background:#f5f7fa;padding:14px}}.empty{{color:var(--muted);padding:18px;background:#f7f9fb}}footer{{font-size:12px;color:var(--muted)}}
-@media(max-width:700px){{.metrics{{grid-template-columns:repeat(2,1fr)}}main{{padding:16px}}section{{padding:16px}}h1{{font-size:24px}}}}
-@media print{{body{{background:white}}main{{max-width:none;padding:0}}section{{break-inside:avoid;border-radius:0}}.downloads,button,input{{display:none}}.table-scroll{{overflow:visible}}a{{color:inherit}}}}
-</style></head><body><main>
+<style>{REPORT_CSS}
+input,button,.downloads a{{font:inherit;background:var(--paper);color:var(--accent);border:1px solid var(--line);border-radius:4px;padding:7px 12px}}input{{width:min(100%,460px);margin-bottom:12px}}button,summary{{cursor:pointer}}.downloads{{display:flex;flex-wrap:wrap;gap:6px}}.downloads a{{text-decoration:none}}details{{border-top:1px solid var(--line);padding:10px 0}}th{{white-space:nowrap}}
+@media print{{.downloads,button,input{{display:none}}.table-scroll{{overflow:visible}}}}
+</style></head><body><main><div class="folio"><span class="imprint">BioAgent</span><span>E-GENE　/　RESEARCH EDITION</span></div>
 <header><div class="eyebrow">E-GENE · VARIANT INTERPRETATION</div><h1>遗传变异与疾病关联分析报告</h1>
 <div class="sub">样本 {e(sample['sample_id'])} · GRCh38 · {e(report['generated_at_local'])}</div><button type="button" onclick="window.print()">打印 / 保存 PDF</button></header>
-<div class="metrics">{metrics}</div>
 <section class="conclusion"><h2>本次结果</h2><p>{e(report['conclusion']['finding'])}</p><p>{e(report['conclusion']['interpretation'])}</p>
 <p class="muted">个体患病概率：未估计。ACMG 判级范围：{e(report['analysis_scope']['acmg_scope'])}；未判级变异 {counts['variants_not_classified']:,} 个。</p></section>
+<div class="metrics">{metrics}</div>
 <section><h2>病例与表型</h2><p>性别：{e({'male':'男','female':'女','unknown':'未知'}.get(sample.get('sex'),'未知'))}；年龄：{e(sample.get('age_years') if sample.get('age_years') is not None else '未提供')}；发病年龄：{e(sample.get('onset_age_years') if sample.get('onset_age_years') is not None else '未提供')}。</p>
 <p>{e(phenotype_text)}</p>{resolved}<ul>{unresolved}</ul><details><summary>原始临床描述</summary><p>{e(report['case'].get('clinical_description') or '未提供')}</p></details></section>
 <section><h2>疾病候选与遗传解释</h2><p class="muted">按基因—疾病背景展示；表型分数用于复核排序。携带者可能性是候选表的一个子集。预览最多 100 项，完整结果见下载文件。</p>

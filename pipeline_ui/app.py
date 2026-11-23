@@ -24,6 +24,7 @@ from starlette.requests import Request
 from starlette.responses import FileResponse, JSONResponse, RedirectResponse, StreamingResponse
 from starlette.routing import Mount, Route
 from starlette.staticfiles import StaticFiles
+from . import studio
 
 ROOT = Path(__file__).resolve().parents[1]
 RUNS = ROOT / "runs"
@@ -149,6 +150,7 @@ def _result_previews(outdir: Path) -> dict:
 
 def _stage_artifacts(run_id: str, outdir: Path, recorded: dict, status_by_stage: dict[str, str] | None = None) -> list[dict]:
     """Expose only files inside this run so completed stages are immediately usable."""
+    outdir = outdir.resolve()
     result = []
     status_by_stage = status_by_stage or {}
     items = dict(recorded)
@@ -247,6 +249,11 @@ def snapshot(run_id: str) -> dict:
         "requested_end_stage": manifest.get("requested_end_stage") or request_state.get("request", {}).get("end_stage"),
         "log_tail": log_tail,
         "report_url": f"/api/runs/{run_id}/report" if (outdir / "delivery/index.html").is_file() else None,
+        "archive_url": f"/api/runs/{run_id}/files/delivery.zip" if (outdir / "delivery.zip").is_file() else None,
+        "gdgpt_reports": {filename: f"/api/runs/{run_id}/files/{folder}/{filename}"
+                          for folder in ("delivery/gdgpt", "04_gdgpt")
+                          for filename in ("report.html", "report_plain.html", "report_graph.html")
+                          if (outdir / folder / filename).is_file()},
         "request": request_state.get("request", {}),
     }
 
@@ -343,6 +350,7 @@ def _validate_request(payload: dict) -> dict:
     if scope not in ("reference-context", "matched-trait") or mode not in ("reuse", "recompute") or plots not in ("all", "python", "none"):
         raise HTTPException(400, "AtheroMap 参数无效")
     return {"start_stage": start_stage, "end_stage": end_stage, "input_type": input_type,
+            "package_delivery": payload.get("package_delivery") is True and end_stage in ("gdgpt", "atheromap"),
             "source": source, "reference": reference, "threads": threads,
             "skip_cv": bool(payload.get("skip_cv")), "skip_gnn": bool(payload.get("skip_gnn")),
             "max_rounds": max_rounds, "task_timeout": task_timeout, "prompt_variants": prompt_variants,
@@ -359,7 +367,9 @@ def _command_for(request: dict, output_dir: Path) -> list[str]:
         command += ["--" + request["input_type"].replace("_", "-"), str(request["source"]), "--reference", str(request["reference"])]
     else:
         command += ["--" + request["input_type"].replace("_", "-"), str(request["source"])]
-    command += ["--outdir", str(output_dir), "--threads", str(request["threads"]), "--end-stage", request["end_stage"]]
+    command += ["--outdir", str(output_dir), "--threads", str(request["threads"])]
+    if not request['package_delivery']:
+        command += ["--end-stage", request["end_stage"]]
     if (SELECTABLE_STAGES.index(request["start_stage"]) <= SELECTABLE_STAGES.index("egene")
             and SELECTABLE_STAGES.index(request["end_stage"]) >= SELECTABLE_STAGES.index("egene")):
         command += ["--ref-mismatch", request["ref_mismatch"]]
@@ -388,7 +398,7 @@ def _command_for(request: dict, output_dir: Path) -> list[str]:
 
 
 async def index(request: Request) -> FileResponse:
-    return FileResponse(STATIC / "index.html")
+    return FileResponse(STATIC / "studio.html")
 
 
 async def create_run(request: Request) -> JSONResponse:
@@ -398,15 +408,28 @@ async def create_run(request: Request) -> JSONResponse:
         raise HTTPException(400, "请求必须是 JSON 对象")
     if not isinstance(payload, dict):
         raise HTTPException(400, "请求必须是 JSON 对象")
-    validated = _validate_request(payload)
+    return _enqueue(_validate_request(payload))
+
+
+async def example_run(request: Request) -> JSONResponse:
+    validated = _validate_request({'start_stage':'gdgpt', 'end_stage':'gdgpt', 'input_type':'egene_report', 'package_delivery':True,
+                                   'input_path':str(STATIC.parent/'examples/no_candidates/report_manifest.json')})
+    return _enqueue(validated, synthetic=True)
+
+
+def _enqueue(validated: dict, *, synthetic: bool = False) -> JSONResponse:
     run_id = "ui_" + time.strftime("%Y%m%dT%H%M%SZ", time.gmtime()) + "_" + uuid.uuid4().hex[:8]
     directory = RUNS / run_id
     directory.mkdir()
     output_dir = directory / "output"
     command = _command_for(validated, output_dir)
+    if synthetic:
+        for stage in ('popgen', 'egene', 'gdgpt'):
+            command.extend([f'--{stage}-python', sys.executable])
     request_record = {key: (str(value) if isinstance(value, Path) else value)
                       for key, value in validated.items() if key not in {"source"}}
     request_record["input_path"] = str(validated["source"])
+    request_record["synthetic_example"] = synthetic
     state = {"run_id": run_id, "status": "queued", "created_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
              "output_dir": str(output_dir), "request": request_record, "command": command}
     _write_json(directory / "ui_state.json", state)
@@ -502,11 +525,13 @@ async def artifact(request: Request) -> FileResponse:
     return FileResponse(path)
 
 
-app = Starlette(routes=[
+app = Starlette(middleware=studio.middleware, exception_handlers={studio.catalog.Problem: studio.problem}, routes=[
+    *studio.routes,
     Route("/", index, methods=["GET"]),
     Mount("/static", app=StaticFiles(directory=STATIC), name="static"),
     Route("/api/runs", create_run, methods=["POST"]),
     Route("/api/runs", list_runs, methods=["GET"]),
+    Route("/api/example-run", example_run, methods=["POST"]),
     Route("/api/runs/{run_id}", get_run, methods=["GET"]),
     Route("/api/runs/{run_id}/events", events, methods=["GET"]),
     Route("/api/runs/{run_id}/stop", stop_run, methods=["POST"]),

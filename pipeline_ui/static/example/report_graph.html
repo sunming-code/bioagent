@@ -1,0 +1,147 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>知识图谱 · SYNTHETIC</title><style>:root {
+  color-scheme: light;
+  --bg: #f6f2ec; --paper: #fffcf7; --wash: #eee7df; --line: #d6ccc2;
+  --ink: #362e2a; --muted: #695e58; --accent: #835747; --plum: #765966;
+  --ochre: #88683e; --rose: #e9d8d3; --lilac: #e9dfe3;
+  --node-disease: #985f52; --node-gene: #806b60; --node-pathway: #866879; --node-focus: #9a7444;
+  --serif: Georgia, 'Songti SC', 'STSong', 'Noto Serif CJK SC', SimSun, serif;
+  --sans: -apple-system, 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
+  --mono: ui-monospace, 'SFMono-Regular', Consolas, monospace;
+  accent-color: var(--accent);
+}
+* { box-sizing: border-box }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.7 var(--sans); overflow-wrap: anywhere }
+main, .wrap { width: min(1192px,100%); margin: 0 auto; padding: 0 clamp(16px,4vw,52px) 56px }
+h1,h2,h3 { font-family: var(--serif); line-height: 1.3; text-wrap: balance }
+h1 { font-size: clamp(28px,4vw,46px); margin: 9px 0 12px; font-weight: 600 }
+h2 { font-size: clamp(21px,2.4vw,28px); margin: 0 0 14px }
+h3 { font-size: 19px; margin: 0 0 10px }
+p { margin: .65em 0 }
+a,summary { color: var(--accent); text-underline-offset: .24em }
+a:hover,summary:hover { color: var(--plum) }
+:focus-visible { outline: 2px solid var(--plum); outline-offset: 3px }
+::selection { background: var(--rose); color: var(--ink) }
+header { padding: 28px 0 20px; border-bottom: 1px solid var(--line) }
+.eyebrow, .folio, .overline { color: var(--accent); font: 600 11px/1.5 var(--mono); letter-spacing: .13em }
+.folio { display: flex; justify-content: space-between; align-items: center; gap: 18px; padding: 14px 0; border-bottom: 1px solid var(--line); color: var(--muted) }
+.imprint { display: inline-flex; align-items: center; gap: 9px; font: 600 17px/1.2 var(--serif); color: var(--ink); letter-spacing: 0 }
+.imprint::before { content: ''; width: 13px; height: 17px; border: 1px solid var(--accent); border-left: 4px double var(--accent); transform: skewY(-10deg) }
+section, .card { margin: 18px 0; border: 1px solid var(--line); background: var(--paper); padding: clamp(16px,2.2vw,28px); border-radius: 5px; min-width: 0 }
+.muted,.mute,.sub,.note,figcaption,.kgcap { color: var(--muted) }
+.metric,.kpi,table,svg { font-variant-numeric: tabular-nums }
+table { border-collapse: collapse; width: 100%; font-size: 13px }
+th,td { text-align: left; vertical-align: top; padding: 9px 12px; border-bottom: 1px solid var(--line) }
+th { background: var(--wash); font-weight: 600 } tbody tr:hover { background: var(--bg) }
+.table-wrap,.table-scroll { max-width: 100%; overflow-x: auto }
+.metrics,.kpis { display: grid; grid-template-columns: repeat(auto-fit,minmax(min(130px,100%),1fr)); background: var(--wash); gap: 1px; border: 1px solid var(--line); border-radius: 4px; overflow: hidden }
+.metric,.kpi { display: flex; flex-direction: column; justify-content: space-between; padding: 12px 16px; background: var(--paper) }
+.metric strong,.kpi b { color: var(--ink); font: 500 clamp(21px,2.1vw,29px)/1.25 var(--serif) }
+.metric span,.kpi span { font-size: 12px; color: var(--muted) }
+.empty,pre { background: var(--wash); color: var(--ink); padding: 14px; border-radius: 3px }
+pre { white-space: pre-wrap; overflow-wrap: anywhere; font: 13px/1.7 var(--mono) }
+footer { border-top: 1px solid var(--line); padding-top: 16px; margin-top: 32px; color: var(--muted); font-size: 12px }
+.digest { max-width: 940px } .digest header .sub { margin: 0 }
+.digest .finding, .conclusion { border-left: 3px solid var(--accent) }
+.file-list { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit,minmax(min(260px,100%),1fr)); gap: 0 24px }
+.file-list li { border-bottom: 1px solid var(--line); padding: 10px 0 } .file-list a { display: block }
+@media (max-width: 640px) { .metrics,.kpis { grid-template-columns: repeat(2,minmax(0,1fr)) } header { padding-top: 21px } }
+@media print { :root { --bg: white; --paper: white } main,.wrap { max-width: none; width: 100%; padding: 0 } header { padding-top: 10px } h2,h3 { break-after: avoid } a { color: inherit } svg,.kpis,.metrics { break-inside: avoid } }
+html,body { height: 100%; overflow: hidden }
+body { display: flex; flex-direction: column }
+.atlas-head { display: flex; align-items: center; flex-wrap: wrap; justify-content: space-between; gap: 8px 20px; background: var(--paper); padding: 12px clamp(12px,3vw,40px); border-bottom: 1px solid var(--line) }
+.atlas-head h1 { font: 600 23px/1.3 var(--serif); margin: 0 }.atlas-head small { color: var(--muted); font: 11px var(--mono); margin-left: 12px }.atlas-head a { font-size: 13px }
+.atlas-meta { display: flex; gap: 12px; align-items: baseline; flex-wrap: wrap }.atlas-meta span { font: 12px var(--mono); color: var(--muted) }.focus-key { color: var(--ochre); margin-right: 12px }
+.bar { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 16px; padding: 9px clamp(12px,3vw,40px); border-bottom: 1px solid var(--line); background: var(--bg) }
+.pill { display: inline-flex; align-items: center; gap: 6px; max-width: 100% } button,select,input:not([type=checkbox]) { color: var(--ink); background: var(--paper); border: 1px solid var(--line); border-radius: 4px; padding: 5px 9px; font: 13px var(--sans); max-width: 100% }
+button { cursor: pointer } button:hover { background: var(--wash) } input[type=search] { width: 155px } #types { flex-wrap: wrap; font-size: 12px } label { white-space: nowrap }
+.atlas-work { flex: 1; min-height: 0; position: relative } #stage { height: 100%; cursor: grab; touch-action: none; background: var(--paper) } #stage.drag { cursor: grabbing } svg { width: 100%; height: 100%; display: block }
+#panel { position: absolute; top: 12px; right: 12px; width: min(305px,calc(100% - 24px)); max-height: calc(100% - 24px); overflow: auto; background: var(--paper); border: 1px solid var(--line); border-top: 3px solid var(--plum); padding: 18px; display: none; box-shadow: 0 4px 20px #42332712 }
+#panel h2 { margin: 0 0 6px; font-size: 21px }.tag { display: inline-block; padding: 1px 8px; border: 1px solid; border-radius: 3px; font-size: 12px; margin-bottom: 8px }
+#panel h4 { margin: 12px 0 2px; color: var(--muted); font-size: 12px }.nb { display: inline-block; margin: 2px 4px 2px 0 }.nb:hover { background: var(--wash) } #x { float: right }
+.hint { padding: 7px 16px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px }.node { cursor: pointer }.node text { pointer-events: none; paint-order: stroke; stroke: var(--paper); stroke-width: 3px }.dim { opacity: .16 }.edge { stroke-linecap: round }
+.sel circle,.sel rect,.node:focus-visible > :first-child { stroke: var(--ink); stroke-width: 3 }.hit circle,.hit rect { stroke: var(--accent); stroke-width: 4; stroke-dasharray: 3 2 }.empty-graph { position: absolute; inset: 0; display: grid; place-items: center; color: var(--muted); pointer-events: none }
+@media(max-width: 650px) { .atlas-head small { display: none }.bar { gap: 6px 10px }.bar .pill { flex-shrink: 1 } input[type=search] { width: 120px } #panel { top: auto; bottom: 8px; right: 8px; max-height: 44% }.hint { font-size: 11px } }
+</style></head><body>
+<header class="atlas-head"><h1>知识图谱<small>GDGPT　/　EVIDENCE ATLAS</small></h1><div class="atlas-meta"><span>样本　SYNTHETIC</span><a href="report.html">← 专业报告</a></div></header>
+<div class="bar"><div class="pill"><select aria-label="分析任务" id="task"></select></div>
+<div class="pill"><input id="q" aria-label="搜索节点" type="search" placeholder="搜索节点…"></div>
+<div class="pill" id="types"></div><div class="pill"><button id="fit">适应窗口</button><button id="pause">暂停布局</button></div></div>
+<div class="atlas-work"><div id="stage"><svg id="svg" aria-label="交互式知识图谱"><g id="vp"><g id="el"></g><g id="nl"></g></g></svg></div><aside id="panel" aria-label="节点证据"></aside></div>
+<div class="hint"><span class="focus-key">● 本次关注基因</span>拖拽空白处平移 · 滚轮缩放 · 点击节点查看证据 · 双击空白取消选择</div>
+<script>
+const DATA=[{"name": "MYH7 / disease_candidate", "gene": "MYH7", "coverage": "high", "nodes": [{"id": "D:Hypertrophic cardiomyopathy", "type": "disease", "label": "Hypertrophic cardiomyopathy", "info": {}}, {"id": "G:MYH7", "type": "gene", "label": "MYH7", "info": {"来源": ["ClinVar"], "关系": ["ASSOCIATED_WITH"]}, "focus": true}, {"id": "P:Cardiac muscle contraction", "type": "pathway", "label": "Cardiac muscle contraction", "info": {"通路来源": [""], "关联基因数": ["2"]}}, {"id": "G:MYH7;TNNT2", "type": "gene", "label": "MYH7;TNNT2", "info": {}}], "links": [{"s": "D:Hypertrophic cardiomyopathy", "t": "G:MYH7", "rel": ["ASSOCIATED_WITH"], "src": ["ClinVar"]}, {"s": "D:Hypertrophic cardiomyopathy", "t": "P:Cardiac muscle contraction", "rel": [], "src": []}, {"s": "G:MYH7;TNNT2", "t": "P:Cardiac muscle contraction", "rel": [], "src": []}]}];const COL={disease:"var(--node-disease)",gene:"var(--node-gene)",pathway:"var(--node-pathway)"},TN={disease:"疾病",gene:"基因",pathway:"通路"};
+const NS="http://www.w3.org/2000/svg",$=id=>document.getElementById(id);
+const svg=$("svg"),vp=$("vp"),EL=$("el"),NL=$("nl"),panel=$("panel");
+let nodes=[],links=[],byId={},nb={},sel=null,view={x:0,y:0,k:1},alpha=1,paused=false,hidden=new Set(),q="";
+const mk=(t,a)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e};
+DATA.forEach((t,i)=>{const o=document.createElement("option");o.value=i;o.textContent=t.name+(t.coverage?" · 覆盖"+t.coverage:"");$("task").appendChild(o)});
+for(const t in TN){const l=document.createElement("label");l.innerHTML='<input type="checkbox" checked data-t="'+t+'"> <span style="color:'+COL[t]+'">●</span> '+TN[t];$("types").appendChild(l)}
+function load(i){
+ const T=DATA[i];sel=null;panel.style.display="none";EL.innerHTML="";NL.innerHTML="";byId={};nb={};
+ nodes=T.nodes.map((n,j)=>{const a=j*2.4,r=40+Math.sqrt(j)*40;return Object.assign({},n,{x:Math.cos(a)*r,y:Math.sin(a)*r,vx:0,vy:0,fixed:n.type==="disease"})});
+ nodes.forEach(n=>{byId[n.id]=n;nb[n.id]=new Set();n.r=n.type==="disease"?26:n.focus?14:n.type==="pathway"?10:8});
+ // Disease nodes are anchors. One disease sits at the origin; several must be spread on a
+ // ring, otherwise every one of them is pulled to (0,0) and their labels stack illegibly.
+ const dz=nodes.filter(n=>n.type==="disease");
+ if(dz.length>1){const dr=Math.max(150,30*dz.length+26*2);
+  dz.forEach((n,j)=>{const a=-Math.PI/2+j*2*Math.PI/dz.length;n.ax=Math.cos(a)*dr;n.ay=Math.sin(a)*dr;n.x=n.ax;n.y=n.ay})}
+ else dz.forEach(n=>{n.ax=0;n.ay=0});
+ links=T.links.filter(l=>byId[l.s]&&byId[l.t]).map(l=>Object.assign({},l,{a:byId[l.s],b:byId[l.t]}));
+ links.forEach(l=>{nb[l.s].add(l.t);nb[l.t].add(l.s);
+  l.el=mk("line",{class:"edge flow","stroke":l.a.type==="gene"&&l.b.type==="pathway"||l.b.type==="gene"&&l.a.type==="pathway"?"var(--node-pathway)":"var(--node-gene)","stroke-width":1.3,"stroke-opacity":.6});
+  const tt=mk("title",{});tt.textContent=(l.rel.join("、")||"关联")+(l.src.length?" · 来源："+l.src.join("、"):"");l.el.appendChild(tt);EL.appendChild(l.el)});
+ nodes.forEach(n=>{const g=mk("g",{class:"node",role:"button",tabindex:0,"aria-label":TN[n.type]+" · "+n.label});
+  const sh=n.type==="pathway"?mk("rect",{x:-n.r,y:-n.r,width:n.r*2,height:n.r*2,rx:4}):mk("circle",{r:n.r});
+  sh.setAttribute("fill",n.focus?"var(--node-focus)":COL[n.type]);g.appendChild(sh);
+  const tx=mk("text",{x:n.r+5,y:4,fill:"var(--ink)","font-size":n.type==="disease"?13:11.5});tx.textContent=n.label.length>34?n.label.slice(0,33)+"…":n.label;
+  if(n.type==="disease"){tx.setAttribute("x",0);tx.setAttribute("y",n.r+16);tx.setAttribute("text-anchor","middle")}g.appendChild(tx);
+  const ti=mk("title",{});ti.textContent=n.label;g.appendChild(ti);n.el=g;NL.appendChild(g);bind(g,n)});
+ alpha=1;draw();setTimeout(fit,700)}
+function tick(){
+ if(!paused&&alpha>0.01){
+  for(const a of nodes)for(const b of nodes){if(a===b)continue;let dx=a.x-b.x,dy=a.y-b.y,d2=dx*dx+dy*dy+.01;if(d2>90000)continue;const f=2600/d2*alpha,d=Math.sqrt(d2);a.vx+=dx/d*f;a.vy+=dy/d*f}
+  for(const l of links){const dx=l.b.x-l.a.x,dy=l.b.y-l.a.y,d=Math.sqrt(dx*dx+dy*dy)||1,len=l.a.type==="disease"||l.b.type==="disease"?(l.a.type==="pathway"||l.b.type==="pathway"?230:120):90,f=(d-len)*.02*alpha;
+   l.a.vx+=dx/d*f;l.a.vy+=dy/d*f;l.b.vx-=dx/d*f;l.b.vy-=dy/d*f}
+  for(const n of nodes){if(n.fixed&&n.type==="disease"&&!n.dragging){n.x+=((n.ax||0)-n.x)*.1;n.y+=((n.ay||0)-n.y)*.1;continue}n.vx-=n.x*.002*alpha;n.vy-=n.y*.002*alpha;if(!n.dragging){n.x+=n.vx;n.y+=n.vy}n.vx*=.78;n.vy*=.78}
+  alpha*=.992;draw()}
+ requestAnimationFrame(tick)}
+function draw(){for(const n of nodes)n.el.setAttribute("transform","translate("+n.x.toFixed(1)+","+n.y.toFixed(1)+")");
+ for(const l of links){l.el.setAttribute("x1",l.a.x);l.el.setAttribute("y1",l.a.y);l.el.setAttribute("x2",l.b.x);l.el.setAttribute("y2",l.b.y)}}
+function apply(){vp.setAttribute("transform","translate("+view.x+","+view.y+") scale("+view.k+")")}
+function fit(){if(!nodes.length)return;const W=svg.clientWidth,H=svg.clientHeight;let x0=1e9,x1=-1e9,y0=1e9,y1=-1e9;
+ for(const n of nodes){x0=Math.min(x0,n.x-60);x1=Math.max(x1,n.x+160);y0=Math.min(y0,n.y-30);y1=Math.max(y1,n.y+40)}
+ view.k=Math.min(2,Math.min(W/(x1-x0),H/(y1-y0))*.9);view.x=W/2-(x0+x1)/2*view.k;view.y=H/2-(y0+y1)/2*view.k;apply()}
+function vis(n){return !hidden.has(n.type)}
+function refresh(){const m=q?nodes.filter(n=>n.label.toLowerCase().includes(q)).map(n=>n.id):[];const hs=new Set(m);
+ for(const n of nodes){const show=vis(n);n.el.style.display=show?"":"none";
+  n.el.classList.toggle("dim",show&&sel&&n.id!==sel&&!nb[sel].has(n.id));n.el.classList.toggle("sel",n.id===sel);n.el.classList.toggle("hit",hs.has(n.id))}
+ for(const l of links){const show=vis(l.a)&&vis(l.b);l.el.style.display=show?"":"none";
+  l.el.classList.toggle("dim",!!sel&&l.s!==sel&&l.t!==sel);l.el.setAttribute("stroke-width",sel&&(l.s===sel||l.t===sel)?2.8:1.3)}}
+function show(n){sel=n.id;const p=panel;p.innerHTML="";p.style.display="block";
+ const add=(tag,txt,cls)=>{const e=document.createElement(tag);e.textContent=txt;if(cls)e.className=cls;p.appendChild(e);return e};
+ const x=add("button","×");x.id="x";x.setAttribute("aria-label","关闭节点证据");x.onclick=()=>{sel=null;p.style.display="none";refresh()};
+ add("h2",n.label);const t=add("span",TN[n.type]+(n.focus?" · 本次关注":""),"tag");t.style.color=n.focus?"var(--ochre)":COL[n.type];
+ add("div","直接关联节点："+nb[n.id].size+" 个");
+ for(const k in n.info){add("h4",k);add("div",n.info[k].filter(Boolean).join("、")||"-")}
+ const ls=links.filter(l=>l.s===n.id||l.t===n.id);const rel=[...new Set(ls.flatMap(l=>l.rel))];if(rel.length){add("h4","关系类型");add("div",rel.join("、"))}
+ const src=[...new Set(ls.flatMap(l=>l.src))];if(src.length){add("h4","证据来源");add("div",src.join("、"))}
+ for(const ty of ["disease","gene","pathway"]){const xs=[...nb[n.id]].map(i=>byId[i]).filter(o=>o.type===ty);if(!xs.length)continue;
+  add("h4","关联"+TN[ty]+"（"+xs.length+"）");const box=document.createElement("div");xs.forEach(o=>{const s=document.createElement("button");s.className="nb";s.textContent=o.label.length>28?o.label.slice(0,27)+"…":o.label;s.onclick=()=>{show(o);center(o)};box.appendChild(s)});p.appendChild(box)}
+ refresh()}
+function center(n){view.x=(svg.clientWidth-(innerWidth>650?panel.offsetWidth:0))/2-n.x*view.k;view.y=(svg.clientHeight-(innerWidth<=650?panel.offsetHeight:0))/2-n.y*view.k;apply()}
+function bind(g,n){g.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();show(n)}};let sx,sy,moved;g.addEventListener("pointerdown",e=>{e.stopPropagation();g.setPointerCapture(e.pointerId);n.dragging=true;n.fixed=true;moved=false;sx=e.clientX;sy=e.clientY;alpha=Math.max(alpha,.3)});
+ g.addEventListener("pointermove",e=>{if(!n.dragging)return;if(Math.abs(e.clientX-sx)+Math.abs(e.clientY-sy)>3)moved=true;n.x+=e.movementX/view.k;n.y+=e.movementY/view.k;draw()});
+ g.addEventListener("pointerup",e=>{n.dragging=false;if(n.type!=="disease")n.fixed=false;if(!moved)show(n)});}
+let pan=null;$("stage").addEventListener("pointerdown",e=>{pan={x:e.clientX,y:e.clientY};$("stage").classList.add("drag")});
+addEventListener("pointermove",e=>{if(!pan)return;view.x+=e.clientX-pan.x;view.y+=e.clientY-pan.y;pan={x:e.clientX,y:e.clientY};apply()});
+addEventListener("pointerup",()=>{pan=null;$("stage").classList.remove("drag")});
+$("stage").addEventListener("dblclick",e=>{if(e.target.closest(".node"))return;sel=null;panel.style.display="none";refresh()});
+$("stage").addEventListener("wheel",e=>{e.preventDefault();const f=Math.exp(-e.deltaY*.0015),k=Math.max(.15,Math.min(5,view.k*f));
+ const rect=svg.getBoundingClientRect(),x=e.clientX-rect.left,y=e.clientY-rect.top;view.x=x-(x-view.x)*(k/view.k);view.y=y-(y-view.y)*(k/view.k);view.k=k;apply()},{passive:false});
+$("task").onchange=e=>load(+e.target.value);$("q").oninput=e=>{q=e.target.value.trim().toLowerCase();refresh()};
+$("fit").onclick=fit;$("pause").onclick=e=>{paused=!paused;e.target.textContent=paused?"继续布局":"暂停布局"};
+$("types").onchange=e=>{const t=e.target.dataset.t;e.target.checked?hidden.delete(t):hidden.add(t);refresh()};
+addEventListener("resize",fit);
+if(DATA.length){load(+((location.hash.match(/t=(\d+)/)||[0,0])[1])<DATA.length?+((location.hash.match(/t=(\d+)/)||[0,0])[1]):0);$("task").value=String(+((location.hash.match(/t=(\d+)/)||[0,0])[1])<DATA.length?+((location.hash.match(/t=(\d+)/)||[0,0])[1]):0);tick()}else{$("stage").insertAdjacentHTML("afterend",'<div class="empty-graph">没有可展示的图谱数据</div>')}
+</script></body></html>

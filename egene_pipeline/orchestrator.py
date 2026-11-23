@@ -12,6 +12,7 @@ import uuid
 import zipfile
 
 from . import __version__
+from .report_theme import document
 from .common import ROOT, digest, file_spec, files_in, now, read_json, run_command, verify_files, verify_manifest, write_json
 
 SOURCE_FLAGS = ("vcf", "fastq_dir", "popgen_pack", "prepared_manifest", "annotation_manifest",
@@ -170,18 +171,16 @@ def deliver(outdir, stages):
                   "atheromap_report": "atheromap/report.html" if atheromap_files else None}}
     write_json(delivery / "pipeline_report.json", summary)
     sample = escape(egene["sample_id"])
-    (delivery / "index.html").write_text('<!doctype html><html lang="zh-CN"><meta charset="utf-8">'
-        '<meta name="viewport" content="width=device-width,initial-scale=1"><title>e-Gene 统一分析报告</title>'
-        '<style>body{max-width:1000px;margin:40px auto;padding:0 20px;font:17px/1.8 system-ui}a{color:#0759aa}li{margin:12px 0}</style>'
-        f'<h1>统一分析报告：{sample}</h1><p>PopGen → e-Gene → GDgpt' + (' → AtheroMap' if atheromap_files else '') + '</p>'
-        f'<p>{escape(er["conclusion"]["finding"])}</p><p>{escape(gr["summary"])}</p>'
-        '<ul><li><a href="popgen/report.html">PopGen：祖源、人群频率与查表策略</a></li>'
+    (delivery / "index.html").write_text(document('统一分析报告', 'PIPELINE　/　REPORT INDEX',
+        f'<p class="sub">样本 {sample}　·　PopGen → e-Gene → GDgpt' + (' → AtheroMap' if atheromap_files else '') + '</p>'
+        f'<section class="finding"><h2>本次结果</h2><p>{escape(er["conclusion"]["finding"])}</p><p>{escape(gr["summary"])}</p></section>'
+        '<section><h2>报告与数据</h2><ul class="file-list"><li><a href="popgen/report.html">PopGen：祖源、人群频率与查表策略</a></li>'
         '<li><a href="egene/report.html">e-Gene：完整变异、ACMG 分类与疾病候选</a></li>'
         '<li><a href="gdgpt/report.html">GDgpt：机制分析、图谱证据和分析边界</a></li>'
         + ('<li><a href="atheromap/report.html">AtheroMap：scDRS 参考分析与 gsMap 空间结果</a></li>' if atheromap_files else '') +
         '<li><a href="gdgpt/gdgpt_input.json">GDgpt 完整输入证据</a></li>'
-        '<li><a href="pipeline_report.json">统一结构化结果和溯源</a></li></ul>'
-        '<p>分类与上游保持一致；疾病候选和模型机制解释均不等于患者确诊。</p></html>', encoding="utf-8")
+        '<li><a href="pipeline_report.json">统一结构化结果和溯源</a></li></ul></section>'
+        '<footer>分类与上游保持一致；疾病候选和模型机制解释均不等于患者确诊。</footer>'), encoding="utf-8")
     write_json(delivery / "delivery_manifest.json", {"schema_version": "1.0", "status": "complete", "sample_id": egene["sample_id"],
         "producer": summary["producer"], "files": files_in(delivery)})
     archive = outdir / "delivery.zip"

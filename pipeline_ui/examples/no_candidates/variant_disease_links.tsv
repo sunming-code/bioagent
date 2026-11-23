@@ -1,0 +1,4 @@
+normalized_id	original_gene	gene_occurrence	resolved_gene	classification	gene_relation	gene_mapping_status	eligible_for_candidates	exclusion_reasons
+GRCh38:chr1:1:A:G	TP53	1	TP53	Uncertain significance	overlapping_gene_feature	approved_symbol	false	"[""background_vus_deprioritized_upstream""]"
+GRCh38:chr1:2:A:G	BRCA1	1	BRCA1	Uncertain significance	overlapping_gene_feature	approved_symbol	false	"[""background_vus_deprioritized_upstream""]"
+GRCh38:chr1:3:A:G	NEARBY	1	NEARBY	Uncertain significance	nearby_gene_only	approved_symbol	false	"[""background_vus_deprioritized_upstream""]"

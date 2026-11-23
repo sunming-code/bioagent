@@ -2,6 +2,8 @@
 
 [简体中文](README.md) | **English**
 
+**Local research studio:** run `./start.command` and open `http://127.0.0.1:8765`. Browse PopGen, e-Gene and GDgpt independently, switch between English and Chinese, compute reference analyses or launch sample pipelines. See the [studio guide](pipeline_ui/README.md).
+
 Version **1.2.2** · Updated **2026-10-19**
 
 This project connects population genetics, variant annotation and ACMG classification, gene–disease mechanism analysis, and single-cell/spatial reference analysis in a resumable pipeline. It accepts a **GRCh38 single-sample VCF** or paired-end FASTQ files, and can also continue from a completed stage manifest. Outputs include structured evidence, HTML reports, and a ZIP package for offline viewing.

@@ -1,0 +1,87 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>GDgpt 机制分析报告 · SYNTHETIC</title><style>:root {
+  color-scheme: light;
+  --bg: #f6f2ec; --paper: #fffcf7; --wash: #eee7df; --line: #d6ccc2;
+  --ink: #362e2a; --muted: #695e58; --accent: #835747; --plum: #765966;
+  --ochre: #88683e; --rose: #e9d8d3; --lilac: #e9dfe3;
+  --node-disease: #985f52; --node-gene: #806b60; --node-pathway: #866879; --node-focus: #9a7444;
+  --serif: Georgia, 'Songti SC', 'STSong', 'Noto Serif CJK SC', SimSun, serif;
+  --sans: -apple-system, 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
+  --mono: ui-monospace, 'SFMono-Regular', Consolas, monospace;
+  accent-color: var(--accent);
+}
+* { box-sizing: border-box }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.7 var(--sans); overflow-wrap: anywhere }
+main, .wrap { width: min(1192px,100%); margin: 0 auto; padding: 0 clamp(16px,4vw,52px) 56px }
+h1,h2,h3 { font-family: var(--serif); line-height: 1.3; text-wrap: balance }
+h1 { font-size: clamp(28px,4vw,46px); margin: 9px 0 12px; font-weight: 600 }
+h2 { font-size: clamp(21px,2.4vw,28px); margin: 0 0 14px }
+h3 { font-size: 19px; margin: 0 0 10px }
+p { margin: .65em 0 }
+a,summary { color: var(--accent); text-underline-offset: .24em }
+a:hover,summary:hover { color: var(--plum) }
+:focus-visible { outline: 2px solid var(--plum); outline-offset: 3px }
+::selection { background: var(--rose); color: var(--ink) }
+header { padding: 28px 0 20px; border-bottom: 1px solid var(--line) }
+.eyebrow, .folio, .overline { color: var(--accent); font: 600 11px/1.5 var(--mono); letter-spacing: .13em }
+.folio { display: flex; justify-content: space-between; align-items: center; gap: 18px; padding: 14px 0; border-bottom: 1px solid var(--line); color: var(--muted) }
+.imprint { display: inline-flex; align-items: center; gap: 9px; font: 600 17px/1.2 var(--serif); color: var(--ink); letter-spacing: 0 }
+.imprint::before { content: ''; width: 13px; height: 17px; border: 1px solid var(--accent); border-left: 4px double var(--accent); transform: skewY(-10deg) }
+section, .card { margin: 18px 0; border: 1px solid var(--line); background: var(--paper); padding: clamp(16px,2.2vw,28px); border-radius: 5px; min-width: 0 }
+.muted,.mute,.sub,.note,figcaption,.kgcap { color: var(--muted) }
+.metric,.kpi,table,svg { font-variant-numeric: tabular-nums }
+table { border-collapse: collapse; width: 100%; font-size: 13px }
+th,td { text-align: left; vertical-align: top; padding: 9px 12px; border-bottom: 1px solid var(--line) }
+th { background: var(--wash); font-weight: 600 } tbody tr:hover { background: var(--bg) }
+.table-wrap,.table-scroll { max-width: 100%; overflow-x: auto }
+.metrics,.kpis { display: grid; grid-template-columns: repeat(auto-fit,minmax(min(130px,100%),1fr)); background: var(--wash); gap: 1px; border: 1px solid var(--line); border-radius: 4px; overflow: hidden }
+.metric,.kpi { display: flex; flex-direction: column; justify-content: space-between; padding: 12px 16px; background: var(--paper) }
+.metric strong,.kpi b { color: var(--ink); font: 500 clamp(21px,2.1vw,29px)/1.25 var(--serif) }
+.metric span,.kpi span { font-size: 12px; color: var(--muted) }
+.empty,pre { background: var(--wash); color: var(--ink); padding: 14px; border-radius: 3px }
+pre { white-space: pre-wrap; overflow-wrap: anywhere; font: 13px/1.7 var(--mono) }
+footer { border-top: 1px solid var(--line); padding-top: 16px; margin-top: 32px; color: var(--muted); font-size: 12px }
+.digest { max-width: 940px } .digest header .sub { margin: 0 }
+.digest .finding, .conclusion { border-left: 3px solid var(--accent) }
+.file-list { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit,minmax(min(260px,100%),1fr)); gap: 0 24px }
+.file-list li { border-bottom: 1px solid var(--line); padding: 10px 0 } .file-list a { display: block }
+@media (max-width: 640px) { .metrics,.kpis { grid-template-columns: repeat(2,minmax(0,1fr)) } header { padding-top: 21px } }
+@media print { :root { --bg: white; --paper: white } main,.wrap { max-width: none; width: 100%; padding: 0 } header { padding-top: 10px } h2,h3 { break-after: avoid } a { color: inherit } svg,.kpis,.metrics { break-inside: avoid } }
+.report-head { display: flex; align-items: end; justify-content: space-between; gap: 24px; padding: clamp(24px,4vw,46px) 0 24px }
+.report-head h1 { margin: 8px 0; font-size: clamp(30px,3.6vw,45px) }
+.report-head .sub { font-size: 14px }
+.accession { text-align: right; border-right: 3px solid var(--accent); padding-right: 13px; flex: 0 1 auto; min-width: 0; max-width: 35% }
+.accession small { display: block; color: var(--muted); font: 10px/1.5 var(--mono); letter-spacing: .13em }
+.accession strong { font: 500 17px/1.6 var(--mono) }
+.reading-grid { display: grid; grid-template-columns: 164px minmax(0,1fr); gap: clamp(24px,4.5vw,60px); margin-top: 30px }
+.toc { position: sticky; top: 18px; align-self: start; padding: 4px 0 }
+.toc-group { display: grid; margin-top: 8px; border-top: 1px solid var(--line) }
+.toc-group + .overline { margin-top: 26px }.toc a { display: flex; align-items: baseline; gap: 9px; padding: 7px 0; font-size: 13px; text-decoration: none; color: var(--ink) }
+.toc a:hover { color: var(--accent); text-decoration: underline }.toc a span { color: var(--accent); font: 11px var(--mono) }
+.report-body { min-width: 0 }.report-body > h2 { scroll-margin-top: 16px; margin: 34px 0 10px }.report-body > h2:first-child { margin-top: 0 }
+.section-title { display: flex; align-items: baseline; gap: 11px }.section-title small { font: 13px var(--mono); color: var(--accent) }
+.card { margin: 0 0 14px }.finding { border-left: 3px solid var(--accent); background: var(--paper) }
+.finding .lead { font: 500 clamp(19px,2vw,25px)/1.6 var(--serif); margin: 0 0 .3em }.finding p:last-child { margin-bottom: 0 }
+.metadata { display: flex; flex-wrap: wrap; gap: 4px 20px; font: 12px/1.6 var(--mono); color: var(--muted); border-top: 1px solid var(--line); margin-top: 14px; padding-top: 10px }
+.grid2 { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 14px }.grid2 > * { min-width: 0 }
+.plot-tag { color: var(--accent); font: 11px/1.5 var(--mono); letter-spacing: .1em; margin-bottom: 8px }
+.grid2 > .card:has(.plot-tag) { background: #f4eae4; border-color: #dfcfc5 }
+.grid2 > .card:nth-child(2):has(.plot-tag) { background: #f1e9eb; border-color: #dbcdd2 }
+.grid2 > .card:nth-child(2) .plot-tag { color: var(--plum) }
+.grid2 > .card:has(.plot-tag) .track { background: #e2d5ce }
+.grid2 > .card:nth-child(2):has(.plot-tag) .track { background: #e1d4d9 }
+.chart-row { display: grid; grid-template-columns: minmax(45px,1fr) minmax(48px,1.4fr) auto; gap: 10px; align-items: center; margin: 9px 0; font-size: 13px }
+.chart-value { font-family: var(--mono); font-size: 12px }.track { background: var(--wash); height: 7px; border-radius: 2px }.track i { display: block; height: 100%; border-radius: inherit }
+.badge,.tag-kg,.tag-llm { display: inline-block; border-radius: 3px; font: 600 12px/1.6 var(--sans); padding: 1px 7px }
+.badge { border: 1px solid; background: var(--paper) }.tag-kg { background: var(--lilac); color: #644b58 }.tag-llm { background: #eee2cf; color: #6d5333 }
+.gene-head,.graph-head { display: flex; align-items: center; gap: 15px; flex-wrap: wrap }.gene-head svg { flex: none }.gene-head h3 { margin: 0 }.gene-head > div { flex: 1; min-width: min(160px,100%) }
+.graph-head { margin-top: 20px; justify-content: space-between }.graph-head h3 { margin: 0 }
+.open-graph { display: inline-block; border: 1px solid var(--line); color: var(--accent); border-radius: 4px; padding: 5px 10px; text-decoration: none; font-size: 13px }.open-graph:hover { background: var(--wash) }
+.kgcard { margin-top: 8px; padding: 8px; background: var(--bg) }.kg { display: block }.kgcap { font-size: 12px; margin: 6px }
+.report-body details { border-top: 1px solid var(--line); padding: 10px 0; margin-top: 12px } summary { cursor: pointer; font-weight: 600 }
+.boundary { background: var(--wash); border-left: 3px solid var(--plum) }.boundary ul { padding-left: 20px }
+.reader { max-width: 880px }.reader .report-body { margin: 24px 0 }.reader .report-body > h2 { font-size: 24px }.reader h2 + .card { margin-top: 10px }
+.big { font-size: 18px; border-left: 3px solid var(--accent) }.big b:first-child { font: 600 24px/1.7 var(--serif) }.step { display: flex; gap: 12px; margin: 10px 0 }.step em { color: var(--accent); font: 16px/1.7 var(--mono) }
+@media (max-width: 780px) { .reading-grid { display: block; margin-top: 16px }.toc { position: static; display: flex; flex-wrap: wrap; gap: 4px 16px; border-bottom: 1px solid var(--line); padding-bottom: 12px; margin-bottom: 18px }.toc .overline { display: none }.toc-group { display: flex; flex-wrap: wrap; gap: 4px 16px; margin: 0; border: 0 }.toc a { padding: 3px 0 } }
+@media (max-width: 620px) { .report-head { align-items: start; flex-direction: column; gap: 12px }.accession { max-width: 100%; display: flex; align-items: baseline; gap: 8px; border: 0; padding: 0; text-align: left }.accession strong { font-size: 14px }.grid2 { grid-template-columns: 1fr; gap: 0 }.kpi:last-child:nth-child(odd) { grid-column: 1/-1 }.kpi { padding: 8px 13px } }
+@media print { .toc,.open-graph { display: none }.reading-grid { display: block; margin-top: 16px }.report-head { padding: 16px 0 }.card { margin-bottom: 8px }.track,.badge,.kg { print-color-adjust: exact } }
+</style></head><body><main class="professional"><div class="folio"><span class="imprint">BioAgent</span><span>GDGPT　/　RESEARCH EDITION</span></div><header class="report-head"><div><div class="eyebrow">机制研究　/　专业版</div><h1>GDgpt 机制分析报告</h1><div class="sub">知识图谱约束的多专家机制解释，含证据表与查询追溯</div></div><div class="accession"><small>合成示例 / SAMPLE</small><strong>SYNTHETIC</strong></div></header><div class="reading-grid"><nav class="toc" aria-label="报告目录"><div class="overline">报告目录 / INDEX</div><div class="toc-group"><a href="#sum"><span>01</span>摘要</a><a href="#tasks"><span>02</span>任务总览</a><a href="#detail"><span>03</span>逐基因分析</a><a href="#bound"><span>04</span>分析边界</a></div><div class="overline">相关文件 / FILES</div><div class="toc-group"><a href="report_graph.html" target="_blank" rel="noopener">交互式图谱 ↗</a><a href="report_plain.html">易读报告</a><a href="report.json">报告 JSON</a><a href="gdgpt_input.json">上游证据</a></div></nav><article class="report-body"><h2 class="section-title" id="sum"><small>01</small>摘要</h2><div class="card finding"><p class="lead">已完成 1 项基因机制分析。</p><p class="mute">上游结论：合成上游结论。</p><div class="metadata"><span>参考基因组　GRCh38</span><span>生成时间　<time datetime="2026-11-21T10:56:08.895452+00:00" title="2026-11-21T10:56:08.895452+00:00">2026-11-21 10:56 UTC</time></span></div></div><div class="kpis"><div class="kpi"><span>完成分析任务</span><b>1</b></div><div class="kpi"><span>平均图谱覆盖率</span><b>90%</b></div><div class="kpi"><span>检索到的图谱边</span><b>2</b></div><div class="kpi"><span>Cypher 查询次数</span><b>1</b></div><div class="kpi"><span>总耗时</span><b>0.2 分</b></div></div><h2 class="section-title" id="tasks"><small>02</small>任务总览</h2><div class="grid2"><div class="card"><div class="plot-tag">FIG. 01　/　任务数</div><h3>图谱覆盖分布</h3><div class="chart-row"><span>高</span><span class="track" aria-hidden="true"><i style="background:var(--accent);width:100.00%"></i></span><span class="chart-value">1</span></div></div><div class="card"><div class="plot-tag">FIG. 02　/　百分比</div><h3>各任务覆盖率</h3><div class="chart-row"><span>MYH7 · 疾病候选</span><span class="track" aria-hidden="true"><i style="background:var(--plum);width:90.00%"></i></span><span class="chart-value">90%</span></div></div></div><div class="card table-wrap"><table><tr><th>基因</th><th>类型</th><th>覆盖</th><th>覆盖率</th><th>边数</th><th>耗时(s)</th></tr><tr><td><b>MYH7</b></td><td>disease_candidate</td><td><span class="badge" style="color:var(--plum)">高</span></td><td>90%</td><td>2</td><td>12.5</td></tr></table></div><h2 class="section-title" id="detail"><small>03</small>逐基因分析</h2><div class="card"><div class="gene-head"><svg width="76" height="76" viewBox="0 0 100 100" role="img" aria-label="图谱覆盖率 90%"><circle cx="50" cy="50" r="38" fill="none" stroke="var(--wash)" stroke-width="12"/><circle cx="50" cy="50" r="38" fill="none" stroke="var(--plum)" stroke-width="12" stroke-linecap="round" stroke-dasharray="214.9 238.8" transform="rotate(-90 50 50)"/><text x="50" y="56" text-anchor="middle" font-size="20" font-weight="700" fill="var(--ink)">90%</text></svg><div><h3 style="margin:0">MYH7 · disease_candidate</h3><span class="badge" style="color:var(--plum)">高</span> <span class="mute">图谱证据充分 · 候选 cand-1</span></div></div><div class="grid2" style="margin-top:14px"><div><b>按查询意图的边数</b><div class="chart-row"><span>gene_disease</span><span class="track" aria-hidden="true"><i style="background:var(--plum);width:100.00%"></i></span><span class="chart-value">2</span></div></div><div><b>按专家角色检索量</b><div class="chart-row"><span>Cardiologist</span><span class="track" aria-hidden="true"><i style="background:var(--ochre);width:100.00%"></i></span><span class="chart-value">2</span></div></div></div><div class="graph-head"><h3 style="margin:0">知识图谱子图</h3><a class="open-graph" href="report_graph.html#t=0" target="_blank">打开交互式图谱 ↗ <small>拖拽 · 缩放 · 点击查看详情</small></a></div><div class="card kgcard"><svg class="kg" width="100%" viewBox="0 0 980 560" role="img" aria-label="知识图谱"><rect width="980" height="560" fill="var(--bg)"/><ellipse cx="490" cy="280" rx="125" ry="125" fill="none" stroke="var(--muted)" stroke-opacity=".18" stroke-dasharray="3 6"/><ellipse cx="490" cy="280" rx="298.54" ry="247.94000000000003" fill="none" stroke="var(--muted)" stroke-opacity=".18" stroke-dasharray="3 6"/><line class="flow" x1="490" y1="280" x2="490.0" y2="155.0" stroke="var(--node-focus)" stroke-width="2.4" stroke-opacity=".75"/><line class="flow" x1="490" y1="280" x2="490.0" y2="405.0" stroke="var(--node-gene)" stroke-width="1.3" stroke-opacity=".75"/><line class="flow slow" x1="490.0" y1="405.0" x2="490.0" y2="505.4" stroke="var(--node-pathway)" stroke-width="1.2" stroke-opacity=".7"/><g><title>Cardiac muscle contraction · 2 个相关基因</title><rect x="481.0" y="496.4" width="18" height="18" rx="5" fill="var(--node-pathway)"/><text x="490.0" y="531.4" text-anchor="middle" font-size="11.5" fill="var(--ink)">Cardiac muscle contraction</text></g><g><title>MYH7</title><circle cx="490.0" cy="155.0" r="12" fill="var(--node-focus)"/><text x="504.0" y="159.0" text-anchor="start" font-size="13" font-weight="700" fill="var(--ink)">MYH7</text></g><g><title>MYH7;TNNT2</title><circle cx="490.0" cy="405.0" r="8" fill="var(--node-gene)"/><text x="504.0" y="409.0" text-anchor="start" font-size="11" font-weight="500" fill="var(--ink)">MYH7;TNNT2</text></g><g><title>Hypertrophic cardiomyopathy</title><circle class="pulse" cx="490" cy="280" r="34" fill="var(--node-disease)"/><text x="490" y="284" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">疾病</text><rect x="370" y="324" width="240" height="20" rx="10" fill="var(--bg)" fill-opacity=".85"/><text x="490" y="338" text-anchor="middle" font-size="12" fill="var(--ink)">Hypertrophic cardiomyopathy</text></g><circle cx="24" cy="538" r="6" fill="var(--node-disease)"/><text x="36" y="542" font-size="12" fill="var(--muted)">疾病</text><circle cx="154" cy="538" r="6" fill="var(--node-gene)"/><text x="166" y="542" font-size="12" fill="var(--muted)">基因</text><circle cx="284" cy="538" r="6" fill="var(--node-pathway)"/><text x="296" y="542" font-size="12" fill="var(--muted)">通路</text><circle cx="414" cy="538" r="6" fill="var(--node-focus)"/><text x="426" y="542" font-size="12" fill="var(--muted)">本次关注基因</text></svg><div class="kgcap">中心为疾病节点，内环为图谱中与其关联的基因，外环为 Reactome/NCBI 通路；连线表示被检索到的关联边，悬停节点可见完整名称。仅展示检索结果中的部分节点。</div></div><details><summary>图谱证据表（前 40 条）</summary><div class="table-wrap"><table><tr><th>意图</th><th>实体</th><th>关系</th><th>来源</th></tr><tr><td>gene_disease</td><td>MYH7</td><td>ASSOCIATED_WITH</td><td>ClinVar</td></tr><tr><td>gene_disease</td><td>Cardiac muscle contraction</td><td>-</td><td>-</td></tr></table></div></details><h3 style="margin-top:18px">机制解释</h3><div class="answer"><p><b>机制</b></p><p>正文 <span class="tag-kg">KG-supported</span> 说明。</p></div></div><h2 class="section-title" id="bound"><small>04</small>分析边界</h2><div class="card boundary"><ul><li>仅基因层面知识，不含变异层面证据。</li></ul><p>未建立诊断；未修改 ACMG 分类；不提供风险概率。</p></div></article></div><footer>本报告由 GDgpt 自动生成，为待复核的模型机制解释，不构成诊断或治疗建议。</footer></main></body></html>

@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0",
+  "status": "complete",
+  "stage": "generate_report",
+  "sample_id": "SYNTHETIC",
+  "assembly": "GRCh38",
+  "producer": {
+    "name": "synthetic_fixture"
+  },
+  "disease_manifest": {},
+  "counts": {
+    "disease_candidates": 0
+  },
+  "classification_labels_modified": false,
+  "files": {
+    "acmg_results.tsv": {
+      "path": "acmg_results.tsv",
+      "bytes": 587,
+      "sha256": "c1cbca61cc015a821d9bface5a925993f8ebc70ef8ca95dfffeefc1b6c1d6aee"
+    },
+    "carrier_findings.tsv": {
+      "path": "carrier_findings.tsv",
+      "bytes": 13,
+      "sha256": "da33f1bcd1481dbe8c6794a10b5af9dbdc55ff9b2efcb8e2d325f947808d92bf"
+    },
+    "case.json": {
+      "path": "case.json",
+      "bytes": 195,
+      "sha256": "1404856b55851bd5ae8d9eef2a35eaa4a61acf8461f8ec4d60f31e423ff95a15"
+    },
+    "disease_candidates.tsv": {
+      "path": "disease_candidates.tsv",
+      "bytes": 13,
+      "sha256": "da33f1bcd1481dbe8c6794a10b5af9dbdc55ff9b2efcb8e2d325f947808d92bf"
+    },
+    "phenotypes.normalized.json": {
+      "path": "phenotypes.normalized.json",
+      "bytes": 150,
+      "sha256": "cc46d2c92a86faaa646061bf5f57e06ea33fcf8c896597c89f75bfb837755ebb"
+    },
+    "report.html": {
+      "path": "report.html",
+      "bytes": 30,
+      "sha256": "308ec8deea5b0cdee98f400e3cd62f4c60afd3d2ee45295c7cb1c043d9e52cf2"
+    },
+    "report.json": {
+      "path": "report.json",
+      "bytes": 2366,
+      "sha256": "d7c1b663923b68b0285ddc0da94fe34aeb2d2ccfd13267861f12c05d975c5071"
+    },
+    "variant_disease_links.tsv": {
+      "path": "variant_disease_links.tsv",
+      "bytes": 585,
+      "sha256": "4742143cd3893fceca8640b1f324e7716b178c3afe7803575f6c29b2f2154714"
+    },
+    "variants.tsv": {
+      "path": "variants.tsv",
+      "bytes": 868,
+      "sha256": "8def9199f749d213ae0fba4912ec0562d1947d65c897a4cbfc61bd8f4ab053e9"
+    }
+  }
+}
